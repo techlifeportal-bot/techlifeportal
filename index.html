@@ -1,362 +1,624 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TechLifePortal – Bangalore</title>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
-  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-  <rect width='100' height='100' rx='20' fill='black'/>
-  <text x='50' y='62' font-size='48' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>T</text>
-  </svg>
-  "/>
-
   <style>
-    .kb-highlight {
-  font-weight: 700;
-  color: #d12c2c; /* nice highlight colour */
-  text-transform: uppercase;
-}
+    :root {
+      --blue: #0ea5e9;
+      --blue-dark: #0284c7;
+      --bg: #e5f3ff;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-soft: #dbeafe;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e0f2ff 0, #e5f3ff 40%, #e2e8f0 100%);
+      color: var(--text-main);
     }
 
     /* HEADER */
     header {
-      background: #ffffff;
-      padding: 16px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-soft);
     }
 
-    /* LOGO */
-    .logo-box {
+    .header-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .logo-badge {
-      background: #000;
-      color: #fff;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 14px;
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(15, 118, 165, 0.35);
     }
 
-    .logo-text {
+    .brand-text-main {
       font-size: 20px;
-      font-weight: bold;
-      color: #222;
-      letter-spacing: 0.3px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: var(--text-main);
     }
 
-    /* NAVBAR */
-    nav a {
-      margin-left: 20px;
-      color: #444;
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       font-size: 14px;
+    }
+
+    nav a {
       text-decoration: none;
-      font-weight: 500;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    nav a span.icon {
+      font-size: 14px;
     }
 
     nav a:hover {
-      color: #000;
-      text-decoration: underline;
+      border-color: var(--border-soft);
+      background: #eff6ff;
+      color: var(--blue-dark);
     }
 
-    /* MAIN SECTIONS */
+    /* SECTIONS */
+    main {
+      max-width: 1000px;
+      margin: 16px auto 32px;
+      padding: 0 16px;
+    }
+
     section {
-      max-width: 900px;
-      background: #fff;
-      margin: 24px auto;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      border: 1px solid #e2e8f0;
     }
 
-    .card {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 12px 14px;
+    section h2 {
+      margin-top: 0;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    section h2 span.icon {
+      font-size: 20px;
+    }
+
+    .section-description {
+      margin-top: 4px;
       margin-bottom: 12px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .area-label {
+      font-weight: 600;
+      margin-right: 6px;
+    }
+
+    .area-select {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      font-size: 14px;
+      background: #eff6ff;
+    }
+
+    /* CARDS */
+    .card {
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      background: #ffffff;
+    }
+
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-sub {
+      font-size: 13px;
+      color: var(--text-muted);
     }
 
     .tag {
       display: inline-block;
       padding: 2px 8px;
-      border-radius: 6px;
-      background: #eee;
-      font-size: 12px;
+      border-radius: 999px;
+      background: #eff6ff;
+      border: 1px solid #dbeafe;
+      font-size: 11px;
+      color: var(--blue-dark);
       margin-right: 6px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 16px;
-      margin-top: 30px;
-      font-size: 12px;
-      color: #777;
+      margin-top: 4px;
     }
 
     /* EXPERIENCE FORM */
     .exp-form {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
+      margin-bottom: 16px;
+      margin-top: 10px;
     }
 
     .exp-form input,
     .exp-form textarea,
     .exp-form select {
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
       font-size: 14px;
+      font-family: inherit;
     }
 
     .exp-form button {
-      padding: 10px;
-      border-radius: 6px;
+      padding: 9px 14px;
+      border-radius: 999px;
       border: none;
-      background: #111;
-      color: #fff;
-      cursor: pointer;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      color: #ffffff;
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 600;
+      cursor: pointer;
+      align-self: flex-start;
+      box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
     }
 
     .exp-form button:hover {
-      opacity: 0.9;
+      opacity: 0.95;
     }
 
     .exp-item {
-      border: 1px solid #ddd;
-      padding: 10px;
-      border-radius: 6px;
-      background: #fafafa;
-      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+      padding: 10px 12px;
+      background: #f9fafb;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .exp-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    /* ABOUT + KB highlight */
+    .kb-highlight {
+      font-weight: 800;
+      color: var(--blue-dark);
+      text-transform: uppercase;
+    }
+
+    section ul {
+      padding-left: 18px;
+      margin-top: 6px;
+      margin-bottom: 10px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 700px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        justify-content: flex-start;
+      }
     }
   </style>
 </head>
-
 
 <body>
 
   <!-- HEADER -->
   <header>
-    <div class="logo-box">
-      <div class="logo-badge">TLP</div>
-      <div class="logo-text">TechLifePortal</div>
-    </div>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-logo">🌐</div>
+        <div>
+          <div class="brand-text-main">TechLifePortal</div>
+          <div class="brand-sub">Bangalore · For IT professionals</div>
+        </div>
+      </div>
 
-    <nav>
-      <a href="#cafes">Cafés</a>
-      <a href="#gyms">Gyms</a>
-      <a href="#rentals">PGs / Rentals</a>
-      <a href="#jobs">IT Jobs</a>
-      <a href="#exp">Experiences</a>
-      <a href="#about">About</a>
-    </nav>
+      <nav>
+        <a href="#cafes"><span class="icon">☕</span>Cafés</a>
+        <a href="#gyms"><span class="icon">🏋️</span>Gyms</a>
+        <a href="#rentals"><span class="icon">🏠</span>PGs / Rentals</a>
+        <a href="#jobs"><span class="icon">💼</span>IT Jobs</a>
+        <a href="#exp"><span class="icon">✨</span>Experiences</a>
+        <a href="#about"><span class="icon">ℹ️</span>About</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- WELCOME -->
-  <section id="welcome">
-    <h2>Welcome 👋</h2>
-    <p>
-      TechLifePortal is your AI-powered assistant for IT employees in Bangalore —
-      cafés, gyms, PGs, rentals & job listings update automatically based on the tech hub you choose.
-    </p>
+  <main>
+    <!-- WELCOME / AREA SELECTION -->
+    <section id="welcome">
+      <h2><span class="icon">💡</span>Welcome</h2>
+      <p class="section-description">
+        TechLifePortal helps IT employees quickly discover cafés, gyms, PGs, rentals and jobs
+        around Bangalore tech hubs — all guided and built step-by-step with AI and
+        <span class="kb-highlight">KB</span>.
+      </p>
+      <div>
+        <span class="area-label">Current tech hub:</span>
+        <select id="areaSelect" class="area-select">
+          <option>Electronic City</option>
+          <option>Whitefield</option>
+          <option>Bellandur</option>
+          <option>Manyata Tech Park</option>
+          <option>Ecospace</option>
+        </select>
+      </div>
+    </section>
 
-    <label><b>Current tech hub:</b></label>
-    <select id="areaSelect">
-      <option>Electronic City</option>
-      <option>Whitefield</option>
-      <option>Bellandur</option>
-      <option>Manyata Tech Park</option>
-      <option>Ecospace</option>
-    </select>
-  </section>
+    <!-- CAFES -->
+    <section id="cafes">
+      <h2><span class="icon">☕</span>Cafés near your tech hub</h2>
+      <p class="section-description">
+        Popular cafés around the selected area – good for work, chai breaks and team meets.
+      </p>
+      <div id="cafesList"></div>
+    </section>
 
-  <!-- CAFES -->
-  <section id="cafes">
-    <h2>Cafés Near Selected Area</h2>
-    <div id="cafesList"></div>
-  </section>
+    <!-- GYMS -->
+    <section id="gyms">
+      <h2><span class="icon">🏋️</span>Gyms & Fitness</h2>
+      <p class="section-description">
+        Fitness options that IT folks commonly use near this location.
+      </p>
+      <div id="gymsList"></div>
+    </section>
 
-  <!-- GYMS -->
-  <section id="gyms">
-    <h2>Gyms Near Selected Area</h2>
-    <div id="gymsList"></div>
-  </section>
+    <!-- RENTALS -->
+    <section id="rentals">
+      <h2><span class="icon">🏠</span>PGs & Rentals</h2>
+      <p class="section-description">
+        Example PGs, hostels, co-living and flat options near the selected hub.
+      </p>
+      <div id="rentalList"></div>
+    </section>
 
-  <!-- RENTALS -->
-  <section id="rentals">
-    <h2>PGs & Rentals</h2>
-    <div id="rentalList"></div>
-  </section>
+    <!-- JOBS -->
+    <section id="jobs">
+      <h2><span class="icon">💼</span>IT Job Vacancies – Bangalore</h2>
+      <p class="section-description">
+        Curated mix of fresher and junior roles around Bangalore tech locations.
+      </p>
+      <div id="jobList"></div>
+    </section>
 
-  <!-- JOBS -->
-  <section id="jobs">
-    <h2>Latest IT Job Vacancies</h2>
-    <div id="jobList"></div>
-  </section>
+    <!-- EXPERIENCES -->
+    <section id="exp">
+      <h2><span class="icon">✨</span>TechLife Experiences</h2>
+      <p class="section-description">
+        Share your PG stories, café finds, workload madness, weekend trips – anything from your tech life.
+      </p>
 
-  <!-- EXPERIENCES -->
-  <section id="exp">
-    <h2>TechLife Experiences</h2>
+      <div class="exp-form">
+        <input id="expName" placeholder="Your name (optional)" />
+        <select id="expType">
+          <option>PG / Rental</option>
+          <option>Café</option>
+          <option>Gym</option>
+          <option>Tech Park</option>
+          <option>Weekend Trip</option>
+          <option>Other</option>
+        </select>
+        <textarea id="expText" placeholder="Write your TechLife experience..." rows="4"></textarea>
+        <button type="button" onclick="saveExp()">Submit Experience</button>
+        <small style="color: var(--text-muted); font-size: 12px;">
+          Saved only on this device for now. Later, stories can be shared globally.
+        </small>
+      </div>
 
-    <div class="exp-form">
-      <input id="expName" placeholder="Your name (optional)" />
-      <select id="expType">
-        <option>PG / Rental</option>
-        <option>Café</option>
-        <option>Gym</option>
-        <option>Tech Park</option>
-        <option>Weekend Trip</option>
-      </select>
-      <textarea id="expText" placeholder="Write your TechLife experience..." rows="4"></textarea>
-      <button onclick="saveExp()">Submit Experience</button>
-    </div>
+      <h3 style="margin-top: 8px; font-size: 16px;">Recent Experiences (this device)</h3>
+      <div id="expList"></div>
+    </section>
 
-    <h3>Recent Experiences (local preview)</h3>
-    <div id="expList"></div>
-  </section>
+    <!-- ABOUT -->
+    <section id="about">
+      <h2><span class="icon">ℹ️</span>About TechLifePortal</h2>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <h2>About TechLifePortal</h2>
-    <p>
-      TechLifePortal is a fully AI-powered lifestyle & career assistant for IT employees in Bangalore.
-      Built collaboratively by KB and AI — without writing code — this platform auto-fetches lifestyle and job data
-      around major tech hubs.
-    </p>
-  </section>
+      <p>
+        TechLifePortal is an AI-guided lifestyle and career companion created especially for IT employees
+        across Bangalore’s tech corridors.
+      </p>
+
+      <h3>1. Who is behind this?</h3>
+      <p>
+        This project is built and led by <span class="kb-highlight">KB</span>, who is using AI as a full-time partner
+        to develop a real product without a traditional coding background.
+      </p>
+
+      <h3>2. What does the site do?</h3>
+      <ul>
+        <li>Helps you discover cafés around major hubs like Electronic City, Whitefield, Bellandur, Manyata and Ecospace.</li>
+        <li>Lists nearby gyms and basic fitness options per area.</li>
+        <li>Shows example PGs, hostels, co-living spaces and flats around tech parks.</li>
+        <li>Provides a curated list of IT job openings for freshers and junior engineers in Bangalore.</li>
+        <li>Lets IT folks share their own TechLife stories directly on the site.</li>
+      </ul>
+
+      <h3>3. How is it built?</h3>
+      <p>
+        Every part of TechLifePortal — layout, content, automation ideas — is built step-by-step with AI guidance,
+        while <span class="kb-highlight">KB</span> executes the changes live and learns the process.
+      </p>
+
+      <h3>4. What’s next?</h3>
+      <ul>
+        <li>More accurate real-time data for PGs, rentals and gyms.</li>
+        <li>Support for more Indian cities and tech parks.</li>
+        <li>Optional user accounts, saved favourites and smarter job recommendations.</li>
+      </ul>
+
+      <h3>Contact</h3>
+      <p>
+        For feedback, ideas or collaboration:<br />
+        <strong>support@techlifeportal.in</strong>
+      </p>
+    </section>
+  </main>
 
   <footer>
-    © 2025 TechLifePortal — Built with AI + KB
+    © 2025 TechLifePortal · Built by <span class="kb-highlight">KB</span> with AI assistance
   </footer>
 
   <!-- SCRIPT -->
   <script>
-    // Static sample data (auto updates when area changes)
+    // Static sample data per area
     const data = {
       "Electronic City": {
-        cafes: ["FAB Cafe", "Tea House", "Cuppa Redifined", "Cane Corner", "Beverich Hotspot"],
-        gyms: ["RS Power Fitness", "Power Fitness"],
-        rentals: ["Single Room PG", "2BHK Flat"],
+        cafes: [
+          "Third Wave Coffee · Phase 1",
+          "Chai Point · Near Infosys Gate",
+          "Cafe Coffee Day · Main Road"
+        ],
+        gyms: [
+          "RS Power Fitness · Phase 1",
+          "Power Fitness · Phase 2"
+        ],
+        rentals: [
+          "Techie Nest PG · Phase 1",
+          "Co-Living 1BHK · Near Wipro",
+          "Shared 2BHK · Neeladri Road"
+        ]
       },
       "Whitefield": {
-        cafes: ["Third Wave Coffee", "Starbucks", "Cafe Noir"],
-        gyms: ["Cult Fit Whitefield", "Gold's Gym"],
-        rentals: ["Sharing PG", "1BHK Flat"],
+        cafes: [
+          "Starbucks · ITPL",
+          "Third Wave Coffee · EPIP",
+          "Matteo Coffee · Whitefield Main Road"
+        ],
+        gyms: [
+          "Cult Fit · ITPL",
+          "Gold's Gym · Whitefield"
+        ],
+        rentals: [
+          "ITPL Co-Living PG",
+          "1BHK Flat · Whitefield",
+          "Sharing PG · Hope Farm"
+        ]
       },
       "Bellandur": {
-        cafes: ["Third Wave Coffee", "Starbucks"],
-        gyms: ["Cult Fit Bellandur"],
-        rentals: ["Bellandur PG Hostel"],
+        cafes: [
+          "Third Wave Coffee · ORR",
+          "Starbucks · EcoWorld",
+          "Dyu Art Cafe (nearby)"
+        ],
+        gyms: [
+          "Cult Fit · Bellandur",
+          "Anytime Fitness · ORR"
+        ],
+        rentals: [
+          "Corporate PG · Bellandur",
+          "2BHK Sharing · Kadubeesanahalli"
+        ]
       },
       "Manyata Tech Park": {
-        cafes: ["Cafe Coffee Day", "Barista"],
-        gyms: ["Fitness First"],
-        rentals: ["Single Room PG – Manyata"],
+        cafes: [
+          "Cafe Coffee Day · Manyata",
+          "Chai Point · Manyata",
+          "Starbucks · Manyata Mall"
+        ],
+        gyms: [
+          "Fitness First · Manyata",
+          "Tech Park Gym · Campus"
+        ],
+        rentals: [
+          "Lakeside PG · Manyata",
+          "1RK Studio · Nagawara"
+        ]
       },
       "Ecospace": {
-        cafes: ["Starbucks ORR", "Costa Coffee"],
-        gyms: ["Cult Fit ORR"],
-        rentals: ["PG – ORR", "1BHK – ORR"],
+        cafes: [
+          "Starbucks · Ecospace",
+          "Cafe Coffee Day · ORR",
+          "Third Wave Coffee · Sarjapur-ORR"
+        ],
+        gyms: [
+          "Cult Fit · ORR",
+          "GymX · Sarjapur Road"
+        ],
+        rentals: [
+          "Ecospace Co-Living Hub",
+          "2BHK Sharing · ORR"
+        ]
       }
     };
 
     function updateArea() {
       const area = document.getElementById("areaSelect").value;
 
+      const cafes = data[area]?.cafes || [];
+      const gyms = data[area]?.gyms || [];
+      const rentals = data[area]?.rentals || [];
+
       document.getElementById("cafesList").innerHTML =
-        data[area].cafes.map(c => `<div class='card'>${c}</div>`).join("");
+        cafes.map(c => `<div class="card"><div class="card-title">☕ ${c}</div></div>`).join("") ||
+        "<div class='card-sub'>No cafés listed yet for this area.</div>";
 
       document.getElementById("gymsList").innerHTML =
-        data[area].gyms.map(g => `<div class='card'>${g}</div>`).join("");
+        gyms.map(g => `<div class="card"><div class="card-title">🏋️ ${g}</div></div>`).join("") ||
+        "<div class='card-sub'>No gyms listed yet for this area.</div>";
 
       document.getElementById("rentalList").innerHTML =
-        data[area].rentals.map(r => `<div class='card'>${r}</div>`).join("");
+        rentals.map(r => `<div class="card"><div class="card-title">🏠 ${r}</div></div>`).join("") ||
+        "<div class='card-sub'>No PGs/rentals listed yet for this area.</div>";
     }
 
     document.getElementById("areaSelect").addEventListener("change", updateArea);
-    updateArea(); // load default
+    updateArea(); // initial load
+
     // JOB LISTINGS
-const jobData = [
-  {
-    title: "Software Engineer – Fresher",
-    company: "Product Startup",
-    exp: "0–1 years",
-    stack: "Java / Spring / SQL",
-    location: "Bangalore – Electronic City"
-  },
-  {
-    title: "Frontend Developer",
-    company: "Fintech Company",
-    exp: "1–3 years",
-    stack: "React / TypeScript",
-    location: "Bangalore – HSR Layout"
-  },
-  {
-    title: "Backend Engineer",
-    company: "SaaS Startup",
-    exp: "2–4 years",
-    stack: "Node.js / PostgreSQL / AWS",
-    location: "Bangalore – Koramangala"
-  },
-  {
-    title: "QA / Test Engineer",
-    company: "MNC",
-    exp: "0–2 years",
-    stack: "Manual + Basic Automation",
-    location: "Bangalore – Manyata Tech Park"
-  }
-];
+    const jobData = [
+      {
+        title: "Software Engineer – Fresher",
+        company: "Product Startup",
+        exp: "0–1 years",
+        stack: "Java / Spring / SQL",
+        location: "Bangalore – Electronic City"
+      },
+      {
+        title: "Frontend Developer",
+        company: "Fintech Company",
+        exp: "1–3 years",
+        stack: "React / TypeScript",
+        location: "Bangalore – HSR Layout"
+      },
+      {
+        title: "Backend Engineer",
+        company: "SaaS Startup",
+        exp: "2–4 years",
+        stack: "Node.js / PostgreSQL / AWS",
+        location: "Bangalore – Koramangala"
+      },
+      {
+        title: "QA / Test Engineer",
+        company: "MNC",
+        exp: "0–2 years",
+        stack: "Manual + Basic Automation",
+        location: "Bangalore – Manyata Tech Park"
+      },
+      {
+        title: "Data Analyst",
+        company: "Analytics Firm",
+        exp: "1–3 years",
+        stack: "SQL / Excel / Power BI",
+        location: "Bangalore – Whitefield"
+      }
+    ];
 
-function loadJobs() {
-  document.getElementById("jobList").innerHTML = jobData
-    .map(job => `
-      <div class="card">
-        <b>${job.title}</b><br>
-        <span>Company: ${job.company}</span><br>
-        <span>Exp: ${job.exp}</span><br>
-        <span>Stack: ${job.stack}</span><br>
-        <span>${job.location}</span>
-      </div>
-    `)
-    .join("");
-}
+    function loadJobs() {
+      document.getElementById("jobList").innerHTML = jobData
+        .map(job => `
+          <div class="card">
+            <div class="card-title">💼 ${job.title}</div>
+            <div class="card-sub">
+              Company: ${job.company}<br />
+              Exp: ${job.exp}<br />
+              Stack: ${job.stack}<br />
+              Location: ${job.location}
+            </div>
+          </div>
+        `)
+        .join("");
+    }
+    loadJobs();
 
-loadJobs();
-
-
-
+    // EXPERIENCES (local only)
     function saveExp() {
-      const name = document.getElementById("expName").value || "Anonymous";
+      const name = document.getElementById("expName").value.trim() || "Anonymous";
       const type = document.getElementById("expType").value;
-      const text = document.getElementById("expText").value;
-
-      if (!text.trim()) return;
+      const text = document.getElementById("expText").value.trim();
+      if (!text) return;
 
       const div = document.createElement("div");
       div.className = "exp-item";
-      div.innerHTML = `<b>${name}</b> — <i>${type}</i><br>${text}`;
 
-      document.getElementById("expList").appendChild(div);
+      const meta = document.createElement("div");
+      meta.className = "exp-meta";
+      const today = new Date().toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+      meta.textContent = `${name} • ${type} • ${today}`;
+
+      const body = document.createElement("div");
+      body.textContent = text;
+
+      div.appendChild(meta);
+      div.appendChild(body);
+
+      document.getElementById("expList").prepend(div);
       document.getElementById("expText").value = "";
     }
   </script>
