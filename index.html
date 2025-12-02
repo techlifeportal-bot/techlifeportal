@@ -83,8 +83,8 @@
   <h2>Welcome 👋</h2>
   <p>
     TechLifePortal is your AI-powered lifestyle & jobs assistant for IT employees
-    in Bangalore. We now auto-load real cafés and gyms near Electronic City using
-    free open map data (OpenStreetMap & Overpass).
+    in Bangalore. We now auto-load real cafés, gyms and PGs / rentals near
+    Electronic City using free open map data.
   </p>
 </div>
 
@@ -106,19 +106,13 @@
   <p><em>Powered by free Overpass API (OpenStreetMap).</em></p>
 </div>
 
+<!-- AUTOMATED RENTALS SECTION -->
 <div id="rentals" class="section">
-  <h2>PGs & Rentals for IT Employees</h2>
-  <div class="card">
-    <strong>Single Room PG – Manyata</strong><br />
-    <span class="tag">₹12–15k</span>
-    <span class="tag">Food Included</span>
+  <h2>PGs & Rentals Near Electronic City</h2>
+  <div id="rentals-list">
+    <p>Loading PGs & rentals near Electronic City...</p>
   </div>
-  <div class="card">
-    <strong>2BHK Flat – Bellandur</strong><br />
-    <span class="tag">₹30–35k</span>
-    <span class="tag">Near Tech Parks</span>
-  </div>
-  <p><em>Later: Data will sync from rental websites automatically.</em></p>
+  <p><em>Powered by free OpenStreetMap (Nominatim) data.</em></p>
 </div>
 
 <div id="jobs" class="section">
@@ -155,7 +149,7 @@
 </footer>
 
 <script>
-  // ---------- CAFES (Nominatim) ----------
+  // ---------- HELPER FOR NOMINATIM ----------
   async function loadPlaces(query, limit = 5) {
     const url =
       "https://nominatim.openstreetmap.org/search?format=json&q=" +
@@ -169,6 +163,7 @@
     return res.json();
   }
 
+  // ---------- CAFES ----------
   async function loadCafesForElectronicCity() {
     const list = document.getElementById("cafes-list");
     list.innerHTML = "<p>Loading real cafés near Electronic City...</p>";
@@ -270,8 +265,54 @@
     }
   }
 
+  // ---------- RENTALS / PGS ----------
+  async function loadRentalsForElectronicCity() {
+    const list = document.getElementById("rentals-list");
+    list.innerHTML = "<p>Loading PGs & rentals near Electronic City...</p>";
+
+    try {
+      const data = await loadPlaces(
+        "pg hostel near Electronic City Bangalore",
+        8
+      );
+
+      if (!Array.isArray(data) || data.length === 0) {
+        list.innerHTML =
+          "<p>No PGs/rentals found yet via free data. Later we will connect real rental APIs.</p>";
+        return;
+      }
+
+      list.innerHTML = "";
+      data.forEach((place) => {
+        const div = document.createElement("div");
+        div.className = "card";
+
+        const name = place.display_name
+          ? place.display_name.split(",")[0]
+          : "PG / Rental";
+        const address = place.display_name || "Electronic City, Bangalore";
+
+        div.innerHTML =
+          "<strong>" +
+          name +
+          "</strong><br />" +
+          "<small>" +
+          address +
+          "</small>";
+
+        list.appendChild(div);
+      });
+    } catch (err) {
+      console.error(err);
+      list.innerHTML =
+        "<p>Could not load PGs/rentals automatically (API/network limit).</p>";
+    }
+  }
+
+  // Run all loaders
   loadCafesForElectronicCity();
   loadGymsForElectronicCity();
+  loadRentalsForElectronicCity();
 </script>
 
 </body>
