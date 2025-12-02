@@ -83,24 +83,18 @@
   <h2>Welcome 👋</h2>
   <p>
     TechLifePortal is your AI-powered lifestyle & jobs assistant for IT employees
-    in Bangalore. Start with static data now — later we will automate everything.
+    in Bangalore. We now auto-load real cafés near Electronic City using free
+    OpenStreetMap data.
   </p>
 </div>
 
+<!-- AUTOMATED CAFES SECTION -->
 <div id="cafes" class="section">
-  <h2>Cafés Near Tech Parks</h2>
-  <div class="card">
-    <strong>Third Wave Coffee</strong><br />
-    <span class="tag">Outer Ring Road</span>
-    <span class="tag">WiFi</span>
-    <span class="tag">Work Friendly</span>
+  <h2>Cafés Near Electronic City</h2>
+  <div id="cafes-list">
+    <p>Loading cafés near Electronic City...</p>
   </div>
-  <div class="card">
-    <strong>Starbucks – Manyata</strong><br />
-    <span class="tag">Manyata Tech Park</span>
-    <span class="tag">Quiet</span>
-  </div>
-  <p><em>Later: this list will be filled automatically using Google Places API.</em></p>
+  <p><em>Powered by free OpenStreetMap (Nominatim) data.</em></p>
 </div>
 
 <div id="gyms" class="section">
@@ -165,6 +159,60 @@
 <footer>
   © 2025 TechLifePortal – Built by you & AI · Bangalore Version
 </footer>
+
+<script>
+  async function loadCafesForElectronicCity() {
+    const list = document.getElementById("cafes-list");
+    list.innerHTML = "<p>Loading real cafés near Electronic City...</p>";
+
+    try {
+      const url =
+        "https://nominatim.openstreetmap.org/search?format=json&q=" +
+        encodeURIComponent("cafe near Electronic City Bangalore") +
+        "&limit=5";
+
+      const res = await fetch(url, {
+        headers: {
+          "Accept-Language": "en"
+        }
+      });
+
+      const data = await res.json();
+
+      if (!Array.isArray(data) || data.length === 0) {
+        list.innerHTML = "<p>No cafés found yet. Try again later.</p>";
+        return;
+      }
+
+      list.innerHTML = "";
+      data.forEach((place) => {
+        const div = document.createElement("div");
+        div.className = "card";
+
+        const name = place.display_name
+          ? place.display_name.split(",")[0]
+          : "Café";
+        const address = place.display_name || "Electronic City, Bangalore";
+
+        div.innerHTML =
+          "<strong>" +
+          name +
+          "</strong><br />" +
+          "<small>" +
+          address +
+          "</small>";
+
+        list.appendChild(div);
+      });
+    } catch (err) {
+      console.error(err);
+      list.innerHTML =
+        "<p>Could not load cafés automatically (API/network limit). Static data will be shown later.</p>";
+    }
+  }
+
+  loadCafesForElectronicCity();
+</script>
 
 </body>
 </html>
