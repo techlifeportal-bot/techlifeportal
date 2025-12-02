@@ -83,8 +83,8 @@
   <h2>Welcome 👋</h2>
   <p>
     TechLifePortal is your AI-powered lifestyle & jobs assistant for IT employees
-    in Bangalore. We now auto-load real cafés near Electronic City using free
-    OpenStreetMap data.
+    in Bangalore. We now auto-load real cafés and gyms near Electronic City using
+    free OpenStreetMap data.
   </p>
 </div>
 
@@ -97,19 +97,13 @@
   <p><em>Powered by free OpenStreetMap (Nominatim) data.</em></p>
 </div>
 
+<!-- AUTOMATED GYMS SECTION -->
 <div id="gyms" class="section">
-  <h2>Gyms Near Tech Parks</h2>
-  <div class="card">
-    <strong>Cult Fit – Bellandur</strong><br />
-    <span class="tag">ORR</span>
-    <span class="tag">Group Classes</span>
+  <h2>Gyms Near Electronic City</h2>
+  <div id="gyms-list">
+    <p>Loading gyms near Electronic City...</p>
   </div>
-  <div class="card">
-    <strong>Gold’s Gym – Whitefield</strong><br />
-    <span class="tag">Whitefield</span>
-    <span class="tag">Weights + Cardio</span>
-  </div>
-  <p><em>Later: AI will recommend gyms based on your office location.</em></p>
+  <p><em>Also using free OpenStreetMap data.</em></p>
 </div>
 
 <div id="rentals" class="section">
@@ -161,23 +155,25 @@
 </footer>
 
 <script>
+  async function loadPlaces(query, limit = 5) {
+    const url =
+      "https://nominatim.openstreetmap.org/search?format=json&q=" +
+      encodeURIComponent(query) +
+      "&limit=" +
+      limit;
+
+    const res = await fetch(url, {
+      headers: { "Accept-Language": "en" }
+    });
+    return res.json();
+  }
+
   async function loadCafesForElectronicCity() {
     const list = document.getElementById("cafes-list");
     list.innerHTML = "<p>Loading real cafés near Electronic City...</p>";
 
     try {
-      const url =
-        "https://nominatim.openstreetmap.org/search?format=json&q=" +
-        encodeURIComponent("cafe near Electronic City Bangalore") +
-        "&limit=5";
-
-      const res = await fetch(url, {
-        headers: {
-          "Accept-Language": "en"
-        }
-      });
-
-      const data = await res.json();
+      const data = await loadPlaces("cafe near Electronic City Bangalore", 5);
 
       if (!Array.isArray(data) || data.length === 0) {
         list.innerHTML = "<p>No cafés found yet. Try again later.</p>";
@@ -207,11 +203,51 @@
     } catch (err) {
       console.error(err);
       list.innerHTML =
-        "<p>Could not load cafés automatically (API/network limit). Static data will be shown later.</p>";
+        "<p>Could not load cafés automatically (API/network limit).</p>";
+    }
+  }
+
+  async function loadGymsForElectronicCity() {
+    const list = document.getElementById("gyms-list");
+    list.innerHTML = "<p>Loading real gyms near Electronic City...</p>";
+
+    try {
+      const data = await loadPlaces("gym near Electronic City Bangalore", 5);
+
+      if (!Array.isArray(data) || data.length === 0) {
+        list.innerHTML = "<p>No gyms found yet. Try again later.</p>";
+        return;
+      }
+
+      list.innerHTML = "";
+      data.forEach((place) => {
+        const div = document.createElement("div");
+        div.className = "card";
+
+        const name = place.display_name
+          ? place.display_name.split(",")[0]
+          : "Gym";
+        const address = place.display_name || "Electronic City, Bangalore";
+
+        div.innerHTML =
+          "<strong>" +
+          name +
+          "</strong><br />" +
+          "<small>" +
+          address +
+          "</small>";
+
+        list.appendChild(div);
+      });
+    } catch (err) {
+      console.error(err);
+      list.innerHTML =
+        "<p>Could not load gyms automatically (API/network limit).</p>";
     }
   }
 
   loadCafesForElectronicCity();
+  loadGymsForElectronicCity();
 </script>
 
 </body>
