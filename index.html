@@ -127,8 +127,9 @@
   <h2>Welcome 👋</h2>
   <p>
     TechLifePortal is your AI-powered lifestyle & jobs assistant for IT employees
-    in Bangalore. Choose a tech hub below – cafés and rentals will update
-    automatically for that area.
+    in Bangalore. Choose a tech hub below – cafés, PGs & rentals will update
+    automatically for that area. Gyms are fully live for Electronic City and
+    basic for other hubs.
   </p>
   <div>
     <span class="inline-select-label">Current tech hub:</span>
@@ -141,7 +142,8 @@
     </select>
   </div>
   <small>
-    Data uses free map sources, so some areas may have more results than others.
+    Data uses free map sources plus curated examples, so some areas will have
+    richer results than others.
   </small>
 </div>
 
@@ -160,7 +162,7 @@
   <div id="gyms-list">
     <p>Loading gyms near Electronic City...</p>
   </div>
-  <p><em>Gyms automation is live for Electronic City. Other hubs coming soon.</em></p>
+  <p><em>Electronic City uses detailed map data; other hubs currently use basic search.</em></p>
 </div>
 
 <!-- AUTOMATED RENTALS SECTION -->
@@ -169,7 +171,7 @@
   <div id="rentals-list">
     <p>Loading PGs & rentals near Electronic City...</p>
   </div>
-  <p><em>Powered by free OpenStreetMap (Nominatim) data.</em></p>
+  <p><em>Shows PGs, hostels, co-living, flats & rooms. Mix of free map data + curated examples.</em></p>
 </div>
 
 <!-- IT JOBS SECTION -->
@@ -330,58 +332,96 @@
     const list = document.getElementById("gyms-list");
     const area = getCurrentArea();
 
-    if (currentAreaKey !== "electronic-city") {
+    // For Electronic City: use Overpass (more rich)
+    if (currentAreaKey === "electronic-city") {
       list.innerHTML =
-        "<p>Gyms automation is currently live only for Electronic City. " +
-        "We will add live gyms for " +
-        area.label +
-        " soon.</p>";
+        "<p>Loading real gyms near " + area.label + "...</p>";
+
+      const overpassQuery = `
+        [out:json];
+        (
+          node["leisure"="fitness_centre"](12.82,77.60,12.88,77.72);
+          way["leisure"="fitness_centre"](12.82,77.60,12.88,77.72);
+        );
+        out center 15;
+      `;
+
+      try {
+        const res = await fetch("https://overpass-api.de/api/interpreter", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: "data=" + encodeURIComponent(overpassQuery)
+        });
+
+        const json = await res.json();
+        const elements = json.elements || [];
+
+        if (!Array.isArray(elements) || elements.length === 0) {
+          list.innerHTML =
+            "<p>No gyms found yet around " + area.label + ".</p>";
+          return;
+        }
+
+        list.innerHTML = "";
+        elements.slice(0, 8).forEach((el) => {
+          const tags = el.tags || {};
+          const name = tags.name || "Gym";
+          const street = tags["addr:street"] || "";
+          const locArea =
+            tags["addr:suburb"] || tags["addr:city"] || area.label + ", Bengaluru";
+
+          const address =
+            (street ? street + ", " : "") +
+            locArea;
+
+          const div = document.createElement("div");
+          div.className = "card";
+          div.innerHTML =
+            "<strong>" +
+            name +
+            "</strong><br />" +
+            "<small>" +
+            address +
+            "</small>";
+
+          list.appendChild(div);
+        });
+      } catch (err) {
+        console.error(err);
+        list.innerHTML =
+          "<p>Could not load gyms automatically (API/network limit).</p>";
+      }
       return;
     }
 
+    // For other hubs: simpler search using Nominatim
     list.innerHTML =
-      "<p>Loading real gyms near " + area.label + "...</p>";
-
-    const overpassQuery = `
-      [out:json];
-      (
-        node["leisure"="fitness_centre"](12.82,77.60,12.88,77.72);
-        way["leisure"="fitness_centre"](12.82,77.60,12.88,77.72);
-      );
-      out center 15;
-    `;
+      "<p>Loading gyms near " + area.label + "...</p>";
 
     try {
-      const res = await fetch("https://overpass-api.de/api/interpreter", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: "data=" + encodeURIComponent(overpassQuery)
-      });
+      const data = await loadPlaces(
+        "gym near " + area.searchSuffix,
+        8
+      );
 
-      const json = await res.json();
-      const elements = json.elements || [];
-
-      if (!Array.isArray(elements) || elements.length === 0) {
-        list.innerHTML = "<p>No gyms found yet around " + area.label + ".</p>";
+      if (!Array.isArray(data) || data.length === 0) {
+        list.innerHTML =
+          "<p>No gyms found yet via free data for this area. We will improve this soon.</p>";
         return;
       }
 
       list.innerHTML = "";
-      elements.slice(0, 8).forEach((el) => {
-        const tags = el.tags || {};
-        const name = tags.name || "Gym";
-        const street = tags["addr:street"] || "";
-        const locArea =
-          tags["addr:suburb"] || tags["addr:city"] || area.label + ", Bengaluru";
-
-        const address =
-          (street ? street + ", " : "") +
-          locArea;
-
+      data.forEach((place) => {
         const div = document.createElement("div");
         div.className = "card";
+
+        const name = place.display_name
+          ? place.display_name.split(",")[0]
+          : "Gym";
+        const address = place.display_name || area.label + ", Bangalore";
+
         div.innerHTML =
           "<strong>" +
           name +
@@ -400,6 +440,68 @@
   }
 
   // ---------- RENTALS / PGS ----------
+
+  const RENTAL_FALLBACK = {
+    "electronic-city": [
+      {
+        name: "EC Co-Living Rooms",
+        details: "Sharing rooms & studio flats",
+        price: "₹8k–18k",
+        area: "Electronic City Phase 1"
+      },
+      {
+        name: "Techie Nest PG",
+        details: "Boys / Girls PG with food",
+        price: "₹9k–14k",
+        area: "Electronic City Phase 2"
+      }
+    ],
+    "whitefield": [
+      {
+        name: "Whitefield Transit PG",
+        details: "Single / double occupancy",
+        price: "₹10k–18k",
+        area: "Near ITPL"
+      },
+      {
+        name: "ITPL Co-Living Suites",
+        details: "Fully furnished 1BHK / studio",
+        price: "₹18k–30k",
+        area: "ITPL Main Road"
+      }
+    ],
+    "manyata": [
+      {
+        name: "Manyata Lakeside PG",
+        details: "Food + WiFi + housekeeping",
+        price: "₹11k–16k",
+        area: "Near Manyata Tech Park"
+      }
+    ],
+    "bellandur-orr": [
+      {
+        name: "ORR Corporate PG",
+        details: "Men & Women PG, veg food",
+        price: "₹10k–17k",
+        area: "Bellandur / ORR"
+      },
+      {
+        name: "Startup Stay Flats",
+        details: "2BHK sharing for IT employees",
+        price: "₹7k–12k per head",
+        area: "Kadubeesanahalli"
+      }
+    ],
+    "ecospace": [
+      {
+        name: "Ecospace Co-Living Hub",
+        details: "Coliving + cowork + WiFi",
+        price: "₹15k–25k",
+        area: "Ecospace / Sarjapur-ORR"
+      }
+    ]
+  };
+
   async function loadRentalsForCurrentArea() {
     const list = document.getElementById("rentals-list");
     const area = getCurrentArea();
@@ -409,37 +511,55 @@
 
     try {
       const data = await loadPlaces(
-        "pg hostel near " + area.searchSuffix,
-        8
+        "pg hostel coliving apartment flat for rent near " + area.searchSuffix,
+        10
       );
 
-      if (!Array.isArray(data) || data.length === 0) {
-        list.innerHTML =
-          "<p>No PGs/rentals found yet for this area via free data. " +
-          "Later we will connect real rental APIs.</p>";
+      if (Array.isArray(data) && data.length > 0) {
+        list.innerHTML = "";
+        data.forEach((place) => {
+          const div = document.createElement("div");
+          div.className = "card";
+
+          const name = place.display_name
+            ? place.display_name.split(",")[0]
+            : "PG / Rental";
+          const address = place.display_name || area.label + ", Bangalore";
+
+          div.innerHTML =
+            "<strong>" +
+            name +
+            "</strong><br />" +
+            "<small>" +
+            address +
+            "</small>";
+
+          list.appendChild(div);
+        });
         return;
       }
 
-      list.innerHTML = "";
-      data.forEach((place) => {
-        const div = document.createElement("div");
-        div.className = "card";
+      // If no free data, use curated fallback
+      const fallback = RENTAL_FALLBACK[currentAreaKey];
+      if (fallback && fallback.length) {
+        list.innerHTML = "";
+        fallback.forEach((r) => {
+          const div = document.createElement("div");
+          div.className = "card";
+          div.innerHTML =
+            "<strong>" +
+            r.name +
+            "</strong><br />" +
+            (r.details ? r.details + "<br />" : "") +
+            (r.price ? "<span class='tag'>" + r.price + "</span>" : "") +
+            (r.area ? " <small>" + r.area + "</small>" : "");
+          list.appendChild(div);
+        });
+        return;
+      }
 
-        const name = place.display_name
-          ? place.display_name.split(",")[0]
-          : "PG / Rental";
-        const address = place.display_name || area.label + ", Bangalore";
-
-        div.innerHTML =
-          "<strong>" +
-          name +
-          "</strong><br />" +
-          "<small>" +
-          address +
-          "</small>";
-
-        list.appendChild(div);
-      });
+      list.innerHTML =
+        "<p>No PGs/rentals found yet for this area. We will plug in richer feeds later.</p>";
     } catch (err) {
       console.error(err);
       list.innerHTML =
