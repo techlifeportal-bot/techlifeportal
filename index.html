@@ -19,6 +19,7 @@
       align-items: center;
       position: sticky;
       top: 0;
+      z-index: 10;
     }
     header h1 {
       margin: 0;
@@ -64,6 +65,39 @@
       font-size: 12px;
       color: #777;
     }
+    .exp-form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .exp-form input,
+    .exp-form select,
+    .exp-form textarea {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .exp-form button {
+      padding: 10px 16px;
+      border-radius: 6px;
+      border: none;
+      background: #111;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      align-self: flex-start;
+    }
+    .exp-form button:hover {
+      opacity: 0.9;
+    }
+    .exp-meta {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 4px;
+    }
   </style>
 </head>
 <body>
@@ -83,7 +117,7 @@
   <h2>Welcome 👋</h2>
   <p>
     TechLifePortal is your AI-powered lifestyle & jobs assistant for IT employees
-    in Bangalore. We now auto-load real cafés, gyms and PGs / rentals near
+    in Bangalore. We auto-load real cafés, gyms and PGs / rentals near
     Electronic City using free open map data, and show curated IT jobs in Bangalore
     (freshers + experienced).
   </p>
@@ -130,13 +164,40 @@
   </p>
 </div>
 
+<!-- EXPERIENCES SECTION WITH FORM -->
 <div id="experiences" class="section">
   <h2>TechLife Experiences</h2>
   <p>
-    Soon, IT employees will be able to submit their stories about work, PGs,
-    cafes, weekend trips and tech life in Bangalore.
+    Share any kind of TechLife story: PG/hostel life, cafés, weekend trips,
+    office life, tech park experiences, or Bangalore memories.
   </p>
-  <p><em>Later: we’ll add a form here and store posts automatically.</em></p>
+
+  <form id="experience-form" class="exp-form">
+    <input id="exp-name" type="text" placeholder="Your name (optional)" />
+    <select id="exp-category">
+      <option value="PG / Rental">PG / Rental</option>
+      <option value="Café / Food">Café / Food</option>
+      <option value="Weekend Trip">Weekend Trip</option>
+      <option value="IT Workplace">IT Workplace</option>
+      <option value="Other">Other</option>
+    </select>
+    <textarea
+      id="exp-text"
+      rows="4"
+      placeholder="Write your TechLife experience here..."
+      required
+    ></textarea>
+    <button type="submit">Submit Experience</button>
+    <small>
+      Your story is stored in this browser only for now (local preview).
+      Later, we’ll store and show stories globally for all users.
+    </small>
+  </form>
+
+  <h3>Recent Experiences (on this device)</h3>
+  <div id="experiences-list">
+    <p>No experiences added on this device yet. Be the first to share!</p>
+  </div>
 </div>
 
 <footer>
@@ -177,13 +238,17 @@
         div.className = "card";
 
         const name = place.display_name
-          ? place.display_name.split(',')[0]
+          ? place.display_name.split(",")[0]
           : "Café";
         const address = place.display_name || "Electronic City, Bangalore";
 
         div.innerHTML =
-          "<strong>" + name + "</strong><br />" +
-          "<small>" + address + "</small>";
+          "<strong>" +
+          name +
+          "</strong><br />" +
+          "<small>" +
+          address +
+          "</small>";
 
         list.appendChild(div);
       });
@@ -211,7 +276,9 @@
     try {
       const res = await fetch("https://overpass-api.de/api/interpreter", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
         body: "data=" + encodeURIComponent(overpassQuery)
       });
 
@@ -231,13 +298,19 @@
         const area =
           tags["addr:suburb"] || tags["addr:city"] || "Electronic City, Bengaluru";
 
-        const address = (street ? street + ", " : "") + area;
+        const address =
+          (street ? street + ", " : "") +
+          area;
 
         const div = document.createElement("div");
         div.className = "card";
         div.innerHTML =
-          "<strong>" + name + "</strong><br />" +
-          "<small>" + address + "</small>";
+          "<strong>" +
+          name +
+          "</strong><br />" +
+          "<small>" +
+          address +
+          "</small>";
 
         list.appendChild(div);
       });
@@ -271,13 +344,17 @@
         div.className = "card";
 
         const name = place.display_name
-          ? place.display_name.split(',')[0]
+          ? place.display_name.split(",")[0]
           : "PG / Rental";
         const address = place.display_name || "Electronic City, Bangalore";
 
         div.innerHTML =
-          "<strong>" + name + "</strong><br />" +
-          "<small>" + address + "</small>";
+          "<strong>" +
+          name +
+          "</strong><br />" +
+          "<small>" +
+          address +
+          "</small>";
 
         list.appendChild(div);
       });
@@ -344,11 +421,97 @@
     });
   }
 
+  // ---------- EXPERIENCES (LOCAL STORAGE) ----------
+  function getStoredExperiences() {
+    try {
+      const raw = localStorage.getItem("tlp_experiences");
+      if (!raw) return [];
+      return JSON.parse(raw);
+    } catch {
+      return [];
+    }
+  }
+
+  function saveStoredExperiences(list) {
+    try {
+      localStorage.setItem("tlp_experiences", JSON.stringify(list));
+    } catch {
+      // ignore
+    }
+  }
+
+  function renderExperiences() {
+    const container = document.getElementById("experiences-list");
+    const list = getStoredExperiences();
+
+    if (!list.length) {
+      container.innerHTML =
+        "<p>No experiences added on this device yet. Be the first to share!</p>";
+      return;
+    }
+
+    container.innerHTML = "";
+    list
+      .slice()
+      .reverse()
+      .forEach((exp) => {
+        const div = document.createElement("div");
+        div.className = "card";
+
+        const metaParts = [];
+        if (exp.name) metaParts.push(exp.name);
+        if (exp.category) metaParts.push(exp.category);
+        if (exp.date) metaParts.push(exp.date);
+
+        const meta = metaParts.join(" • ");
+
+        div.innerHTML =
+          (meta ? '<div class="exp-meta">' + meta + "</div>" : "") +
+          "<div>" + exp.text.replace(/\n/g, "<br />") + "</div>";
+
+        container.appendChild(div);
+      });
+  }
+
+  function setupExperienceForm() {
+    const form = document.getElementById("experience-form");
+    const nameInput = document.getElementById("exp-name");
+    const categorySelect = document.getElementById("exp-category");
+    const textArea = document.getElementById("exp-text");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = textArea.value.trim();
+      if (!text) return;
+
+      const list = getStoredExperiences();
+      const now = new Date();
+      const exp = {
+        name: nameInput.value.trim(),
+        category: categorySelect.value,
+        text,
+        date: now.toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }),
+      };
+      list.push(exp);
+      saveStoredExperiences(list);
+      textArea.value = "";
+      renderExperiences();
+      alert("Your experience has been added on this device.");
+    });
+
+    renderExperiences();
+  }
+
   // Run all loaders
   loadCafesForElectronicCity();
   loadGymsForElectronicCity();
   loadRentalsForElectronicCity();
   loadJobsForBangalore();
+  setupExperienceForm();
 </script>
 
 </body>
