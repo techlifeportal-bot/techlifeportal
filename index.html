@@ -289,6 +289,54 @@
 
     document.getElementById("areaSelect").addEventListener("change", updateArea);
     updateArea(); // load default
+    // JOB LISTINGS
+const jobData = [
+  {
+    title: "Software Engineer – Fresher",
+    company: "Product Startup",
+    exp: "0–1 years",
+    stack: "Java / Spring / SQL",
+    location: "Bangalore – Electronic City"
+  },
+  {
+    title: "Frontend Developer",
+    company: "Fintech Company",
+    exp: "1–3 years",
+    stack: "React / TypeScript",
+    location: "Bangalore – HSR Layout"
+  },
+  {
+    title: "Backend Engineer",
+    company: "SaaS Startup",
+    exp: "2–4 years",
+    stack: "Node.js / PostgreSQL / AWS",
+    location: "Bangalore – Koramangala"
+  },
+  {
+    title: "QA / Test Engineer",
+    company: "MNC",
+    exp: "0–2 years",
+    stack: "Manual + Basic Automation",
+    location: "Bangalore – Manyata Tech Park"
+  }
+];
+
+function loadJobs() {
+  document.getElementById("jobList").innerHTML = jobData
+    .map(job => `
+      <div class="card">
+        <b>${job.title}</b><br>
+        <span>Company: ${job.company}</span><br>
+        <span>Exp: ${job.exp}</span><br>
+        <span>Stack: ${job.stack}</span><br>
+        <span>${job.location}</span>
+      </div>
+    `)
+    .join("");
+}
+
+loadJobs();
+
 
 
     function saveExp() {
