@@ -343,6 +343,7 @@
         <a href="#cafes"><span class="icon">☕</span>Cafés</a>
         <a href="#gyms"><span class="icon">🏋️</span>Gyms</a>
         <a href="#rentals"><span class="icon">🏠</span>PGs / Rentals</a>
+        <a href="#companies"><span class="icon">🏢</span>Companies</a>
         <a href="#jobs"><span class="icon">💼</span>IT Jobs</a>
         <a href="#exp"><span class="icon">✨</span>Experiences</a>
         <a href="#about"><span class="icon">ℹ️</span>About</a>
@@ -355,7 +356,7 @@
     <section id="welcome">
       <h2><span class="icon">💡</span>Welcome</h2>
       <p class="section-description">
-        TechLifePortal helps IT employees quickly discover cafés, gyms, PGs, rentals and jobs
+        TechLifePortal helps IT employees quickly discover cafés, gyms, PGs, rentals, nearby companies and jobs
         around Bangalore tech hubs — all guided and built step-by-step with AI and
         <span class="kb-highlight">KB</span>.
       </p>
@@ -396,6 +397,15 @@
         Example PGs, hostels, co-living and flat options near the selected hub.
       </p>
       <div id="rentalList"></div>
+    </section>
+
+    <!-- COMPANIES -->
+    <section id="companies">
+      <h2><span class="icon">🏢</span>IT Companies near your hub</h2>
+      <p class="section-description">
+        Key IT companies that are commonly associated with each tech hub. Helpful for job hunting and choosing where to stay.
+      </p>
+      <div id="companiesList"></div>
     </section>
 
     <!-- JOBS -->
@@ -455,6 +465,7 @@
         <li>Helps you discover cafés around major hubs like Electronic City, Whitefield, Bellandur, Manyata and Ecospace.</li>
         <li>Lists nearby gyms and basic fitness options per area.</li>
         <li>Shows example PGs, hostels, co-living spaces and flats around tech parks.</li>
+        <li>Shows example IT companies around each tech hub.</li>
         <li>Provides a curated list of IT job openings for freshers and junior engineers in Bangalore.</li>
         <li>Lets IT folks share their own TechLife stories directly on the site.</li>
       </ul>
@@ -503,6 +514,13 @@
           "Techie Nest PG · Phase 1",
           "Co-Living 1BHK · Near Wipro",
           "Shared 2BHK · Neeladri Road"
+        ],
+        companies: [
+          "Infosys",
+          "Wipro",
+          "TCS",
+          "HCL",
+          "Tech Mahindra"
         ]
       },
       "Whitefield": {
@@ -520,6 +538,13 @@
           "ITPL Co-Living PG",
           "1BHK Flat · Whitefield",
           "Sharing PG · Hope Farm"
+        ],
+        companies: [
+          "TCS Whitefield",
+          "IBM",
+          "Accenture",
+          "SAP Labs",
+          "Capgemini"
         ]
       },
       "Bellandur": {
@@ -536,6 +561,13 @@
         rentals: [
           "Corporate PG · Bellandur",
           "2BHK Sharing · Kadubeesanahalli"
+        ],
+        companies: [
+          "Intel (ORR)",
+          "Cisco",
+          "Wipro SEZ",
+          "Flipkart (nearby)",
+          "Adobe (ORR cluster)"
         ]
       },
       "Manyata Tech Park": {
@@ -552,6 +584,13 @@
         rentals: [
           "Lakeside PG · Manyata",
           "1RK Studio · Nagawara"
+        ],
+        companies: [
+          "IBM",
+          "Philips",
+          "L&T Technology Services",
+          "Cognizant",
+          "Fidelity"
         ]
       },
       "Ecospace": {
@@ -568,6 +607,13 @@
         rentals: [
           "Ecospace Co-Living Hub",
           "2BHK Sharing · ORR"
+        ],
+        companies: [
+          "Intel (Ecospace nearby cluster)",
+          "Honeywell",
+          "Deloitte",
+          "JP Morgan (nearby)",
+          "Bosch"
         ]
       }
     };
@@ -702,11 +748,32 @@
           .join("") || "<div class='card-sub'>No PGs/rentals listed yet.</div>";
     }
 
+    function loadCompanies(areaName) {
+      const area = AREAS[areaName];
+      const container = document.getElementById("companiesList");
+      const companies = area.companies || [];
+
+      if (!companies.length) {
+        container.innerHTML = "<div class='card-sub'>No companies listed yet for this hub.</div>";
+        return;
+      }
+
+      container.innerHTML = companies
+        .map(
+          (c) => `
+        <div class="card">
+          <div class="card-title">🏢 ${c}</div>
+        </div>`
+        )
+        .join("");
+    }
+
     function updateArea() {
       const areaName = document.getElementById("areaSelect").value;
       loadCafes(areaName);
       loadGyms(areaName);
       loadRentals(areaName);
+      loadCompanies(areaName);
     }
 
     document.getElementById("areaSelect").addEventListener("change", updateArea);
