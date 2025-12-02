@@ -98,6 +98,16 @@
       color: #666;
       margin-bottom: 4px;
     }
+    .inline-select-label {
+      font-size: 14px;
+      margin-right: 8px;
+    }
+    .inline-select {
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -117,15 +127,27 @@
   <h2>Welcome 👋</h2>
   <p>
     TechLifePortal is your AI-powered lifestyle & jobs assistant for IT employees
-    in Bangalore. We auto-load real cafés, gyms and PGs / rentals near
-    Electronic City using free open map data, and show curated IT jobs in Bangalore
-    (freshers + experienced).
+    in Bangalore. Choose a tech hub below – cafés and rentals will update
+    automatically for that area.
   </p>
+  <div>
+    <span class="inline-select-label">Current tech hub:</span>
+    <select id="area-select" class="inline-select">
+      <option value="electronic-city">Electronic City</option>
+      <option value="whitefield">Whitefield / ITPL</option>
+      <option value="manyata">Manyata Tech Park</option>
+      <option value="bellandur-orr">Bellandur / ORR</option>
+      <option value="ecospace">Ecospace / Sarjapur-ORR</option>
+    </select>
+  </div>
+  <small>
+    Data uses free map sources, so some areas may have more results than others.
+  </small>
 </div>
 
 <!-- AUTOMATED CAFES SECTION -->
 <div id="cafes" class="section">
-  <h2>Cafés Near Electronic City</h2>
+  <h2>Cafés Near <span id="area-name-cafes">Electronic City</span></h2>
   <div id="cafes-list">
     <p>Loading cafés near Electronic City...</p>
   </div>
@@ -134,16 +156,16 @@
 
 <!-- AUTOMATED GYMS SECTION -->
 <div id="gyms" class="section">
-  <h2>Gyms Near Electronic City</h2>
+  <h2>Gyms Near <span id="area-name-gyms">Electronic City</span></h2>
   <div id="gyms-list">
     <p>Loading gyms near Electronic City...</p>
   </div>
-  <p><em>Powered by free Overpass API (OpenStreetMap).</em></p>
+  <p><em>Gyms automation is live for Electronic City. Other hubs coming soon.</em></p>
 </div>
 
 <!-- AUTOMATED RENTALS SECTION -->
 <div id="rentals" class="section">
-  <h2>PGs & Rentals Near Electronic City</h2>
+  <h2>PGs & Rentals Near <span id="area-name-rentals">Electronic City</span></h2>
   <div id="rentals-list">
     <p>Loading PGs & rentals near Electronic City...</p>
   </div>
@@ -205,6 +227,43 @@
 </footer>
 
 <script>
+  // ------- AREA CONFIG ---------
+  const AREA_CONFIG = {
+    "electronic-city": {
+      label: "Electronic City",
+      searchSuffix: "Electronic City Bangalore"
+    },
+    "whitefield": {
+      label: "Whitefield / ITPL",
+      searchSuffix: "Whitefield Bangalore"
+    },
+    "manyata": {
+      label: "Manyata Tech Park",
+      searchSuffix: "Manyata Tech Park Bangalore"
+    },
+    "bellandur-orr": {
+      label: "Bellandur / ORR",
+      searchSuffix: "Bellandur Outer Ring Road Bangalore"
+    },
+    "ecospace": {
+      label: "Ecospace / Sarjapur-ORR",
+      searchSuffix: "Ecospace Business Park Bangalore"
+    }
+  };
+
+  let currentAreaKey = "electronic-city";
+
+  function getCurrentArea() {
+    return AREA_CONFIG[currentAreaKey];
+  }
+
+  function updateAreaLabels() {
+    const area = getCurrentArea();
+    document.getElementById("area-name-cafes").textContent = area.label;
+    document.getElementById("area-name-gyms").textContent = area.label;
+    document.getElementById("area-name-rentals").textContent = area.label;
+  }
+
   // ---------- HELPER FOR NOMINATIM ----------
   async function loadPlaces(query, limit = 5) {
     const url =
@@ -220,15 +279,22 @@
   }
 
   // ---------- CAFES ----------
-  async function loadCafesForElectronicCity() {
+  async function loadCafesForCurrentArea() {
     const list = document.getElementById("cafes-list");
-    list.innerHTML = "<p>Loading real cafés near Electronic City...</p>";
+    const area = getCurrentArea();
+
+    list.innerHTML =
+      "<p>Loading real cafés near " + area.label + "...</p>";
 
     try {
-      const data = await loadPlaces("cafe near Electronic City Bangalore", 5);
+      const data = await loadPlaces(
+        "cafe near " + area.searchSuffix,
+        5
+      );
 
       if (!Array.isArray(data) || data.length === 0) {
-        list.innerHTML = "<p>No cafés found yet. Try again later.</p>";
+        list.innerHTML =
+          "<p>No cafés found yet for this area via free data. Try again later.</p>";
         return;
       }
 
@@ -240,7 +306,7 @@
         const name = place.display_name
           ? place.display_name.split(",")[0]
           : "Café";
-        const address = place.display_name || "Electronic City, Bangalore";
+        const address = place.display_name || area.label + ", Bangalore";
 
         div.innerHTML =
           "<strong>" +
@@ -259,10 +325,22 @@
     }
   }
 
-  // ---------- GYMS (Overpass) ----------
-  async function loadGymsForElectronicCity() {
+  // ---------- GYMS ----------
+  async function loadGymsForCurrentArea() {
     const list = document.getElementById("gyms-list");
-    list.innerHTML = "<p>Loading real gyms near Electronic City...</p>";
+    const area = getCurrentArea();
+
+    if (currentAreaKey !== "electronic-city") {
+      list.innerHTML =
+        "<p>Gyms automation is currently live only for Electronic City. " +
+        "We will add live gyms for " +
+        area.label +
+        " soon.</p>";
+      return;
+    }
+
+    list.innerHTML =
+      "<p>Loading real gyms near " + area.label + "...</p>";
 
     const overpassQuery = `
       [out:json];
@@ -286,7 +364,7 @@
       const elements = json.elements || [];
 
       if (!Array.isArray(elements) || elements.length === 0) {
-        list.innerHTML = "<p>No gyms found yet around Electronic City.</p>";
+        list.innerHTML = "<p>No gyms found yet around " + area.label + ".</p>";
         return;
       }
 
@@ -295,12 +373,12 @@
         const tags = el.tags || {};
         const name = tags.name || "Gym";
         const street = tags["addr:street"] || "";
-        const area =
-          tags["addr:suburb"] || tags["addr:city"] || "Electronic City, Bengaluru";
+        const locArea =
+          tags["addr:suburb"] || tags["addr:city"] || area.label + ", Bengaluru";
 
         const address =
           (street ? street + ", " : "") +
-          area;
+          locArea;
 
         const div = document.createElement("div");
         div.className = "card";
@@ -322,19 +400,23 @@
   }
 
   // ---------- RENTALS / PGS ----------
-  async function loadRentalsForElectronicCity() {
+  async function loadRentalsForCurrentArea() {
     const list = document.getElementById("rentals-list");
-    list.innerHTML = "<p>Loading PGs & rentals near Electronic City...</p>";
+    const area = getCurrentArea();
+
+    list.innerHTML =
+      "<p>Loading PGs & rentals near " + area.label + "...</p>";
 
     try {
       const data = await loadPlaces(
-        "pg hostel near Electronic City Bangalore",
+        "pg hostel near " + area.searchSuffix,
         8
       );
 
       if (!Array.isArray(data) || data.length === 0) {
         list.innerHTML =
-          "<p>No PGs/rentals found yet via free data. Later we will connect real rental APIs.</p>";
+          "<p>No PGs/rentals found yet for this area via free data. " +
+          "Later we will connect real rental APIs.</p>";
         return;
       }
 
@@ -346,7 +428,7 @@
         const name = place.display_name
           ? place.display_name.split(",")[0]
           : "PG / Rental";
-        const address = place.display_name || "Electronic City, Bangalore";
+        const address = place.display_name || area.label + ", Bangalore";
 
         div.innerHTML =
           "<strong>" +
@@ -506,10 +588,28 @@
     renderExperiences();
   }
 
-  // Run all loaders
-  loadCafesForElectronicCity();
-  loadGymsForElectronicCity();
-  loadRentalsForElectronicCity();
+  // ---------- AREA SELECTOR ----------
+  function setupAreaSelector() {
+    const select = document.getElementById("area-select");
+    select.value = currentAreaKey;
+
+    select.addEventListener("change", () => {
+      const newKey = select.value;
+      if (!AREA_CONFIG[newKey]) return;
+      currentAreaKey = newKey;
+      updateAreaLabels();
+      loadCafesForCurrentArea();
+      loadGymsForCurrentArea();
+      loadRentalsForCurrentArea();
+    });
+  }
+
+  // ---------- INITIAL LOAD ----------
+  updateAreaLabels();
+  setupAreaSelector();
+  loadCafesForCurrentArea();
+  loadGymsForCurrentArea();
+  loadRentalsForCurrentArea();
   loadJobsForBangalore();
   setupExperienceForm();
 </script>
