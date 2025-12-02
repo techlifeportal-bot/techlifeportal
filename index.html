@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TechLifePortal - AI Powered IT Jobs & Lifestyle</title>
+  <title>TechLifePortal – AI Lifestyle & Jobs for IT Employees</title>
   <style>
     body {
       margin: 0;
@@ -12,62 +12,159 @@
     }
     header {
       background: #111;
-      padding: 20px;
-      color: white;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+    nav a {
+      margin-left: 12px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    nav a:hover {
+      text-decoration: underline;
     }
     .section {
-      padding: 20px;
-      background: white;
-      margin: 20px;
+      max-width: 900px;
+      margin: 24px auto;
+      background: #fff;
       border-radius: 10px;
-      box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
-    .job-box {
-      padding: 15px;
-      margin: 15px 0;
-      border: 1px solid #ccc;
+    .section h2 {
+      margin-top: 0;
+    }
+    .card {
+      border: 1px solid #ddd;
       border-radius: 8px;
+      padding: 12px 14px;
+      margin: 8px 0;
+    }
+    .tag {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #eee;
+      font-size: 11px;
+      margin-right: 4px;
+    }
+    footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: #777;
     }
   </style>
 </head>
 <body>
 
-<header>TechLifePortal – AI Powered IT Jobs in Bangalore</header>
+<header>
+  <h1>TechLifePortal – Bangalore</h1>
+  <nav>
+    <a href="#cafes">Cafés</a>
+    <a href="#gyms">Gyms</a>
+    <a href="#rentals">PGs / Rentals</a>
+    <a href="#jobs">IT Jobs</a>
+    <a href="#experiences">Experiences</a>
+  </nav>
+</header>
 
 <div class="section">
+  <h2>Welcome 👋</h2>
+  <p>
+    TechLifePortal is your AI-powered lifestyle & jobs assistant for IT employees
+    in Bangalore. Start with static data now — later we will automate everything.
+  </p>
+</div>
+
+<div id="cafes" class="section">
+  <h2>Cafés Near Tech Parks</h2>
+  <div class="card">
+    <strong>Third Wave Coffee</strong><br />
+    <span class="tag">Outer Ring Road</span>
+    <span class="tag">WiFi</span>
+    <span class="tag">Work Friendly</span>
+  </div>
+  <div class="card">
+    <strong>Starbucks – Manyata</strong><br />
+    <span class="tag">Manyata Tech Park</span>
+    <span class="tag">Quiet</span>
+  </div>
+  <p><em>Later: this list will be filled automatically using Google Places API.</em></p>
+</div>
+
+<div id="gyms" class="section">
+  <h2>Gyms Near Tech Parks</h2>
+  <div class="card">
+    <strong>Cult Fit – Bellandur</strong><br />
+    <span class="tag">ORR</span>
+    <span class="tag">Group Classes</span>
+  </div>
+  <div class="card">
+    <strong>Gold’s Gym – Whitefield</strong><br />
+    <span class="tag">Whitefield</span>
+    <span class="tag">Weights + Cardio</span>
+  </div>
+  <p><em>Later: AI will recommend gyms based on your office location.</em></p>
+</div>
+
+<div id="rentals" class="section">
+  <h2>PGs & Rentals for IT Employees</h2>
+  <div class="card">
+    <strong>Single Room PG – Manyata</strong><br />
+    <span class="tag">₹12–15k</span>
+    <span class="tag">Food Included</span>
+  </div>
+  <div class="card">
+    <strong>2BHK Flat – Bellandur</strong><br />
+    <span class="tag">₹30–35k</span>
+    <span class="tag">Near Tech Parks</span>
+  </div>
+  <p><em>Later: Data will sync from rental websites automatically.</em></p>
+</div>
+
+<div id="jobs" class="section">
   <h2>Latest IT Job Vacancies</h2>
-
-  <div class="job-box">
-    <b>Software Engineer – Freshers</b><br>
-    Company: Infosys<br>
-    Location: Bangalore<br>
-    Status: Hiring Now
+  <div class="card">
+    <strong>React Developer</strong><br />
+    Company: Bangalore Startup<br />
+    Exp: 1–3 years • Location: ORR
   </div>
-
-  <div class="job-box">
-    <b>Frontend Developer – 1+ year exp</b><br>
-    Company: TCS<br>
-    Location: Bangalore<br>
-    Status: Hiring Now
+  <div class="card">
+    <strong>Backend Engineer (Node.js)</strong><br />
+    Company: Product Company<br />
+    Exp: 2–4 years • Location: Whitefield
   </div>
-
-  <div class="job-box">
-    <b>Backend Developer – 2+ year exp</b><br>
-    Company: Accenture<br>
-    Location: Bangalore<br>
-    Status: Limited Openings
+  <div class="card">
+    <strong>QA Engineer</strong><br />
+    Company: MNC<br />
+    Exp: 0–2 years • Location: Manyata Tech Park
   </div>
-
-  <p>More AI-powered job listings coming soon...</p>
+  <p><em>Later: we will connect real job feeds from job portals.</em></p>
 </div>
 
-<div class="section">
-  <h2>AI Lifestyle Tools</h2>
-  <p>Productivity tips, scheduling, tech lifestyle guidance — coming soon!</p>
+<div id="experiences" class="section">
+  <h2>TechLife Experiences</h2>
+  <p>
+    Soon, IT employees will be able to submit their stories about work, PGs,
+    cafes, weekend trips and tech life in Bangalore.
+  </p>
+  <p><em>Later: we’ll add a form here and store posts automatically.</em></p>
 </div>
+
+<footer>
+  © 2025 TechLifePortal – Built by you & AI · Bangalore Version
+</footer>
 
 </body>
 </html>
