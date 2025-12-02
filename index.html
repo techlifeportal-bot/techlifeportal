@@ -1,853 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-<rect width='100' height='100' rx='20' fill='black'/>
-<text x='50' y='62' font-size='48' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>T</text>
-</svg>
-"/>
 
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TechLifePortal – AI Lifestyle & Jobs for IT Employees</title>
+  <title>TechLifePortal – Bangalore</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+  <rect width='100' height='100' rx='20' fill='black'/>
+  <text x='50' y='62' font-size='48' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>T</text>
+  </svg>
+  "/>
+
   <style>
-    <style>
-header {
-  background: #ffffff;
-  padding: 16px 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-}
-
-/* Navbar */
-nav a {
-  margin-left: 20px;
-  color: #444 !important;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-nav a:hover {
-  color: #000;
-  text-decoration: underline;
-}
-
-</style>
-
-    /* LOGO STYLING */
-.logo-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-badge {
-  background: #fff;
-  color: #000;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 14px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
-.logo-text {
-  font-size: 18px;
-  font-weight: bold;
-  color: #fff;
-  letter-spacing: 0.5px;
-}
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      background: #f4f4f4;
     }
-    header h1 {
-      background: #111;
-      color: #fff;
-      padding: 16px 24px;
+
+    /* HEADER */
+    header {
+      background: #ffffff;
+      padding: 16px 40px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 100;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     }
-    header  {
-      margin: 0;
-      font-size: 20px;
+
+    /* LOGO */
+    .logo-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    nav a {
-      margin-left: 12px;
+
+    .logo-badge {
+      background: #000;
       color: #fff;
-      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-weight: bold;
       font-size: 14px;
     }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: bold;
+      color: #222;
+      letter-spacing: 0.3px;
+    }
+
+    /* NAVBAR */
+    nav a {
+      margin-left: 20px;
+      color: #444;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
     nav a:hover {
+      color: #000;
       text-decoration: underline;
     }
-    .section {
+
+    /* MAIN SECTIONS */
+    section {
       max-width: 900px;
-      margin: 24px auto;
       background: #fff;
-      border-radius: 10px;
+      margin: 24px auto;
       padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     }
-    .section h2 {
-      margin-top: 0;
-    }
+
     .card {
       border: 1px solid #ddd;
       border-radius: 8px;
       padding: 12px 14px;
-      margin: 8px 0;
+      margin-bottom: 12px;
     }
+
     .tag {
       display: inline-block;
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 2px 8px;
+      border-radius: 6px;
       background: #eee;
-      font-size: 11px;
-      margin-right: 4px;
+      font-size: 12px;
+      margin-right: 6px;
     }
+
     footer {
       text-align: center;
       padding: 16px;
+      margin-top: 30px;
       font-size: 12px;
       color: #777;
     }
+
+    /* EXPERIENCE FORM */
     .exp-form {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 16px;
+      gap: 10px;
     }
+
     .exp-form input,
-    .exp-form select,
-    .exp-form textarea {
+    .exp-form textarea,
+    .exp-form select {
       padding: 8px;
       border-radius: 6px;
       border: 1px solid #ccc;
-      font-family: inherit;
       font-size: 14px;
     }
+
     .exp-form button {
-      padding: 10px 16px;
+      padding: 10px;
       border-radius: 6px;
       border: none;
       background: #111;
       color: #fff;
       cursor: pointer;
       font-size: 14px;
-      align-self: flex-start;
+      font-weight: bold;
     }
+
     .exp-form button:hover {
       opacity: 0.9;
     }
-    .exp-meta {
-      font-size: 12px;
-      color: #666;
-      margin-bottom: 4px;
-    }
-    .inline-select-label {
-      font-size: 14px;
-      margin-right: 8px;
-    }
-    .inline-select {
-      padding: 6px 8px;
+
+    .exp-item {
+      border: 1px solid #ddd;
+      padding: 10px;
       border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 14px;
+      background: #fafafa;
+      margin-top: 10px;
     }
   </style>
- </head>
+</head>
+
+
 <body>
 
-<header>
+  <!-- HEADER -->
+  <header>
     <div class="logo-box">
-    <div class="logo-badge">TLP</div>
-    <div class="logo-text">TechLifePortal</div>
-  </div>
+      <div class="logo-badge">TLP</div>
+      <div class="logo-text">TechLifePortal</div>
+    </div>
 
-<nav>
-  <a href="#cafes">Cafés</a>
-  <a href="#gyms">Gyms</a>
-  <a href="#rentals">PGs / Rentals</a>
-  <a href="#jobs">IT Jobs</a>
-  <a href="#experiences">Experiences</a>
-  <a href="#about">About</a>
-</nav>
-</header>
+    <nav>
+      <a href="#cafes">Cafés</a>
+      <a href="#gyms">Gyms</a>
+      <a href="#rentals">PGs / Rentals</a>
+      <a href="#jobs">IT Jobs</a>
+      <a href="#exp">Experiences</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
 
-<div class="section">
-  <h2>Welcome 👋</h2>
-  <p>
-    TechLifePortal is your AI-powered lifestyle & jobs assistant for IT employees
-    in Bangalore. Choose a tech hub below – cafés, PGs & rentals will update
-    automatically for that area. Gyms are fully live for Electronic City and
-    basic for other hubs.
-  </p>
-  <div>
-    <span class="inline-select-label">Current tech hub:</span>
-    <select id="area-select" class="inline-select">
-      <option value="electronic-city">Electronic City</option>
-      <option value="whitefield">Whitefield / ITPL</option>
-      <option value="manyata">Manyata Tech Park</option>
-      <option value="bellandur-orr">Bellandur / ORR</option>
-      <option value="ecospace">Ecospace / Sarjapur-ORR</option>
+  <!-- WELCOME -->
+  <section id="welcome">
+    <h2>Welcome 👋</h2>
+    <p>
+      TechLifePortal is your AI-powered assistant for IT employees in Bangalore —
+      cafés, gyms, PGs, rentals & job listings update automatically based on the tech hub you choose.
+    </p>
+
+    <label><b>Current tech hub:</b></label>
+    <select id="areaSelect">
+      <option>Electronic City</option>
+      <option>Whitefield</option>
+      <option>Bellandur</option>
+      <option>Manyata Tech Park</option>
+      <option>Ecospace</option>
     </select>
-  </div>
-  <small>
-    Data uses free map sources plus curated examples, so some areas will have
-    richer results than others.
-  </small>
-</div>
+  </section>
 
-<!-- AUTOMATED CAFES SECTION -->
-<div id="cafes" class="section">
-  <h2>Cafés Near <span id="area-name-cafes">Electronic City</span></h2>
-  <div id="cafes-list">
-    <p>Loading cafés near Electronic City...</p>
-  </div>
-  <p><em>Powered by free OpenStreetMap (Nominatim) data.</em></p>
-</div>
+  <!-- CAFES -->
+  <section id="cafes">
+    <h2>Cafés Near Selected Area</h2>
+    <div id="cafesList"></div>
+  </section>
 
-<!-- AUTOMATED GYMS SECTION -->
-<div id="gyms" class="section">
-  <h2>Gyms Near <span id="area-name-gyms">Electronic City</span></h2>
-  <div id="gyms-list">
-    <p>Loading gyms near Electronic City...</p>
-  </div>
-  <p><em>Electronic City uses detailed map data; other hubs currently use basic search.</em></p>
-</div>
+  <!-- GYMS -->
+  <section id="gyms">
+    <h2>Gyms Near Selected Area</h2>
+    <div id="gymsList"></div>
+  </section>
 
-<!-- AUTOMATED RENTALS SECTION -->
-<div id="rentals" class="section">
-  <h2>PGs & Rentals Near <span id="area-name-rentals">Electronic City</span></h2>
-  <div id="rentals-list">
-    <p>Loading PGs & rentals near Electronic City...</p>
-  </div>
-  <p><em>Shows PGs, hostels, co-living, flats & rooms. Mix of free map data + curated examples.</em></p>
-</div>
+  <!-- RENTALS -->
+  <section id="rentals">
+    <h2>PGs & Rentals</h2>
+    <div id="rentalList"></div>
+  </section>
 
-<!-- IT JOBS SECTION -->
-<div id="jobs" class="section">
-  <h2>Latest IT Job Vacancies – Bangalore Only</h2>
-  <div id="jobs-list">
-    <p>Loading Bangalore IT jobs (freshers + experienced)...</p>
-  </div>
-  <p>
-    <em>
-      Currently using a curated smart list of Bangalore jobs (0–5 years).
-      Later, this section can plug into live job feeds from job portals.
-    </em>
-  </p>
-</div>
+  <!-- JOBS -->
+  <section id="jobs">
+    <h2>Latest IT Job Vacancies</h2>
+    <div id="jobList"></div>
+  </section>
 
-<!-- EXPERIENCES SECTION WITH FORM -->
-<div id="experiences" class="section">
-  <h2>TechLife Experiences</h2>
-  <p>
-    Share any kind of TechLife story: PG/hostel life, cafés, weekend trips,
-    office life, tech park experiences, or Bangalore memories.
-  </p>
+  <!-- EXPERIENCES -->
+  <section id="exp">
+    <h2>TechLife Experiences</h2>
 
-  <form id="experience-form" class="exp-form">
-    <input id="exp-name" type="text" placeholder="Your name (optional)" />
-    <select id="exp-category">
-      <option value="PG / Rental">PG / Rental</option>
-      <option value="Café / Food">Café / Food</option>
-      <option value="Weekend Trip">Weekend Trip</option>
-      <option value="IT Workplace">IT Workplace</option>
-      <option value="Other">Other</option>
-    </select>
-    <textarea
-      id="exp-text"
-      rows="4"
-      placeholder="Write your TechLife experience here..."
-      required
-    ></textarea>
-    <button type="submit">Submit Experience</button>
-    <small>
-      Your story is stored in this browser only for now (local preview).
-      Later, we’ll store and show stories globally for all users.
-    </small>
-  </form>
+    <div class="exp-form">
+      <input id="expName" placeholder="Your name (optional)" />
+      <select id="expType">
+        <option>PG / Rental</option>
+        <option>Café</option>
+        <option>Gym</option>
+        <option>Tech Park</option>
+        <option>Weekend Trip</option>
+      </select>
+      <textarea id="expText" placeholder="Write your TechLife experience..." rows="4"></textarea>
+      <button onclick="saveExp()">Submit Experience</button>
+    </div>
 
-  <h3>Recent Experiences (on this device)</h3>
-  <div id="experiences-list">
-    <p>No experiences added on this device yet. Be the first to share!</p>
-  </div>
-</div>
-  <!-- ABOUT SECTION -->
-<div id="about" class="section">
-  <h2>About TechLifePortal</h2>
-  <p>
-    TechLifePortal is a fully AI-powered lifestyle and career assistant created
-    for IT employees living and working in Bangalore. The platform helps tech
-    professionals quickly find cafés, gyms, PGs, rentals, and fresh job
-    opportunities around major tech hubs like Electronic City, Whitefield,
-    Bellandur, Manyata Tech Park, and Ecospace.
-  </p>
+    <h3>Recent Experiences (local preview)</h3>
+    <div id="expList"></div>
+  </section>
 
-  <h3>Our Mission</h3>
-  <p>
-    To simplify the daily life of every IT employee by providing fast,
-    automated, and accurate information about everything they need — from
-    finding a good place to stay, to discovering cafés for remote work, to
-    identifying weekend getaways, to exploring new job opportunities.
-  </p>
-
-  <h3>How It Works</h3>
-  <ul>
-    <li>✔ AI automatically fetches cafés, PGs, and rentals based on the area you select.</li>
-    <li>✔ Gyms, rentals, and cafés update live using free map data + curated results.</li>
-    <li>✔ Job listings for Bangalore refresh automatically (freshers + experienced roles).</li>
-    <li>✔ Experiences posted by users stay saved on their device and will soon be stored globally.</li>
-  </ul>
-
-  <h3>Built With AI</h3>
-  <p>
-    TechLifePortal is developed end-to-end with the assistance of AI automation,
-    making it one of the first portals where a beginner founder collaborates
-    directly with AI to build a complete functional website without coding.
-  </p>
-
-  <h3>Founder</h3>
-  <p>
-    <strong>KB</strong> — A passionate builder who envisioned a platform that helps IT
-    employees live smarter, stress-free, and more connected lives in the heart
-    of India's tech capital.
-  </p>
-
-  <h3>Contact</h3>
-  <p>
-    For partnership, listing, or suggestions, reach out at:<br>
-    <strong>support@techlifeportal.in</strong>
-  </p>
-
-  <p><em>This platform will continue to grow with more automation, better data sources, and additional features for IT professionals across India.</em></p>
-</div>
-
+  <!-- ABOUT -->
+  <section id="about">
+    <h2>About TechLifePortal</h2>
+    <p>
+      TechLifePortal is a fully AI-powered lifestyle & career assistant for IT employees in Bangalore.
+      Built collaboratively by KB and AI — without writing code — this platform auto-fetches lifestyle and job data
+      around major tech hubs.
+    </p>
+  </section>
 
   <footer>
-  © 2025 TechLifePortal – Built by you & AI · Bangalore Version
-</footer>
+    © 2025 TechLifePortal — Built with AI + KB
+  </footer>
 
-<script>
-  // ------- AREA CONFIG ---------
-  const AREA_CONFIG = {
-    "electronic-city": {
-      label: "Electronic City",
-      searchSuffix: "Electronic City Bangalore"
-    },
-    "whitefield": {
-      label: "Whitefield / ITPL",
-      searchSuffix: "Whitefield Bangalore"
-    },
-    "manyata": {
-      label: "Manyata Tech Park",
-      searchSuffix: "Manyata Tech Park Bangalore"
-    },
-    "bellandur-orr": {
-      label: "Bellandur / ORR",
-      searchSuffix: "Bellandur Outer Ring Road Bangalore"
-    },
-    "ecospace": {
-      label: "Ecospace / Sarjapur-ORR",
-      searchSuffix: "Ecospace Business Park Bangalore"
-    }
-  };
-
-  let currentAreaKey = "electronic-city";
-
-  function getCurrentArea() {
-    return AREA_CONFIG[currentAreaKey];
-  }
-
-  function updateAreaLabels() {
-    const area = getCurrentArea();
-    document.getElementById("area-name-cafes").textContent = area.label;
-    document.getElementById("area-name-gyms").textContent = area.label;
-    document.getElementById("area-name-rentals").textContent = area.label;
-  }
-
-  // ---------- HELPER FOR NOMINATIM ----------
-  async function loadPlaces(query, limit = 5) {
-    const url =
-      "https://nominatim.openstreetmap.org/search?format=json&q=" +
-      encodeURIComponent(query) +
-      "&limit=" +
-      limit;
-
-    const res = await fetch(url, {
-      headers: { "Accept-Language": "en" }
-    });
-    return res.json();
-  }
-
-  // ---------- CAFES ----------
-  async function loadCafesForCurrentArea() {
-    const list = document.getElementById("cafes-list");
-    const area = getCurrentArea();
-
-    list.innerHTML =
-      "<p>Loading real cafés near " + area.label + "...</p>";
-
-    try {
-      const data = await loadPlaces(
-        "cafe near " + area.searchSuffix,
-        5
-      );
-
-      if (!Array.isArray(data) || data.length === 0) {
-        list.innerHTML =
-          "<p>No cafés found yet for this area via free data. Try again later.</p>";
-        return;
+  <!-- SCRIPT -->
+  <script>
+    // Static sample data (auto updates when area changes)
+    const data = {
+      "Electronic City": {
+        cafes: ["FAB Cafe", "Tea House", "Cuppa Redifined", "Cane Corner", "Beverich Hotspot"],
+        gyms: ["RS Power Fitness", "Power Fitness"],
+        rentals: ["Single Room PG", "2BHK Flat"],
+      },
+      "Whitefield": {
+        cafes: ["Third Wave Coffee", "Starbucks", "Cafe Noir"],
+        gyms: ["Cult Fit Whitefield", "Gold's Gym"],
+        rentals: ["Sharing PG", "1BHK Flat"],
+      },
+      "Bellandur": {
+        cafes: ["Third Wave Coffee", "Starbucks"],
+        gyms: ["Cult Fit Bellandur"],
+        rentals: ["Bellandur PG Hostel"],
+      },
+      "Manyata Tech Park": {
+        cafes: ["Cafe Coffee Day", "Barista"],
+        gyms: ["Fitness First"],
+        rentals: ["Single Room PG – Manyata"],
+      },
+      "Ecospace": {
+        cafes: ["Starbucks ORR", "Costa Coffee"],
+        gyms: ["Cult Fit ORR"],
+        rentals: ["PG – ORR", "1BHK – ORR"],
       }
+    };
 
-      list.innerHTML = "";
-      data.forEach((place) => {
-        const div = document.createElement("div");
-        div.className = "card";
+    function updateArea() {
+      const area = document.getElementById("areaSelect").value;
 
-        const name = place.display_name
-          ? place.display_name.split(",")[0]
-          : "Café";
-        const address = place.display_name || area.label + ", Bangalore";
+      document.getElementById("cafesList").innerHTML =
+        data[area].cafes.map(c => `<div class='card'>${c}</div>`).join("");
 
-        div.innerHTML =
-          "<strong>" +
-          name +
-          "</strong><br />" +
-          "<small>" +
-          address +
-          "</small>";
+      document.getElementById("gymsList").innerHTML =
+        data[area].gyms.map(g => `<div class='card'>${g}</div>`).join("");
 
-        list.appendChild(div);
-      });
-    } catch (err) {
-      console.error(err);
-      list.innerHTML =
-        "<p>Could not load cafés automatically (API/network limit).</p>";
-    }
-  }
-
-  // ---------- GYMS ----------
-  async function loadGymsForCurrentArea() {
-    const list = document.getElementById("gyms-list");
-    const area = getCurrentArea();
-
-    // For Electronic City: use Overpass (more rich)
-    if (currentAreaKey === "electronic-city") {
-      list.innerHTML =
-        "<p>Loading real gyms near " + area.label + "...</p>";
-
-      const overpassQuery = `
-        [out:json];
-        (
-          node["leisure"="fitness_centre"](12.82,77.60,12.88,77.72);
-          way["leisure"="fitness_centre"](12.82,77.60,12.88,77.72);
-        );
-        out center 15;
-      `;
-
-      try {
-        const res = await fetch("https://overpass-api.de/api/interpreter", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          body: "data=" + encodeURIComponent(overpassQuery)
-        });
-
-        const json = await res.json();
-        const elements = json.elements || [];
-
-        if (!Array.isArray(elements) || elements.length === 0) {
-          list.innerHTML =
-            "<p>No gyms found yet around " + area.label + ".</p>";
-          return;
-        }
-
-        list.innerHTML = "";
-        elements.slice(0, 8).forEach((el) => {
-          const tags = el.tags || {};
-          const name = tags.name || "Gym";
-          const street = tags["addr:street"] || "";
-          const locArea =
-            tags["addr:suburb"] || tags["addr:city"] || area.label + ", Bengaluru";
-
-          const address =
-            (street ? street + ", " : "") +
-            locArea;
-
-          const div = document.createElement("div");
-          div.className = "card";
-          div.innerHTML =
-            "<strong>" +
-            name +
-            "</strong><br />" +
-            "<small>" +
-            address +
-            "</small>";
-
-          list.appendChild(div);
-        });
-      } catch (err) {
-        console.error(err);
-        list.innerHTML =
-          "<p>Could not load gyms automatically (API/network limit).</p>";
-      }
-      return;
+      document.getElementById("rentalList").innerHTML =
+        data[area].rentals.map(r => `<div class='card'>${r}</div>`).join("");
     }
 
-    // For other hubs: simpler search using Nominatim
-    list.innerHTML =
-      "<p>Loading gyms near " + area.label + "...</p>";
+    document.getElementById("areaSelect").addEventListener("change", updateArea);
+    updateArea(); // load default
 
-    try {
-      const data = await loadPlaces(
-        "gym near " + area.searchSuffix,
-        8
-      );
 
-      if (!Array.isArray(data) || data.length === 0) {
-        list.innerHTML =
-          "<p>No gyms found yet via free data for this area. We will improve this soon.</p>";
-        return;
-      }
+    function saveExp() {
+      const name = document.getElementById("expName").value || "Anonymous";
+      const type = document.getElementById("expType").value;
+      const text = document.getElementById("expText").value;
 
-      list.innerHTML = "";
-      data.forEach((place) => {
-        const div = document.createElement("div");
-        div.className = "card";
+      if (!text.trim()) return;
 
-        const name = place.display_name
-          ? place.display_name.split(",")[0]
-          : "Gym";
-        const address = place.display_name || area.label + ", Bangalore";
-
-        div.innerHTML =
-          "<strong>" +
-          name +
-          "</strong><br />" +
-          "<small>" +
-          address +
-          "</small>";
-
-        list.appendChild(div);
-      });
-    } catch (err) {
-      console.error(err);
-      list.innerHTML =
-        "<p>Could not load gyms automatically (API/network limit).</p>";
-    }
-  }
-
-  // ---------- RENTALS / PGS ----------
-
-  const RENTAL_FALLBACK = {
-    "electronic-city": [
-      {
-        name: "EC Co-Living Rooms",
-        details: "Sharing rooms & studio flats",
-        price: "₹8k–18k",
-        area: "Electronic City Phase 1"
-      },
-      {
-        name: "Techie Nest PG",
-        details: "Boys / Girls PG with food",
-        price: "₹9k–14k",
-        area: "Electronic City Phase 2"
-      }
-    ],
-    "whitefield": [
-      {
-        name: "Whitefield Transit PG",
-        details: "Single / double occupancy",
-        price: "₹10k–18k",
-        area: "Near ITPL"
-      },
-      {
-        name: "ITPL Co-Living Suites",
-        details: "Fully furnished 1BHK / studio",
-        price: "₹18k–30k",
-        area: "ITPL Main Road"
-      }
-    ],
-    "manyata": [
-      {
-        name: "Manyata Lakeside PG",
-        details: "Food + WiFi + housekeeping",
-        price: "₹11k–16k",
-        area: "Near Manyata Tech Park"
-      }
-    ],
-    "bellandur-orr": [
-      {
-        name: "ORR Corporate PG",
-        details: "Men & Women PG, veg food",
-        price: "₹10k–17k",
-        area: "Bellandur / ORR"
-      },
-      {
-        name: "Startup Stay Flats",
-        details: "2BHK sharing for IT employees",
-        price: "₹7k–12k per head",
-        area: "Kadubeesanahalli"
-      }
-    ],
-    "ecospace": [
-      {
-        name: "Ecospace Co-Living Hub",
-        details: "Coliving + cowork + WiFi",
-        price: "₹15k–25k",
-        area: "Ecospace / Sarjapur-ORR"
-      }
-    ]
-  };
-
-  async function loadRentalsForCurrentArea() {
-    const list = document.getElementById("rentals-list");
-    const area = getCurrentArea();
-
-    list.innerHTML =
-      "<p>Loading PGs & rentals near " + area.label + "...</p>";
-
-    try {
-      const data = await loadPlaces(
-        "pg hostel coliving apartment flat for rent near " + area.searchSuffix,
-        10
-      );
-
-      if (Array.isArray(data) && data.length > 0) {
-        list.innerHTML = "";
-        data.forEach((place) => {
-          const div = document.createElement("div");
-          div.className = "card";
-
-          const name = place.display_name
-            ? place.display_name.split(",")[0]
-            : "PG / Rental";
-          const address = place.display_name || area.label + ", Bangalore";
-
-          div.innerHTML =
-            "<strong>" +
-            name +
-            "</strong><br />" +
-            "<small>" +
-            address +
-            "</small>";
-
-          list.appendChild(div);
-        });
-        return;
-      }
-
-      // If no free data, use curated fallback
-      const fallback = RENTAL_FALLBACK[currentAreaKey];
-      if (fallback && fallback.length) {
-        list.innerHTML = "";
-        fallback.forEach((r) => {
-          const div = document.createElement("div");
-          div.className = "card";
-          div.innerHTML =
-            "<strong>" +
-            r.name +
-            "</strong><br />" +
-            (r.details ? r.details + "<br />" : "") +
-            (r.price ? "<span class='tag'>" + r.price + "</span>" : "") +
-            (r.area ? " <small>" + r.area + "</small>" : "");
-          list.appendChild(div);
-        });
-        return;
-      }
-
-      list.innerHTML =
-        "<p>No PGs/rentals found yet for this area. We will plug in richer feeds later.</p>";
-    } catch (err) {
-      console.error(err);
-      list.innerHTML =
-        "<p>Could not load PGs/rentals automatically (API/network limit).</p>";
-    }
-  }
-
-  // ---------- IT JOBS (Bangalore only, mixed) ----------
-  function loadJobsForBangalore() {
-    const list = document.getElementById("jobs-list");
-
-    const jobs = [
-      {
-        title: "Software Engineer – Fresher",
-        company: "Product Startup",
-        exp: "0–1 years (Fresher)",
-        stack: "Java / Spring / SQL",
-        location: "Bangalore – Electronic City",
-      },
-      {
-        title: "Frontend Developer",
-        company: "Fintech Company",
-        exp: "1–3 years (Experienced)",
-        stack: "React / TypeScript",
-        location: "Bangalore – HSR Layout",
-      },
-      {
-        title: "Backend Engineer",
-        company: "SaaS Startup",
-        exp: "2–4 years (Experienced)",
-        stack: "Node.js / PostgreSQL / AWS",
-        location: "Bangalore – Koramangala",
-      },
-      {
-        title: "QA / Test Engineer",
-        company: "MNC",
-        exp: "0–2 years (Fresher / Junior)",
-        stack: "Manual + Basic Automation",
-        location: "Bangalore – Manyata Tech Park",
-      },
-      {
-        title: "Data Analyst",
-        company: "Analytics Firm",
-        exp: "1–3 years (Experienced)",
-        stack: "SQL / Excel / Power BI",
-        location: "Bangalore – Whitefield",
-      },
-    ];
-
-    list.innerHTML = "";
-    jobs.forEach((job) => {
       const div = document.createElement("div");
-      div.className = "card";
-      div.innerHTML =
-        "<strong>" + job.title + "</strong><br />" +
-        "Company: " + job.company + "<br />" +
-        "Exp: " + job.exp + "<br />" +
-        "Stack: " + job.stack + "<br />" +
-        "<small>" + job.location + "</small>";
-      list.appendChild(div);
-    });
-  }
+      div.className = "exp-item";
+      div.innerHTML = `<b>${name}</b> — <i>${type}</i><br>${text}`;
 
-  // ---------- EXPERIENCES (LOCAL STORAGE) ----------
-  function getStoredExperiences() {
-    try {
-      const raw = localStorage.getItem("tlp_experiences");
-      if (!raw) return [];
-      return JSON.parse(raw);
-    } catch {
-      return [];
+      document.getElementById("expList").appendChild(div);
+      document.getElementById("expText").value = "";
     }
-  }
-
-  function saveStoredExperiences(list) {
-    try {
-      localStorage.setItem("tlp_experiences", JSON.stringify(list));
-    } catch {
-      // ignore
-    }
-  }
-
-  function renderExperiences() {
-    const container = document.getElementById("experiences-list");
-    const list = getStoredExperiences();
-
-    if (!list.length) {
-      container.innerHTML =
-        "<p>No experiences added on this device yet. Be the first to share!</p>";
-      return;
-    }
-
-    container.innerHTML = "";
-    list
-      .slice()
-      .reverse()
-      .forEach((exp) => {
-        const div = document.createElement("div");
-        div.className = "card";
-
-        const metaParts = [];
-        if (exp.name) metaParts.push(exp.name);
-        if (exp.category) metaParts.push(exp.category);
-        if (exp.date) metaParts.push(exp.date);
-
-        const meta = metaParts.join(" • ");
-
-        div.innerHTML =
-          (meta ? '<div class="exp-meta">' + meta + "</div>" : "") +
-          "<div>" + exp.text.replace(/\n/g, "<br />") + "</div>";
-
-        container.appendChild(div);
-      });
-  }
-
-  function setupExperienceForm() {
-    const form = document.getElementById("experience-form");
-    const nameInput = document.getElementById("exp-name");
-    const categorySelect = document.getElementById("exp-category");
-    const textArea = document.getElementById("exp-text");
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const text = textArea.value.trim();
-      if (!text) return;
-
-      const list = getStoredExperiences();
-      const now = new Date();
-      const exp = {
-        name: nameInput.value.trim(),
-        category: categorySelect.value,
-        text,
-        date: now.toLocaleDateString("en-IN", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        }),
-      };
-      list.push(exp);
-      saveStoredExperiences(list);
-      textArea.value = "";
-      renderExperiences();
-      alert("Your experience has been added on this device.");
-    });
-
-    renderExperiences();
-  }
-
-  // ---------- AREA SELECTOR ----------
-  function setupAreaSelector() {
-    const select = document.getElementById("area-select");
-    select.value = currentAreaKey;
-
-    select.addEventListener("change", () => {
-      const newKey = select.value;
-      if (!AREA_CONFIG[newKey]) return;
-      currentAreaKey = newKey;
-      updateAreaLabels();
-      loadCafesForCurrentArea();
-      loadGymsForCurrentArea();
-      loadRentalsForCurrentArea();
-    });
-  }
-
-  // ---------- INITIAL LOAD ----------
-  updateAreaLabels();
-  setupAreaSelector();
-  loadCafesForCurrentArea();
-  loadGymsForCurrentArea();
-  loadRentalsForCurrentArea();
-  loadJobsForBangalore();
-  setupExperienceForm();
-</script>
+  </script>
 
 </body>
 </html>
