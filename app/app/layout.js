@@ -1,22 +1,21 @@
+import "./globals.css";
+
 export const metadata = {
-  title: "TechLifePortal",
-  description: "AI-powered lifestyle & jobs platform for IT employees",
+  title: "TechLifePortal – AI Lifestyle & Jobs for Bangalore IT Employees",
+  description: "TechLifePortal helps IT employees discover cafés, gyms, PGs, rentals, companies, and job opportunities around Bangalore tech parks.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, fontFamily: "Arial" }}>
-        <header style={{ background: "#111", color: "white", padding: "15px" }}>
-          <h2>TechLifePortal</h2>
-        </header>
-
-        {children}
-
-        <footer style={{ background: "#eee", padding: "20px", marginTop: "40px" }}>
-          <p>© 2025 TechLifePortal</p>
-        </footer>
-      </body>
+      <head>
+        {/* ✅ Google Search Console Verification */}
+        <meta
+          name="google-site-verification"
+          content="4X5Mn7zU_yq2dFr8IggXVUM4eiBqNl2AN8-TPOLf6gg"
+        />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }
