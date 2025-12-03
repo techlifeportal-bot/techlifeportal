@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
   <meta charset="UTF-8" />
-<meta name="google-site-verification" content="E0pYp48KeNn210cCMvnfpwrBRE5Adk5D1jZl6DYsASs" />
+
   <!-- Basic SEO -->
   <title>TechLifePortal – Cafés, PGs, Gyms & IT Jobs near Bangalore Tech Parks</title>
   <meta name="description" content="TechLifePortal is an AI-guided lifestyle & career companion for IT employees in Bangalore. Discover cafés, gyms, PGs, rentals, nearby IT companies and curated IT jobs around major tech hubs like Electronic City, Whitefield, Bellandur, Manyata and Ecospace." />
@@ -16,8 +15,6 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="TechLifePortal – Bangalore IT Lifestyle & Jobs (Beta)" />
   <meta property="og:description" content="Check cafés, gyms, PGs, rentals, nearby IT companies and curated IT jobs around Bangalore tech hubs – built by KB with AI." />
-  <!-- Optional: after you have a custom domain, replace this with it -->
-  <!-- <meta property="og:url" content="https://your-domain.vercel.app" /> -->
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
@@ -191,6 +188,10 @@
       margin-bottom: 10px;
       background: #ffffff;
       transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
     }
 
     .card:hover {
@@ -660,14 +661,17 @@
         if (Array.isArray(results) && results.length > 0) {
           container.innerHTML = results
             .map((place) => {
-              const name = place.display_name?.split(",")[0] || "Café";
               const addr = place.display_name || areaName + ", Bangalore";
-              return `
-                <div class="card">
-                  <div class="card-title">☕ ${name}</div>
-                  <div class="card-sub">${addr}</div>
-                </div>
-              `;
+              const name = addr.split(",")[0] || "Café";
+              const mapsUrl =
+                "https://www.google.com/maps/search/?api=1&query=" +
+                encodeURIComponent(name + " " + areaName + " Bangalore");
+              return (
+                '<a class="card" href="' + mapsUrl + '" target="_blank" rel="noopener noreferrer">' +
+                  '<div class="card-title">☕ ' + name + '</div>' +
+                  '<div class="card-sub">' + addr + '</div>' +
+                '</a>'
+              );
             })
             .join("");
           return;
@@ -679,12 +683,16 @@
       // Fallback
       container.innerHTML =
         area.cafes
-          .map(
-            (c) => `
-        <div class="card">
-          <div class="card-title">☕ ${c}</div>
-        </div>`
-          )
+          .map((c) => {
+            const mapsUrl =
+              "https://www.google.com/maps/search/?api=1&query=" +
+              encodeURIComponent(c + " " + areaName + " Bangalore");
+            return (
+              '<a class="card" href="' + mapsUrl + '" target="_blank" rel="noopener noreferrer">' +
+                '<div class="card-title">☕ ' + c + '</div>' +
+              '</a>'
+            );
+          })
           .join("") || "<div class='card-sub'>No cafés listed yet.</div>";
     }
 
@@ -698,14 +706,17 @@
         if (Array.isArray(results) && results.length > 0) {
           container.innerHTML = results
             .map((place) => {
-              const name = place.display_name?.split(",")[0] || "Gym";
               const addr = place.display_name || areaName + ", Bangalore";
-              return `
-                <div class="card">
-                  <div class="card-title">🏋️ ${name}</div>
-                  <div class="card-sub">${addr}</div>
-                </div>
-              `;
+              const name = addr.split(",")[0] || "Gym";
+              const mapsUrl =
+                "https://www.google.com/maps/search/?api=1&query=" +
+                encodeURIComponent(name + " " + areaName + " Bangalore");
+              return (
+                '<a class="card" href="' + mapsUrl + '" target="_blank" rel="noopener noreferrer">' +
+                  '<div class="card-title">🏋️ ' + name + '</div>' +
+                  '<div class="card-sub">' + addr + '</div>' +
+                '</a>'
+              );
             })
             .join("");
           return;
@@ -717,12 +728,16 @@
       // Fallback
       container.innerHTML =
         area.gyms
-          .map(
-            (g) => `
-        <div class="card">
-          <div class="card-title">🏋️ ${g}</div>
-        </div>`
-          )
+          .map((g) => {
+            const mapsUrl =
+              "https://www.google.com/maps/search/?api=1&query=" +
+              encodeURIComponent(g + " " + areaName + " Bangalore");
+            return (
+              '<a class="card" href="' + mapsUrl + '" target="_blank" rel="noopener noreferrer">' +
+                '<div class="card-title">🏋️ ' + g + '</div>' +
+              '</a>'
+            );
+          })
           .join("") || "<div class='card-sub'>No gyms listed yet.</div>";
     }
 
@@ -739,14 +754,17 @@
         if (Array.isArray(results) && results.length > 0) {
           container.innerHTML = results
             .map((place) => {
-              const name = place.display_name?.split(",")[0] || "PG / Rental";
               const addr = place.display_name || areaName + ", Bangalore";
-              return `
-                <div class="card">
-                  <div class="card-title">🏠 ${name}</div>
-                  <div class="card-sub">${addr}</div>
-                </div>
-              `;
+              const name = addr.split(",")[0] || "PG / Rental";
+              const mapsUrl =
+                "https://www.google.com/maps/search/?api=1&query=" +
+                encodeURIComponent(name + " " + areaName + " Bangalore");
+              return (
+                '<a class="card" href="' + mapsUrl + '" target="_blank" rel="noopener noreferrer">' +
+                  '<div class="card-title">🏠 ' + name + '</div>' +
+                  '<div class="card-sub">' + addr + '</div>' +
+                '</a>'
+              );
             })
             .join("");
           return;
@@ -758,12 +776,16 @@
       // Fallback
       container.innerHTML =
         area.rentals
-          .map(
-            (r) => `
-        <div class="card">
-          <div class="card-title">🏠 ${r}</div>
-        </div>`
-          )
+          .map((r) => {
+            const mapsUrl =
+              "https://www.google.com/maps/search/?api=1&query=" +
+              encodeURIComponent(r + " " + areaName + " Bangalore");
+            return (
+              '<a class="card" href="' + mapsUrl + '" target="_blank" rel="noopener noreferrer">' +
+                '<div class="card-title">🏠 ' + r + '</div>' +
+              '</a>'
+            );
+          })
           .join("") || "<div class='card-sub'>No PGs/rentals listed yet.</div>";
     }
 
@@ -778,12 +800,16 @@
       }
 
       container.innerHTML = companies
-        .map(
-          (c) => `
-        <div class="card">
-          <div class="card-title">🏢 ${c}</div>
-        </div>`
-        )
+        .map((c) => {
+          const mapsUrl =
+            "https://www.google.com/maps/search/?api=1&query=" +
+            encodeURIComponent(c + " " + areaName + " Bangalore");
+          return (
+            '<a class="card" href="' + mapsUrl + '" target="_blank" rel="noopener noreferrer">' +
+              '<div class="card-title">🏢 ' + c + '</div>' +
+            '</a>'
+          );
+        })
         .join("");
     }
 
@@ -839,17 +865,22 @@
 
     function loadJobs() {
       document.getElementById("jobList").innerHTML = jobData
-        .map(job => `
-          <div class="card">
-            <div class="card-title">💼 ${job.title}</div>
-            <div class="card-sub">
-              Company: ${job.company}<br />
-              Exp: ${job.exp}<br />
-              Stack: ${job.stack}<br />
-              Location: ${job.location}
-            </div>
-          </div>
-        `)
+        .map(job => {
+          const q =
+            "https://www.google.com/search?q=" +
+            encodeURIComponent(job.title + " " + job.location);
+          return (
+            '<a class="card" href="' + q + '" target="_blank" rel="noopener noreferrer">' +
+              '<div class="card-title">💼 ' + job.title + '</div>' +
+              '<div class="card-sub">' +
+                'Company: ' + job.company + '<br />' +
+                'Exp: ' + job.exp + '<br />' +
+                'Stack: ' + job.stack + '<br />' +
+                'Location: ' + job.location +
+              '</div>' +
+            '</a>'
+          );
+        })
         .join("");
     }
     loadJobs();
