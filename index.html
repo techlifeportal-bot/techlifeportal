@@ -100,6 +100,21 @@
       color: var(--text-muted);
     }
 
+    .beta-pill {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: #e0f2fe;
+      color: var(--blue-dark);
+      border: 1px solid #bae6fd;
+      vertical-align: middle;
+    }
+
     nav {
       display: flex;
       flex-wrap: wrap;
@@ -379,7 +394,10 @@
       <div class="brand">
         <div class="brand-logo">🌐</div>
         <div>
-          <div class="brand-text-main">TechLifePortal</div>
+          <div class="brand-text-main">
+            TechLifePortal
+            <span class="beta-pill">Beta</span>
+          </div>
           <div class="brand-sub">Bangalore · For IT professionals</div>
         </div>
       </div>
@@ -390,6 +408,7 @@
         <a href="#rentals"><span class="icon">🏠</span>PGs / Rentals</a>
         <a href="#companies"><span class="icon">🏢</span>Companies</a>
         <a href="#jobs"><span class="icon">💼</span>IT Jobs</a>
+        <a href="#weekends"><span class="icon">🌴</span>Weekend Spots</a>
         <a href="#exp"><span class="icon">✨</span>Experiences</a>
         <a href="#about"><span class="icon">ℹ️</span>About</a>
         <a href="#contact"><span class="icon">📩</span>Contact</a>
@@ -461,6 +480,15 @@
         Curated mix of fresher and junior roles around Bangalore tech locations.
       </p>
       <div id="jobList"></div>
+    </section>
+
+    <!-- WEEKEND SPOTS -->
+    <section id="weekends">
+      <h2><span class="icon">🌴</span>Weekend spots around Bangalore</h2>
+      <p class="section-description">
+        Quick getaways IT folks usually take for a break from traffic and code. Tap any card to open it in Google Maps.
+      </p>
+      <div id="weekendList"></div>
     </section>
 
     <!-- EXPERIENCES -->
@@ -945,6 +973,55 @@
         .join("");
     }
     loadJobs();
+
+    // WEEKEND SPOTS (static)
+    const weekendSpots = [
+      {
+        name: "Nandi Hills",
+        region: "Chikkaballapur",
+        info: "Sunrise spot, ~60–70 km from Bangalore. Popular for early morning rides.",
+      },
+      {
+        name: "Savandurga Hill",
+        region: "Magadi Road",
+        info: "Large monolith hill. Good for trekking and nature.",
+      },
+      {
+        name: "Ramanagara",
+        region: "Mysore Road",
+        info: "Trekking, rocks and the classic 'Sholay' movie location.",
+      },
+      {
+        name: "Wonderla",
+        region: "Mysore Road",
+        info: "Big water & theme park – full-day fun trip with friends.",
+      },
+      {
+        name: "Skandagiri",
+        region: "Near Chikkaballapur",
+        info: "Night trek + sunrise view. Usually requires advance booking.",
+      }
+    ];
+
+    function loadWeekendSpots() {
+      const container = document.getElementById("weekendList");
+      container.innerHTML = weekendSpots
+        .map(spot => {
+          const mapsUrl =
+            "https://www.google.com/maps/search/?api=1&query=" +
+            encodeURIComponent(spot.name + " " + spot.region + " near Bangalore");
+          return (
+            '<a class="card" href="' + mapsUrl + '" target="_blank" rel="noopener noreferrer">' +
+              '<div class="card-title">🌴 ' + spot.name + '</div>' +
+              '<div class="card-sub">' +
+                spot.region + " · " + spot.info +
+              "</div>" +
+            "</a>"
+          );
+        })
+        .join("");
+    }
+    loadWeekendSpots();
 
     // EXPERIENCES (local only)
     function saveExp() {
