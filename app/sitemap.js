@@ -3,49 +3,49 @@ export default function sitemap() {
 
   return [
     {
-      url: ${baseUrl}/,
+      url: `${baseUrl}/`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1.0,
     },
     {
-      url: ${baseUrl}/cafes,
+      url: `${baseUrl}/cafes`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: ${baseUrl}/gyms,
+      url: `${baseUrl}/gyms`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: ${baseUrl}/pgs,
+      url: `${baseUrl}/pgs`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
-      url: ${baseUrl}/companies,
+      url: `${baseUrl}/companies`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.6,
     },
     {
-      url: ${baseUrl}/jobs,
+      url: `${baseUrl}/jobs`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
-      url: ${baseUrl}/experiences,
+      url: `${baseUrl}/experiences`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.6,
     },
     {
-      url: ${baseUrl}/about,
+      url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
