@@ -974,32 +974,37 @@
     }
     loadJobs();
 
-    // WEEKEND SPOTS (static)
+    // WEEKEND SPOTS (static, with precise map queries)
     const weekendSpots = [
       {
         name: "Nandi Hills",
         region: "Chikkaballapur",
         info: "Sunrise spot, ~60–70 km from Bangalore. Popular for early morning rides.",
+        mapsQuery: "Nandi Hills View Point, Karnataka"
       },
       {
         name: "Savandurga Hill",
         region: "Magadi Road",
         info: "Large monolith hill. Good for trekking and nature.",
+        mapsQuery: "Savandurga Hill Trek Start Point"
       },
       {
         name: "Ramanagara",
         region: "Mysore Road",
         info: "Trekking, rocks and the classic 'Sholay' movie location.",
+        mapsQuery: "Ramadevara Betta View Point Ramanagara"
       },
       {
         name: "Wonderla",
         region: "Mysore Road",
         info: "Big water & theme park – full-day fun trip with friends.",
+        mapsQuery: "Wonderla Amusement Park, Bengaluru"
       },
       {
         name: "Skandagiri",
         region: "Near Chikkaballapur",
         info: "Night trek + sunrise view. Usually requires advance booking.",
+        mapsQuery: "Skandagiri Hills trekking point"
       }
     ];
 
@@ -1009,7 +1014,7 @@
         .map(spot => {
           const mapsUrl =
             "https://www.google.com/maps/search/?api=1&query=" +
-            encodeURIComponent(spot.name + " " + spot.region + " near Bangalore");
+            encodeURIComponent(spot.mapsQuery);
           return (
             '<a class="card" href="' + mapsUrl + '" target="_blank" rel="noopener noreferrer">' +
               '<div class="card-title">🌴 ' + spot.name + '</div>' +
