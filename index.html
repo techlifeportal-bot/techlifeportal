@@ -2,60 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>TechLifePortal – Cafés, PGs, Gyms & IT Jobs in Bangalore</title>
+
+  <title>TechLifePortal – Bangalore IT Cafés, PGs, Gyms & Jobs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Google Search Console -->
   <meta name="google-site-verification" content="4X5Mn7zU_yq2dFr8IggXVUM4eiBqNl2AN8-TPOLf6gg" />
 
-  <!-- Basic SEO -->
-  <meta name="description" content="TechLifePortal is an AI-assisted lifestyle & career companion for IT employees in Bangalore. Find cafés, gyms, PGs, rentals, nearby companies and IT jobs around major tech hubs like Electronic City, Bellandur, Whitefield & Manyata Tech Park." />
-  <meta name="keywords" content="TechLifePortal, Bangalore IT lifestyle, cafes near tech parks, PGs, rentals, gyms, IT jobs Bangalore, Bellandur, Electronic City, Whitefield, Manyata Tech Park" />
+  <!-- SEO -->
+  <meta name="description" content="TechLifePortal by KB helps Bangalore IT employees discover cafés, gyms, PGs, rentals, companies and IT jobs around tech hubs like Electronic City, Bellandur, Whitefield and Manyata Tech Park." />
+  <meta name="keywords" content="TechLifePortal, KB, Bangalore IT, cafes near tech parks, PGs, rentals, gyms, IT jobs, Electronic City, Bellandur, Whitefield, Manyata Tech Park" />
+  <meta name="author" content="KB" />
   <meta name="robots" content="index,follow" />
 
-  <!-- Open Graph -->
+  <!-- OG / Social -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="TechLifePortal – Bangalore IT Lifestyle & Jobs (Beta)" />
-  <meta property="og:description" content="An AI-guided lifestyle & career companion for IT employees in Bangalore: discover cafés, gyms, PGs, rentals, nearby companies and curated IT jobs around major tech hubs." />
+  <meta property="og:description" content="Cafés, gyms, PGs, rentals, nearby IT companies and curated jobs for Bangalore tech employees. Built by KB with AI + Supabase + Vercel." />
   <meta property="og:url" content="https://techlifeportal.vercel.app/" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="TechLifePortal – Bangalore IT Lifestyle & Jobs (Beta)" />
-  <meta name="twitter:description" content="Cafés, gyms, PGs, rentals, nearby IT companies and curated IT jobs around Bangalore tech hubs – built with AI + Supabase + Vercel." />
 
   <style>
     :root {
-      --bg: #f4f7fb;
+      --blue: #0ea5e9;
+      --blue-dark: #1d4ed8;
+      --bg: #e5f3ff;
       --card-bg: #ffffff;
-      --primary: #007bff;
-      --primary-soft: #e1f0ff;
-      --accent: #00b894;
-      --border-soft: #dde3f0;
-      --text-main: #1f2933;
-      --text-muted: #6b7280;
-      --chip-bg: #eef2ff;
-      --chip-border: #c4d0ff;
-      --danger: #d9534f;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-soft: #dbeafe;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #e0f2fe 0, #f4f7fb 40%, #f4f7fb 100%);
+      background: radial-gradient(circle at top, #dbeafe 0, #e5f3ff 40%, #e2e8f0 100%);
       color: var(--text-main);
-      line-height: 1.5;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { text-decoration: none; color: inherit; }
 
     header {
       position: sticky;
@@ -63,11 +48,11 @@
       z-index: 50;
       background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
     }
 
-    .nav-shell {
-      max-width: 1120px;
+    .nav-inner {
+      max-width: 1040px;
       margin: 0 auto;
       padding: 10px 16px;
       display: flex;
@@ -83,83 +68,78 @@
     }
 
     .brand-logo {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 999px;
-      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
-      font-weight: 700;
-      font-size: 18px;
+      color: #ffffff;
+      font-weight: 800;
       box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
     }
 
-    .brand-text-main {
-      font-weight: 700;
+    .brand-main {
+      font-weight: 800;
       font-size: 18px;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.03em;
     }
 
-    .brand-text-sub {
+    .brand-sub {
       font-size: 12px;
       color: var(--text-muted);
     }
 
-    .nav-links {
+    nav ul {
+      list-style: none;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      font-size: 14px;
-      color: var(--text-muted);
+      gap: 8px;
+      font-size: 13px;
     }
 
-    .nav-links a {
+    nav a {
       padding: 4px 10px;
       border-radius: 999px;
-      transition: background 0.15s ease, color 0.15s ease;
+      color: var(--text-muted);
+      border: 1px solid transparent;
     }
 
-    .nav-links a:hover {
-      background: #e0f2fe;
-      color: #0f172a;
-    }
-
-    .nav-links a.primary-link {
-      background: #0f172a;
-      color: #f9fafb;
+    nav a:hover {
+      border-color: var(--border-soft);
+      background: #eff6ff;
+      color: var(--blue-dark);
     }
 
     main {
-      max-width: 1120px;
+      max-width: 1040px;
       margin: 18px auto 40px;
-      padding: 0 16px 40px;
+      padding: 0 16px 32px;
     }
 
     .hero {
-      background: linear-gradient(135deg, #0ea5e9 0, #2563eb 40%, #1d4ed8 100%);
-      color: #f9fafb;
+      background: linear-gradient(135deg, #0ea5e9 0, #2563eb 45%, #1d4ed8 100%);
       border-radius: 20px;
-      padding: 20px 20px 18px;
+      padding: 18px 18px 16px;
+      color: #e5f2ff;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.45);
       display: grid;
-      grid-template-columns: 1.6fr 1.1fr;
-      gap: 18px;
-      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.38);
+      grid-template-columns: 1.5fr 1fr;
+      gap: 14px;
     }
 
-    .hero-left h1 {
-      font-size: 24px;
-      margin-bottom: 8px;
+    .hero h1 {
+      font-size: 22px;
       display: flex;
       align-items: center;
       gap: 8px;
+      margin-bottom: 6px;
     }
 
     .beta-pill {
       font-size: 11px;
-      font-weight: 600;
-      padding: 2px 7px;
+      padding: 2px 8px;
       border-radius: 999px;
       background: rgba(15, 23, 42, 0.9);
       border: 1px solid rgba(148, 163, 184, 0.7);
@@ -167,117 +147,82 @@
       letter-spacing: 0.06em;
     }
 
-    .hero-sub {
+    .hero p {
       font-size: 13px;
-      max-width: 530px;
-      color: #e0f2fe;
     }
 
-    .hero-sub strong {
-      color: #ffffff;
-    }
+    .hero p strong { color: #ffffff; }
 
-    .hero-credits {
+    .hero-kb {
       margin-top: 6px;
-      font-size: 11px;
+      font-size: 12px;
       color: #c7d2fe;
     }
 
-    .hero-badges {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .hero-badge {
-      font-size: 11px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.2);
-      border: 1px solid rgba(191, 219, 254, 0.6);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .hero-badge span.icon {
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
+    .kb-highlight {
+      font-weight: 800;
+      color: #facc15;
+      text-transform: uppercase;
     }
 
     .hero-right {
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #e5e7eb;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-    }
-
-    .hub-card {
-      background: rgba(15, 23, 42, 0.92);
-      border-radius: 16px;
-      padding: 10px 12px 12px;
-      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.6);
-    }
-
-    .hub-card-label {
-      font-size: 11px;
-      color: #a5b4fc;
-      margin-bottom: 4px;
-    }
-
-    .hub-select-row {
-      display: flex;
-      align-items: center;
       gap: 8px;
     }
 
-    .hub-select-row select {
+    .hub-label {
+      font-size: 11px;
+      color: #a5b4fc;
+    }
+
+    .hub-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+      align-items: center;
+    }
+
+    .hub-select {
       flex: 1;
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(191, 219, 254, 0.6);
-      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(191, 219, 254, 0.8);
+      background: rgba(15, 23, 42, 0.92);
       color: #e5e7eb;
       font-size: 13px;
-      outline: none;
     }
 
-    .hub-note {
-      margin-top: 4px;
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .badge-row {
+    .chip-row {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      margin-top: 6px;
     }
 
-    .mini-chip {
+    .chip {
       font-size: 11px;
       padding: 3px 8px;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.4);
-      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.7);
     }
 
     section {
-      margin-top: 20px;
+      margin-top: 18px;
     }
 
     .section-card {
       background: var(--card-bg);
-      border-radius: 16px;
-      border: 1px solid var(--border-soft);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
-      padding: 14px 16px;
+      border-radius: 18px;
+      padding: 14px 14px 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
     }
 
     .section-header {
@@ -285,7 +230,7 @@
       align-items: baseline;
       justify-content: space-between;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
 
     .section-title {
@@ -296,42 +241,32 @@
       gap: 6px;
     }
 
-    .section-pill {
-      font-size: 11px;
+    .pill {
       padding: 2px 7px;
       border-radius: 999px;
-      border: 1px solid var(--chip-border);
-      background: var(--chip-bg);
-      color: #4338ca;
+      font-size: 11px;
+      border: 1px solid #c7d2fe;
+      background: #e0e7ff;
+      color: #3730a3;
     }
 
     .section-sub {
       font-size: 12px;
       color: var(--text-muted);
-      margin-top: 1px;
+      margin-bottom: 6px;
     }
 
     .list {
-      margin-top: 6px;
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
 
-    .list-item {
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid #e5e9f2;
+    .item {
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      padding: 8px 9px;
       background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      transition: box-shadow 0.12s ease, transform 0.12s ease;
-    }
-
-    .list-item:hover {
-      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
-      transform: translateY(-1px);
     }
 
     .item-title {
@@ -342,21 +277,7 @@
     .item-meta {
       font-size: 12px;
       color: var(--text-muted);
-    }
-
-    .item-tags {
-      margin-top: 2px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      font-size: 11px;
-    }
-
-    .tag {
-      padding: 1px 6px;
-      border-radius: 999px;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
+      margin-top: 1px;
     }
 
     .empty-text {
@@ -366,27 +287,13 @@
     }
 
     .status-text {
+      margin-top: 4px;
       font-size: 12px;
       color: var(--text-muted);
-      margin-top: 4px;
     }
 
-    .status-text.error {
-      color: var(--danger);
-    }
-
-    .admin-btn {
-      font-size: 11px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px dashed #9ca3af;
-      background: #f9fafb;
-      color: #4b5563;
-      cursor: pointer;
-    }
-
-    .admin-btn:hover {
-      background: #e5e7eb;
+    .status-error {
+      color: #b91c1c;
     }
 
     .exp-form {
@@ -406,9 +313,9 @@
     .exp-row select,
     .exp-form textarea {
       flex: 1;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid #e5e7eb;
-      padding: 6px 8px;
+      padding: 7px 9px;
       font-size: 13px;
     }
 
@@ -419,41 +326,20 @@
 
     .btn-primary {
       align-self: flex-start;
+      margin-top: 2px;
       padding: 6px 14px;
       border-radius: 999px;
       border: none;
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
       color: #ffffff;
       font-size: 13px;
+      font-weight: 600;
       cursor: pointer;
     }
 
-    .btn-primary:hover {
-      background: #005fcc;
-    }
-
-    .exp-list {
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .exp-item {
-      font-size: 12px;
-      border-radius: 10px;
-      border: 1px solid #e5e9f2;
-      padding: 6px 8px;
-      background: #ffffff;
-    }
-
-    .exp-item strong {
-      font-size: 13px;
-    }
-
     footer {
-      max-width: 1120px;
-      margin: 0 auto 32px;
+      max-width: 1040px;
+      margin: 0 auto 28px;
       padding: 0 16px;
       font-size: 11px;
       color: var(--text-muted);
@@ -464,12 +350,13 @@
     }
 
     footer a {
+      color: var(--blue-dark);
       text-decoration: underline;
       text-decoration-style: dotted;
     }
 
     @media (max-width: 768px) {
-      .nav-shell {
+      .nav-inner {
         flex-direction: column;
         align-items: flex-start;
       }
@@ -482,79 +369,67 @@
     }
   </style>
 </head>
+
 <body>
 <header>
-  <div class="nav-shell">
+  <div class="nav-inner">
     <div class="brand">
       <div class="brand-logo">T</div>
       <div>
-        <div class="brand-text-main">TechLifePortal</div>
-        <div class="brand-text-sub">AI lifestyle & jobs guide for Bangalore IT employees</div>
+        <div class="brand-main">TechLifePortal</div>
+        <div class="brand-sub">AI-assisted lifestyle & jobs guide for Bangalore IT employees</div>
       </div>
     </div>
-    <nav class="nav-links">
-      <a href="#cafes" class="primary-link">Cafés</a>
-      <a href="#gyms">Gyms</a>
-      <a href="#pgs">PGs / Rentals</a>
-      <a href="#companies">Companies</a>
-      <a href="#jobs">IT Jobs</a>
-      <a href="#experiences">Experiences</a>
-      <a href="#about">About</a>
+    <nav>
+      <ul>
+        <li><a href="#cafes">Cafés</a></li>
+        <li><a href="#gyms">Gyms</li>
+        <li><a href="#pgs">PGs / Rentals</a></li>
+        <li><a href="#companies">Companies</a></li>
+        <li><a href="#jobs">IT Jobs</a></li>
+        <li><a href="#experiences">Experiences</a></li>
+      </ul>
     </nav>
   </div>
 </header>
 
 <main>
-  <section class="hero" id="about">
-    <div class="hero-left">
+  <section class="hero">
+    <div>
       <h1>
-        Welcome to TechLifePortal
-        <span class="beta-pill">BETA</span>
+        TechLifePortal
+        <span class="beta-pill">Beta</span>
       </h1>
-      <p class="hero-sub">
-        Your AI-assisted lifestyle & career companion for IT employees in Bangalore.
-        Discover cafés, gyms, PGs, rentals, nearby companies and curated IT jobs around major tech hubs
-        like <strong>Electronic City</strong>, <strong>Bellandur</strong>, <strong>Whitefield</strong> and
-        <strong>Manyata Tech Park</strong>.
+      <p>
+        A Bangalore–focused lifestyle & career companion for IT employees. Discover
+        cafés, gyms, PGs, rentals, nearby companies and curated IT jobs around tech hubs like
+        <strong>Electronic City</strong>, <strong>Bellandur</strong>, <strong>Whitefield</strong>,
+        and <strong>Manyata Tech Park</strong>.
       </p>
-      <p class="hero-credits">
-        Built with AI + Supabase + Vercel. Founder: <strong>KB</strong>
+      <p class="hero-kb">
+        Built with AI & Supabase by <span class="kb-highlight">KB</span>.
       </p>
-      <div class="hero-badges">
-        <div class="hero-badge">
-          <span class="icon">🤖</span> AI-assisted curation
-        </div>
-        <div class="hero-badge">
-          <span class="icon">💼</span> IT jobs 0–5 yrs experience
-        </div>
-        <div class="hero-badge">
-          <span class="icon">📍</span> Tech hubs: EC, Bellandur, Whitefield, Manyata
-        </div>
-      </div>
     </div>
     <div class="hero-right">
-      <div class="hub-card">
-        <div class="hub-card-label">Current tech hub</div>
-        <div class="hub-select-row">
-          <select id="hub-select">
+      <div>
+        <div class="hub-label">Current tech hub</div>
+        <div class="hub-row">
+          <select id="hub-select" class="hub-select">
             <option value="Electronic City">Electronic City</option>
             <option value="Bellandur">Bellandur</option>
             <option value="Whitefield">Whitefield</option>
             <option value="Manyata Tech Park">Manyata Tech Park</option>
           </select>
         </div>
-        <div class="hub-note">
-          All sections below will update automatically for the hub you choose.
-        </div>
       </div>
-      <div class="hub-card">
-        <div class="hub-card-label">What you get here</div>
-        <div class="badge-row">
-          <span class="mini-chip">Cafés for work & meetups</span>
-          <span class="mini-chip">Gyms & fitness near office</span>
-          <span class="mini-chip">PGs / rentals for IT folks</span>
-          <span class="mini-chip">Nearby IT companies</span>
-          <span class="mini-chip">IT jobs 0–5 yrs exp</span>
+      <div>
+        <div class="hub-label">What TechLifePortal focuses on</div>
+        <div class="chip-row">
+          <span class="chip">Cafés for work & meets</span>
+          <span class="chip">Gyms near office</span>
+          <span class="chip">PGs & rentals for IT employees</span>
+          <span class="chip">Nearby IT companies</span>
+          <span class="chip">Bangalore IT jobs</span>
         </div>
       </div>
     </div>
@@ -565,10 +440,9 @@
     <div class="section-card">
       <div class="section-header">
         <div>
-          <div class="section-title">☕ Cafés Near Tech Hubs <span id="cafes-badge" class="section-pill">Live</span></div>
+          <div class="section-title">☕ Cafés Near Your Tech Hub <span class="pill">Live</span></div>
           <div id="cafes-sub" class="section-sub">Loading cafés…</div>
         </div>
-        <button id="sync-cafes-btn" class="admin-btn" style="display:none;">Sync cafés for this hub (KB)</button>
       </div>
       <div id="cafes-list" class="list"></div>
       <div id="cafes-status" class="status-text"></div>
@@ -580,7 +454,7 @@
     <div class="section-card">
       <div class="section-header">
         <div>
-          <div class="section-title">🏋️ Gyms Near Tech Hubs <span class="section-pill">Live</span></div>
+          <div class="section-title">🏋️ Gyms & Fitness <span class="pill">Live</span></div>
           <div id="gyms-sub" class="section-sub">Loading gyms…</div>
         </div>
       </div>
@@ -594,7 +468,7 @@
     <div class="section-card">
       <div class="section-header">
         <div>
-          <div class="section-title">🏠 PGs & Rentals for IT Employees <span class="section-pill">Live</span></div>
+          <div class="section-title">🏠 PGs & Rentals for IT Employees <span class="pill">Live</span></div>
           <div id="pgs-sub" class="section-sub">Loading PGs & rentals…</div>
         </div>
       </div>
@@ -603,12 +477,12 @@
     </div>
   </section>
 
-  <!-- Companies -->
+  <!-- COMPANIES -->
   <section id="companies">
     <div class="section-card">
       <div class="section-header">
         <div>
-          <div class="section-title">🏢 Nearby IT Companies (Bangalore) <span class="section-pill">Live</span></div>
+          <div class="section-title">🏢 Nearby IT Companies <span class="pill">Live</span></div>
           <div id="companies-sub" class="section-sub">Loading companies…</div>
         </div>
       </div>
@@ -617,13 +491,13 @@
     </div>
   </section>
 
-  <!-- Jobs -->
+  <!-- JOBS -->
   <section id="jobs">
     <div class="section-card">
       <div class="section-header">
         <div>
-          <div class="section-title">💼 Latest IT Job Vacancies – Bangalore Only <span class="section-pill">Live</span></div>
-          <div id="jobs-sub" class="section-sub">Loading curated job listings…</div>
+          <div class="section-title">💼 IT Job Vacancies – Bangalore <span class="pill">Live</span></div>
+          <div id="jobs-sub" class="section-sub">Loading jobs…</div>
         </div>
       </div>
       <div id="jobs-list" class="list"></div>
@@ -631,14 +505,14 @@
     </div>
   </section>
 
-  <!-- Experiences -->
+  <!-- EXPERIENCES -->
   <section id="experiences">
     <div class="section-card">
       <div class="section-header">
         <div>
           <div class="section-title">✨ TechLife Experiences</div>
           <div class="section-sub">
-            Share your tech-life stories around PGs, cafés, gyms, weekend trips, office life, or Bangalore memories.
+            Share your real stories from PG hunt, office life, cafés, weekend trips & Bangalore memories.
           </div>
         </div>
       </div>
@@ -655,522 +529,193 @@
             <option value="Bangalore Memory">Bangalore Memory</option>
           </select>
         </div>
-        <textarea id="exp-text" placeholder="Write your TechLife experience here…"></textarea>
+        <textarea id="exp-story" placeholder="Write your TechLife experience here…"></textarea>
         <button type="submit" class="btn-primary">Submit Experience</button>
       </form>
 
       <div id="exp-status" class="status-text"></div>
-
-      <div class="section-sub" style="margin-top:8px;">Recent Experiences (on this device)</div>
-      <div id="exp-list" class="exp-list"></div>
+      <div class="section-sub" style="margin-top:6px;">Recent experiences</div>
+      <div id="exp-list" class="list"></div>
     </div>
   </section>
 </main>
 
 <footer>
   <div>
-    Contact / feedback / collaboration: <a href="mailto:techlifeportal@gmail.com">techlifeportal@gmail.com</a>
+    © 2025 TechLifePortal · Built by <span class="kb-highlight">KB</span> with AI assistance
   </div>
   <div>
-    This platform will keep evolving with more automation, better data sources & AI features for IT professionals across India.
+    Feedback & collaboration: <a href="mailto:techlifeportal@gmail.com">techlifeportal@gmail.com</a>
   </div>
 </footer>
 
-<!-- Supabase + Café Auto-Sync Script -->
+<!-- Supabase client & data loading -->
 <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  // 🔐 TODO: put your real Supabase URL & anon key here
-  const SUPABASE_URL = "https://tpysvvpswkepuyzfyxcb.supabase.co";      // e.g. https://abcdxyz.supabase.co
+  // 🔐 KB: put your real Supabase details here (DO NOT share them with anyone)
+  const SUPABASE_URL = "https://tpysvvpswkepuyzfyxcb.supabase.co";       // e.g. https://xxxx.supabase.co
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweXN2dnBzd2tlcHV5emZ5eGNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3NTE5MTIsImV4cCI6MjA4MDMyNzkxMn0.EzyDrXdsQnDGXL4ixPOeX5Xg7C35ELYkHPatypOsHU4";
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // Map tech hub -> coordinates (approximate)
-  const TECH_HUB_COORDS = {
-    "Electronic City": { lat: 12.844, lon: 77.663 },
-    "Bellandur": { lat: 12.934, lon: 77.679 },
-    "Whitefield": { lat: 12.969, lon: 77.749 },
-    "Manyata Tech Park": { lat: 13.047, lon: 77.623 }
-  };
-
-  let currentHub = "Electronic City";
-
-  // Admin flag: open site with ?kb=1 to show sync button
-  const isKBAdmin = window.location.search.includes("kb=1");
-
   const hubSelect = document.getElementById("hub-select");
-  const cafesListEl = document.getElementById("cafes-list");
-  const cafesSubEl = document.getElementById("cafes-sub");
-  const cafesStatusEl = document.getElementById("cafes-status");
-  const syncCafesBtn = document.getElementById("sync-cafes-btn");
 
-  const gymsListEl = document.getElementById("gyms-list");
-  const gymsSubEl = document.getElementById("gyms-sub");
-  const gymsStatusEl = document.getElementById("gyms-status");
+  const cafesSub = document.getElementById("cafes-sub");
+  const cafesList = document.getElementById("cafes-list");
+  const cafesStatus = document.getElementById("cafes-status");
 
-  const pgsListEl = document.getElementById("pgs-list");
-  const pgsSubEl = document.getElementById("pgs-sub");
-  const pgsStatusEl = document.getElementById("pgs-status");
+  const gymsSub = document.getElementById("gyms-sub");
+  const gymsList = document.getElementById("gyms-list");
+  const gymsStatus = document.getElementById("gyms-status");
 
-  const companiesListEl = document.getElementById("companies-list");
-  const companiesSubEl = document.getElementById("companies-sub");
-  const companiesStatusEl = document.getElementById("companies-status");
+  const pgsSub = document.getElementById("pgs-sub");
+  const pgsList = document.getElementById("pgs-list");
+  const pgsStatus = document.getElementById("pgs-status");
 
-  const jobsListEl = document.getElementById("jobs-list");
-  const jobsSubEl = document.getElementById("jobs-sub");
-  const jobsStatusEl = document.getElementById("jobs-status");
+  const companiesSub = document.getElementById("companies-sub");
+  const companiesList = document.getElementById("companies-list");
+  const companiesStatus = document.getElementById("companies-status");
 
-  // ---------- Helpers ----------
-  function clearList(el) {
-    while (el.firstChild) el.removeChild(el.firstChild);
-  }
+  const jobsSub = document.getElementById("jobs-sub");
+  const jobsList = document.getElementById("jobs-list");
+  const jobsStatus = document.getElementById("jobs-status");
 
-  function createCafeItem(row) {
-    const li = document.createElement("div");
-    li.className = "list-item";
-    const title = document.createElement("div");
-    title.className = "item-title";
-    title.textContent = row.name || "Café";
-    const meta = document.createElement("div");
-    meta.className = "item-meta";
-    meta.textContent = row.address || currentHub;
-    const tags = document.createElement("div");
-    tags.className = "item-tags";
-    const t1 = document.createElement("span");
-    t1.className = "tag";
-    t1.textContent = row.area || currentHub;
-    tags.appendChild(t1);
-    li.appendChild(title);
-    li.appendChild(meta);
-    li.appendChild(tags);
-    return li;
-  }
+  const expForm = document.getElementById("exp-form");
+  const expName = document.getElementById("exp-name");
+  const expCategory = document.getElementById("exp-category");
+  const expStory = document.getElementById("exp-story");
+  const expStatus = document.getElementById("exp-status");
+  const expList = document.getElementById("exp-list");
 
-  function createGenericItem(row, options = {}) {
-    const li = document.createElement("div");
-    li.className = "list-item";
+  function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
 
-    const title = document.createElement("div");
-    title.className = "item-title";
-    title.textContent = row.title || row.name || options.defaultTitle || "";
-
-    const meta = document.createElement("div");
-    meta.className = "item-meta";
-    meta.textContent = row.subtitle || row.company || row.address || "";
-
-    const tags = document.createElement("div");
-    tags.className = "item-tags";
-
-    if (row.area) {
-      const tag = document.createElement("span");
-      tag.className = "tag";
-      tag.textContent = row.area;
-      tags.appendChild(tag);
-    }
-
-    if (row.experience) {
-      const tag = document.createElement("span");
-      tag.className = "tag";
-      tag.textContent = row.experience;
-      tags.appendChild(tag);
-    }
-
-    if (row.stack) {
-      const tag = document.createElement("span");
-      tag.className = "tag";
-      tag.textContent = row.stack;
-      tags.appendChild(tag);
-    }
-
-    li.appendChild(title);
-    li.appendChild(meta);
-    if (tags.childNodes.length) li.appendChild(tags);
-    return li;
-  }
-
-  // ---------- Loaders (read from Supabase) ----------
   async function loadCafes(area) {
-    cafesSubEl.textContent = `Loading cafés near ${area}…`;
-    cafesStatusEl.textContent = "";
-    clearList(cafesListEl);
+    cafesSub.textContent = `Loading cafés near ${area}…`;
+    cafesStatus.textContent = "";
+    clear(cafesList);
 
     const { data, error } = await supabase
       .from("cafes")
-      .select("*")
+      .select("id, name, address, area")
       .eq("area", area)
       .order("name", { ascending: true });
 
     if (error) {
-      console.error("Cafes error", error);
-      cafesSubEl.textContent = `Could not load cafés right now.`;
-      cafesStatusEl.textContent = error.message;
-      cafesStatusEl.classList.add("error");
+      cafesSub.textContent = "Could not load cafés right now.";
+      cafesStatus.textContent = error.message;
+      cafesStatus.classList.add("status-error");
       return;
     }
 
     if (!data || data.length === 0) {
-      cafesSubEl.textContent = `No cafés added yet for ${area}.`;
+      cafesSub.textContent = `No cafés added yet for ${area}.`;
       const p = document.createElement("div");
       p.className = "empty-text";
-      p.textContent = "Use the KB sync button to auto-import cafés from maps.";
-      cafesListEl.appendChild(p);
+      p.textContent = "Add cafés for this area in Supabase to show them here.";
+      cafesList.appendChild(p);
       return;
     }
 
-    cafesSubEl.textContent = `Popular cafés around ${area} – good for work, breaks and team meets.`;
-    data.forEach(row => cafesListEl.appendChild(createCafeItem(row)));
+    cafesSub.textContent = `Popular cafés around ${area}.`;
+    data.forEach(row => {
+      const item = document.createElement("div");
+      item.className = "item";
+      item.innerHTML = `
+        <div class="item-title">${row.name || "Café"}</div>
+        <div class="item-meta">${row.address || area}</div>
+      `;
+      cafesList.appendChild(item);
+    });
   }
 
   async function loadGyms(area) {
-    gymsSubEl.textContent = `Loading gyms near ${area}…`;
-    gymsStatusEl.textContent = "";
-    clearList(gymsListEl);
+    gymsSub.textContent = `Loading gyms near ${area}…`;
+    gymsStatus.textContent = "";
+    clear(gymsList);
 
     const { data, error } = await supabase
       .from("gyms")
-      .select("*")
+      .select("id, name, address, area")
       .eq("area", area)
       .order("name", { ascending: true });
 
     if (error) {
-      gymsSubEl.textContent = "Could not load gyms right now.";
-      gymsStatusEl.textContent = error.message;
-      gymsStatusEl.classList.add("error");
+      gymsSub.textContent = "Could not load gyms right now.";
+      gymsStatus.textContent = error.message;
+      gymsStatus.classList.add("status-error");
       return;
     }
 
     if (!data || data.length === 0) {
-      gymsSubEl.textContent = `No gyms added yet.`;
+      gymsSub.textContent = "No gyms added yet for this hub.";
       const p = document.createElement("div");
       p.className = "empty-text";
-      p.textContent = "Add gyms for this hub in Supabase when you are ready.";
-      gymsListEl.appendChild(p);
+      p.textContent = "Add gyms for this area in Supabase to show them here.";
+      gymsList.appendChild(p);
       return;
     }
 
-    gymsSubEl.textContent = `Fitness spots near ${area} for morning or post-work sessions.`;
-    data.forEach(row => gymsListEl.appendChild(createGenericItem(row, { defaultTitle: "Gym" })));
+    gymsSub.textContent = `Fitness options around ${area}.`;
+    data.forEach(row => {
+      const item = document.createElement("div");
+      item.className = "item";
+      item.innerHTML = `
+        <div class="item-title">${row.name || "Gym"}</div>
+        <div class="item-meta">${row.address || area}</div>
+      `;
+      gymsList.appendChild(item);
+    });
   }
 
-  async function loadPgs(area) {
-    pgsSubEl.textContent = `Loading PGs & rentals near ${area}…`;
-    pgsStatusEl.textContent = "";
-    clearList(pgsListEl);
+  async function loadPGs(area) {
+    pgsSub.textContent = `Loading PGs & rentals near ${area}…`;
+    pgsStatus.textContent = "";
+    clear(pgsList);
 
     const { data, error } = await supabase
       .from("pgs")
-      .select("*")
+      .select("id, name, address, area")
       .eq("area", area)
-      .order("price", { ascending: true });
-
-    if (error) {
-      pgsSubEl.textContent = "Could not load PGs / rentals right now.";
-      pgsStatusEl.textContent = error.message;
-      pgsStatusEl.classList.add("error");
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      pgsSubEl.textContent = "No PGs / rentals added yet.";
-      const p = document.createElement("div");
-      p.className = "empty-text";
-      p.textContent = "Add PGs / rentals for this hub in Supabase when you are ready.";
-      pgsListEl.appendChild(p);
-      return;
-    }
-
-    pgsSubEl.textContent = "Affordable stay options near Bangalore tech parks.";
-    data.forEach(row => pgsListEl.appendChild(createGenericItem(row, { defaultTitle: "PG / Rental" })));
-  }
-
-  async function loadCompanies(area) {
-    companiesSubEl.textContent = `Loading companies around ${area}…`;
-    companiesStatusEl.textContent = "";
-    clearList(companiesListEl);
-
-    const { data, error } = await supabase
-      .from("companies")
-      .select("*")
       .order("name", { ascending: true });
 
     if (error) {
-      companiesSubEl.textContent = "Could not load companies right now.";
-      companiesStatusEl.textContent = error.message;
-      companiesStatusEl.classList.add("error");
+      pgsSub.textContent = "Could not load PGs / rentals right now.";
+      pgsStatus.textContent = error.message;
+      pgsStatus.classList.add("status-error");
       return;
     }
 
     if (!data || data.length === 0) {
-      companiesSubEl.textContent = "No companies added yet.";
+      pgsSub.textContent = "No PGs / rentals added yet.";
       const p = document.createElement("div");
       p.className = "empty-text";
-      p.textContent = "Add IT companies in Supabase & they will appear here.";
-      companiesListEl.appendChild(p);
+      p.textContent = "Add PGs / rentals for this area in Supabase to show them here.";
+      pgsList.appendChild(p);
       return;
     }
 
-    companiesSubEl.textContent = "Companies around major tech clusters – for referrals & networking.";
-    data.forEach(row => companiesListEl.appendChild(createGenericItem(row, { defaultTitle: "Company" })));
+    pgsSub.textContent = `PGs & rentals used by IT folks near ${area}.`;
+    data.forEach(row => {
+      const item = document.createElement("div");
+      item.className = "item";
+      item.innerHTML = `
+        <div class="item-title">${row.name || "PG / Rental"}</div>
+        <div class="item-meta">${row.address || area}</div>
+      `;
+      pgsList.appendChild(item);
+    });
   }
 
-  async function loadJobs(area) {
-    jobsSubEl.textContent = "Loading curated jobs…";
-    jobsStatusEl.textContent = "";
-    clearList(jobsListEl);
+  async function loadCompanies() {
+    companiesSub.textContent = "Loading companies…";
+    companiesStatus.textContent = "";
+    clear(companiesList);
 
     const { data, error } = await supabase
-      .from("jobs")
-      .select("*")
-      .order("created_at", { ascending: false });
+      .from("companies")
+      .select("id, name, area, industry")
+      .order("name", { ascending: true });
 
     if (error) {
-      jobsSubEl.textContent = "Could not load jobs right now.";
-      jobsStatusEl.textContent = error.message;
-      jobsStatusEl.classList.add("error");
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      jobsSubEl.textContent = "No job listings added yet.";
-      const p = document.createElement("div");
-      p.className = "empty-text";
-      p.textContent = "Add curated IT jobs (0–5 yrs) in Supabase.";
-      jobsListEl.appendChild(p);
-      return;
-    }
-
-    jobsSubEl.textContent = "Curated roles for 0–5 years Bangalore-based IT profiles.";
-    data.forEach(row => {
-      const li = document.createElement("div");
-      li.className = "list-item";
-
-      const title = document.createElement("div");
-      title.className = "item-title";
-      title.textContent = row.title || "IT Role";
-
-      const meta = document.createElement("div");
-      meta.className = "item-meta";
-      meta.textContent =
-        `Company: ${row.company || "Company"} · Exp: ${row.experience || "0–5 years"} · Location: ${row.location || "Bangalore"}`;
-
-      const tags = document.createElement("div");
-      tags.className = "item-tags";
-      if (row.stack) {
-        const tag = document.createElement("span");
-        tag.className = "tag";
-        tag.textContent = row.stack;
-        tags.appendChild(tag);
-      }
-      if (row.type) {
-        const tag2 = document.createElement("span");
-        tag2.className = "tag";
-        tag2.textContent = row.type;
-        tags.appendChild(tag2);
-      }
-
-      li.appendChild(title);
-      li.appendChild(meta);
-      if (tags.childNodes.length) li.appendChild(tags);
-      jobsListEl.appendChild(li);
-    });
-  }
-
-  async function loadExperiences() {
-    const expListEl = document.getElementById("exp-list");
-    const expStatusEl = document.getElementById("exp-status");
-    clearList(expListEl);
-    expStatusEl.textContent = "";
-
-    const { data, error } = await supabase
-      .from("experiences")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(10);
-
-    if (error) {
-      expStatusEl.textContent = "Could not load experiences.";
-      expStatusEl.classList.add("error");
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      const p = document.createElement("div");
-      p.className = "empty-text";
-      p.textContent = "No experiences added yet. Be the first to share!";
-      expListEl.appendChild(p);
-      return;
-    }
-
-    data.forEach(row => {
-      const div = document.createElement("div");
-      div.className = "exp-item";
-      const who = row.name ? row.name : "Anonymous";
-      const catText = row.category ? ` (${row.category})` : "";
-      div.innerHTML = `<strong>${who}${catText}</strong><br>${row.story || ""}`;
-      expListEl.appendChild(div);
-    });
-  }
-
-  async function loadAllSections(area) {
-    await Promise.all([
-      loadCafes(area),
-      loadGyms(area),
-      loadPgs(area),
-      loadCompanies(area),
-      loadJobs(area),
-      loadExperiences()
-    ]);
-  }
-
-  // ---------- Café Auto-Sync Robot (KB) ----------
-  async function fetchCafesFromOverpass(area) {
-    const coords = TECH_HUB_COORDS[area];
-    if (!coords) {
-      throw new Error(`No coordinates configured for ${area}`);
-    }
-
-    const radiusMeters = 2000;
-    const query = `
-      [out:json][timeout:25];
-      (
-        node["amenity"="cafe"](around:${radiusMeters},${coords.lat},${coords.lon});
-        way["amenity"="cafe"](around:${radiusMeters},${coords.lat},${coords.lon});
-      );
-      out center;
-    `;
-
-    const url = "https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query);
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error("Overpass API error: " + res.status);
-    }
-    const data = await res.json();
-    const elements = data.elements || [];
-
-    return elements.map(el => {
-      const tags = el.tags || {};
-      const lat = el.lat || (el.center && el.center.lat);
-      const lon = el.lon || (el.center && el.center.lon);
-
-      const addressParts = [
-        tags["addr:housenumber"],
-        tags["addr:street"],
-        tags["addr:suburb"] || tags["addr:district"],
-        tags["addr:city"]
-      ].filter(Boolean);
-
-      return {
-        name: tags.name || "Unnamed Café",
-        address: addressParts.length ? addressParts.join(", ") : `${area}, Bengaluru`,
-        area,
-        latitude: lat,
-        longitude: lon
-      };
-    });
-  }
-
-  async function syncCafesForCurrentHub() {
-    try {
-      const area = currentHub;
-      cafesStatusEl.textContent = "Syncing cafés from map data…";
-      cafesStatusEl.classList.remove("error");
-
-      const cafes = await fetchCafesFromOverpass(area);
-      if (!cafes.length) {
-        cafesStatusEl.textContent = "No cafés returned from map data.";
-        return;
-      }
-
-      // Avoid duplicates: compare by (name + area)
-      const { data: existing, error: existingError } = await supabase
-        .from("cafes")
-        .select("name, area")
-        .eq("area", area);
-
-      if (existingError) {
-        console.error("Existing cafes error", existingError);
-      }
-
-      const existingSet = new Set(
-        (existing || []).map(row => (row.name || "").toLowerCase().trim())
-      );
-
-      const toInsert = cafes.filter(cafe => {
-        const key = (cafe.name || "").toLowerCase().trim();
-        return key && !existingSet.has(key);
-      });
-
-      if (!toInsert.length) {
-        cafesStatusEl.textContent = "No new cafés to insert (everything already synced).";
-        await loadCafes(area);
-        return;
-      }
-
-      const { error: insertError } = await supabase.from("cafes").insert(toInsert);
-      if (insertError) {
-        console.error("Insert cafes error", insertError);
-        cafesStatusEl.textContent = "Sync failed: " + insertError.message;
-        cafesStatusEl.classList.add("error");
-        return;
-      }
-
-      cafesStatusEl.textContent = `Synced ${toInsert.length} new cafés for ${area}.`;
-      await loadCafes(area);
-    } catch (err) {
-      console.error("Cafe sync error", err);
-      cafesStatusEl.textContent = "Sync failed: " + err.message;
-      cafesStatusEl.classList.add("error");
-    }
-  }
-
-  // ---------- Experiences form ----------
-  const expForm = document.getElementById("exp-form");
-  const expNameInput = document.getElementById("exp-name");
-  const expCategorySelect = document.getElementById("exp-category");
-  const expTextArea = document.getElementById("exp-text");
-
-  expForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const name = expNameInput.value.trim();
-    const category = expCategorySelect.value;
-    const story = expTextArea.value.trim();
-
-    if (!story) {
-      alert("Please write something before submitting.");
-      return;
-    }
-
-    const { error } = await supabase.from("experiences").insert([{ name, category, story }]);
-    if (error) {
-      alert("Could not save your story right now.");
-      console.error(error);
-      return;
-    }
-
-    expNameInput.value = "";
-    expTextArea.value = "";
-    await loadExperiences();
-    alert("Thank you for sharing your TechLife experience!");
-  });
-
-  // ---------- Init ----------
-  hubSelect.addEventListener("change", async (e) => {
-    currentHub = e.target.value;
-    await loadAllSections(currentHub);
-  });
-
-  if (isKBAdmin && syncCafesBtn) {
-    syncCafesBtn.style.display = "inline-flex";
-    syncCafesBtn.addEventListener("click", () => {
-      syncCafesForCurrentHub();
-    });
-  }
-
-  // initial load
-  (async function init() {
-    await loadAllSections(currentHub);
-  })();
-</script>
-</body>
-</html>
+      companies
