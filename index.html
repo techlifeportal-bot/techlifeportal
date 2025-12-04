@@ -383,7 +383,7 @@
     <nav>
       <ul>
         <li><a href="#cafes">Cafés</a></li>
-        <li><a href="#gyms">Gyms</li>
+        <li><a href="#gyms">Gyms</a></li>
         <li><a href="#pgs">PGs / Rentals</a></li>
         <li><a href="#companies">Companies</a></li>
         <li><a href="#jobs">IT Jobs</a></li>
@@ -588,12 +588,12 @@
   const expStatus = document.getElementById("exp-status");
   const expList = document.getElementById("exp-list");
 
-  function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
+  function clearEl(el) { while (el.firstChild) el.removeChild(el.firstChild); }
 
   async function loadCafes(area) {
     cafesSub.textContent = `Loading cafés near ${area}…`;
     cafesStatus.textContent = "";
-    clear(cafesList);
+    clearEl(cafesList);
 
     const { data, error } = await supabase
       .from("cafes")
@@ -632,7 +632,7 @@
   async function loadGyms(area) {
     gymsSub.textContent = `Loading gyms near ${area}…`;
     gymsStatus.textContent = "";
-    clear(gymsList);
+    clearEl(gymsList);
 
     const { data, error } = await supabase
       .from("gyms")
@@ -671,7 +671,7 @@
   async function loadPGs(area) {
     pgsSub.textContent = `Loading PGs & rentals near ${area}…`;
     pgsStatus.textContent = "";
-    clear(pgsList);
+    clearEl(pgsList);
 
     const { data, error } = await supabase
       .from("pgs")
@@ -710,7 +710,7 @@
   async function loadCompanies() {
     companiesSub.textContent = "Loading companies…";
     companiesStatus.textContent = "";
-    clear(companiesList);
+    clearEl(companiesList);
 
     const { data, error } = await supabase
       .from("companies")
@@ -718,4 +718,159 @@
       .order("name", { ascending: true });
 
     if (error) {
-      companies
+      companiesSub.textContent = "Could not load companies right now.";
+      companiesStatus.textContent = error.message;
+      companiesStatus.classList.add("status-error");
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      companiesSub.textContent = "No companies added yet.";
+      const p = document.createElement("div");
+      p.className = "empty-text";
+      p.textContent = "Add IT companies in Supabase to show them here.";
+      companiesList.appendChild(p);
+      return;
+    }
+
+    companiesSub.textContent = "Companies around Bangalore tech clusters.";
+    data.forEach(row => {
+      const item = document.createElement("div");
+      item.className = "item";
+      item.innerHTML = `
+        <div class="item-title">${row.name || "Company"}</div>
+        <div class="item-meta">
+          ${row.industry ? row.industry + " · " : ""}${row.area || "Bangalore"}
+        </div>
+      `;
+      companiesList.appendChild(item);
+    });
+  }
+
+  async function loadJobs() {
+    jobsSub.textContent = "Loading job listings…";
+    jobsStatus.textContent = "";
+    clearEl(jobsList);
+
+    const { data, error } = await supabase
+      .from("jobs")
+      .select("id, role, company, experience, skills, location, created_at")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      jobsSub.textContent = "Could not load jobs right now.";
+      jobsStatus.textContent = error.message;
+      jobsStatus.classList.add("status-error");
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      jobsSub.textContent = "No job listings added yet.";
+      const p = document.createElement("div");
+      p.className = "empty-text";
+      p.textContent = "Add curated Bangalore IT jobs in Supabase to show them here.";
+      jobsList.appendChild(p);
+      return;
+    }
+
+    jobsSub.textContent = "Curated roles for Bangalore-based IT employees.";
+    data.forEach(row => {
+      const item = document.createElement("div");
+      item.className = "item";
+      item.innerHTML = `
+        <div class="item-title">${row.role || "IT Role"} – ${row.company || "Company"}</div>
+        <div class="item-meta">
+          ${row.location || "Bangalore"} · ${row.experience || "0–5 years"}<br/>
+          ${row.skills || ""}
+        </div>
+      `;
+      jobsList.appendChild(item);
+    });
+  }
+
+  async function loadExperiences() {
+    expStatus.textContent = "";
+    clearEl(expList);
+
+    const { data, error } = await supabase
+      .from("experiences")
+      .select("id, name, category, story, created_at")
+      .order("created_at", { ascending: false })
+      .limit(10);
+
+    if (error) {
+      expStatus.textContent = "Could not load experiences.";
+      expStatus.classList.add("status-error");
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      const p = document.createElement("div");
+      p.className = "empty-text";
+      p.textContent = "No experiences shared yet. Be the first to add one!";
+      expList.appendChild(p);
+      return;
+    }
+
+    data.forEach(row => {
+      const item = document.createElement("div");
+      item.className = "item";
+      const who = row.name || "Anonymous";
+      const cat = row.category ? ` (${row.category})` : "";
+      item.innerHTML = `
+        <div class="item-title">${who}${cat}</div>
+        <div class="item-meta">${row.story || ""}</div>
+      `;
+      expList.appendChild(item);
+    });
+  }
+
+  async function refreshForHub(area) {
+    await Promise.all([
+      loadCafes(area),
+      loadGyms(area),
+      loadPGs(area)
+    ]);
+  }
+
+  hubSelect.addEventListener("change", () => {
+    const area = hubSelect.value;
+    refreshForHub(area);
+  });
+
+  expForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    expStatus.textContent = "";
+    const name = expName.value.trim();
+    const category = expCategory.value;
+    const story = expStory.value.trim();
+    if (!story) {
+      expStatus.textContent = "Please write something before submitting.";
+      return;
+    }
+    const { error } = await supabase.from("experiences").insert([{ name, category, story }]);
+    if (error) {
+      expStatus.textContent = "Could not save your experience right now.";
+      expStatus.classList.add("status-error");
+      return;
+    }
+    expName.value = "";
+    expStory.value = "";
+    expStatus.textContent = "Thank you for sharing your TechLife experience!";
+    await loadExperiences();
+  });
+
+  // Initial load
+  (async function init() {
+    const defaultArea = hubSelect.value;
+    await Promise.all([
+      refreshForHub(defaultArea),
+      loadCompanies(),
+      loadJobs(),
+      loadExperiences()
+    ]);
+  })();
+</script>
+
+</body>
+</html>
