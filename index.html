@@ -552,6 +552,17 @@
 <!-- Supabase client & data loading -->
 <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  function escapeHtml(str) {
+  if (!str) return "";
+  return String(str).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[c]));
+}
+
 
   // 🔐 KB: put your real Supabase details here (DO NOT share them with anyone)
   const SUPABASE_URL = "https://tpysvvpswkepuyzfyxcb.supabase.co";       // e.g. https://xxxx.supabase.co
