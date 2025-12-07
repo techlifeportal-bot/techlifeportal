@@ -16,12 +16,18 @@
       name="description"
       content="TechLifePortal is your AI-assisted lifestyle & jobs guide for Bangalore IT employees. Discover cafés, gyms, PGs, rentals, companies and curated IT jobs around tech hubs like Electronic City, Bellandur, Whitefield and Manyata."
     />
-    <meta name="keywords" content="KB, TechLifePortal, Bangalore IT, cafes, PGs, rentals, IT jobs, companies" />
+    <meta
+      name="keywords"
+      content="KB, TechLifePortal, Bangalore IT, cafes, PGs, rentals, IT jobs, companies"
+    />
     <meta name="robots" content="index,follow" />
 
     <!-- Open Graph (Social preview) -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="TechLifePortal – Bangalore IT Lifestyle & Jobs (Beta)" />
+    <meta
+      property="og:title"
+      content="TechLifePortal – Bangalore IT Lifestyle & Jobs (Beta)"
+    />
     <meta
       property="og:description"
       content="AI-assisted lifestyle & career companion for IT employees in Bangalore. Cafés, gyms, PGs, rentals, IT companies and curated IT jobs – built with AI + Supabase + Vercel."
@@ -39,7 +45,12 @@
       body {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
           sans-serif;
-        background: radial-gradient(circle at top, #e6f2ff 0, #f3f6fb 40%, #f7f8fc 100%);
+        background: radial-gradient(
+          circle at top,
+          #e6f2ff 0,
+          #f3f6fb 40%,
+          #f7f8fc 100%
+        );
         color: #111827;
         line-height: 1.5;
       }
@@ -219,7 +230,11 @@
       .hero-right {
         border-radius: 20px;
         padding: 16px 18px;
-        background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617);
+        background: radial-gradient(
+          circle at top,
+          rgba(15, 23, 42, 0.9),
+          #020617
+        );
         border: 1px solid rgba(148, 163, 184, 0.65);
         box-shadow: 0 18px 34px rgba(15, 23, 42, 0.85);
       }
@@ -571,8 +586,9 @@
             curated IT jobs around major tech hubs.
           </p>
           <p class="hero-areas">
-            Tech hubs: <strong>Electronic City</strong>, <strong>Bellandur</strong>,
-            <strong> Whitefield</strong>, <strong>Manyata Tech Park</strong>.
+            Tech hubs: <strong>Electronic City</strong>,
+            <strong>Bellandur</strong>, <strong>Whitefield</strong>,
+            <strong>Manyata Tech Park</strong>.
           </p>
           <div class="hero-built">
             <span>Built with AI + Supabase + Vercel</span>
@@ -584,7 +600,8 @@
               💼 <span>IT jobs 0–5 yrs experience</span>
             </div>
             <div class="badge-pill">
-              🏙️ <span>Tech hubs: EC, Bellandur, Whitefield, Manyata</span>
+              🏙️
+              <span>Tech hubs: EC, Bellandur, Whitefield, Manyata</span>
             </div>
           </div>
         </div>
@@ -740,15 +757,13 @@
                 </select>
               </div>
               <div class="form-row">
-                <label for="exp-story">Write your TechLife experience</label>
+                <label for="exp-story">Your story</label>
                 <textarea
                   id="exp-story"
-                  placeholder="Example: My first PG near Electronic City, daily commute, favourite café, or a weekend getaway..."
+                  placeholder="Share what happened, where, and how it felt as an IT employee in Bangalore..."
                 ></textarea>
               </div>
-              <button type="submit" class="btn-primary">
-                Submit Experience
-              </button>
+              <button type="submit" class="btn-primary">Submit experience</button>
             </form>
 
             <div id="experiences-list" class="list">
@@ -756,439 +771,408 @@
             </div>
           </div>
         </section>
-      </div>
 
-      <!-- ABOUT -->
-      <section id="about" class="section-card" style="margin-top: 16px">
-        <div class="section-header">
-          <div class="section-title">
-            <span class="emoji">ℹ️</span>
-            <h2>About TechLifePortal</h2>
+        <!-- About -->
+        <section id="about" class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="emoji">ℹ️</span>
+              <h2>About TechLifePortal</h2>
+            </div>
           </div>
-        </div>
-        <p class="section-subtitle" style="margin-bottom: 6px">
-          TechLifePortal is a fully AI-assisted lifestyle & career assistant for
-          IT employees living and working in Bangalore.
-        </p>
-        <p class="section-subtitle">
-          The goal is simple: help professionals quickly find cafés, gyms, PGs,
-          rentals, and job opportunities around tech hubs like Electronic City,
-          Bellandur, Whitefield, Manyata Tech Park and beyond – with as much
-          automation as possible.
-        </p>
-        <br />
-        <p class="section-subtitle">
-          <strong>Founder:</strong>
-          <span class="founder-tag" style="margin-left: 4px"
-            >KB – building an AI-first portal for India’s tech workforce.</span
-          >
-        </p>
-      </section>
+          <p class="section-subtitle">
+            TechLifePortal is built for Bangalore IT employees – starting with
+            Electronic City, Bellandur, Whitefield and Manyata, and expanding
+            to more hubs and cities soon.
+          </p>
+          <div class="list">
+            <div class="card">
+              <div class="card-title">Mission</div>
+              <div class="card-line">
+                Help every IT employee quickly find where to work, live, gym,
+                eat, and grow their career around their tech hub – powered by
+                AI, not endless Google searching.
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">Built by</div>
+              <div class="card-line">
+                <strong>KB</strong> as a side project, using AI, Supabase and
+                Vercel. In the future, AI will auto-update listings, jobs and
+                experiences; your role is just to explore and share.
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer>
       <p>
-        Contact / listings / collaboration:
-        <a href="mailto:techlifeportal@gmail.com">techlifeportal@gmail.com</a>
+        © <span id="year"></span> TechLifePortal. Built with AI, Supabase &
+        Vercel for Bangalore IT employees.
       </p>
       <p>
-        This portal will gradually become more
-        <strong>AI-driven</strong> – automatically syncing more data sources and
-        helping IT professionals live smarter around India’s tech hubs.
+        Feedback / collaborations:
+        <a href="mailto:techlifeportal.in@gmail.com"
+          >techlifeportal.in@gmail.com</a
+        >
       </p>
     </footer>
 
-    <!-- APP LOGIC -->
     <script>
-      // ---------- Supabase client ----------
-      const SUPABASE_URL = "https://tpysvvpswkepuyzfyxcb.supabase.co";
+      // Set year in footer
+      document.getElementById("year").textContent =
+        new Date().getFullYear();
+    </script>
+
+    <!-- Supabase + dynamic loading script -->
+    <script>
+      // 1) Supabase client (PUT YOUR REAL VALUES HERE)
+      const SUPABASE_URL = "tpysvvpswkepuyzfyxcb";
       const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweXN2dnBzd2tlcHV5emZ5eGNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3NTE5MTIsImV4cCI6MjA4MDMyNzkxMn0.EzyDrXdsQnDGXL4ixPOeX5Xg7C35ELYkHPatypOsHU4";
 
-      const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const client = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
 
-      // ---------- Helpers ----------
-      function escapeHtml(str) {
-        if (!str) return "";
-        return String(str).replace(/[&<>"']/g, (c) =>
-          ({
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;",
-          }[c])
-        );
-      }
+      // 2) DOM elements
+      const hubSelect = document.getElementById("hub-select");
+      const cafesList = document.getElementById("cafes-list");
+      const gymsList = document.getElementById("gyms-list");
+      const pgsList = document.getElementById("pgs-list");
+      const companiesList = document.getElementById("companies-list");
+      const jobsList = document.getElementById("jobs-list");
 
-      function friendlyPrice(row) {
-        // Derive some price / budget text if available
-        if (row.price) return `Approx ₹${row.price}`;
-        if (row.rent) return `Rent: ₹${row.rent}`;
-        if (row.budget) return `Budget: ${row.budget}`;
-        if (row.price_range) return row.price_range;
-        return "";
-      }
+      const expForm = document.getElementById("experience-form");
+      const expName = document.getElementById("exp-name");
+      const expCategory = document.getElementById("exp-category");
+      const expStory = document.getElementById("exp-story");
+      const expListContainer = document.getElementById("experiences-list");
 
-      async function fetchTable(table, hub, options = {}) {
-        const { noHubFilter = false } = options;
-        let query = client.from(table).select("*").order("id", {
-          ascending: true,
-        });
-
-        if (hub && !noHubFilter) {
-          query = query.eq("hub", hub);
+      // 3) Helpers to render cards
+      function renderPlaceList(targetEl, rows, type) {
+        if (!rows || rows.length === 0) {
+          targetEl.textContent = `No ${type} found for this hub (yet).`;
+          return;
         }
 
-        let { data, error } = await query;
+        targetEl.innerHTML = "";
 
-        // If hub column doesn't exist, retry without filter
-        if (error && error.message && error.message.includes("hub")) {
-          const retry = await client.from(table).select("*").order("id", {
-            ascending: true,
-          });
-          data = retry.data;
-          error = retry.error;
-        }
+        rows.forEach((row) => {
+          const card = document.createElement("div");
+          card.className = "card";
 
-        if (error) throw error;
-        return data || [];
-      }
+          const title = document.createElement("div");
+          title.className = "card-title";
+          title.textContent = row.name || "Unnamed";
 
-      // ---------- Render functions ----------
-      async function loadCafes(hub) {
-        const container = document.getElementById("cafes-list");
-        if (!container) return;
-        container.textContent = "Loading cafés…";
+          const line = document.createElement("div");
+          line.className = "card-line";
+          line.textContent =
+            row.ai_summary ||
+            row.description ||
+            row.short_desc ||
+            "Details coming soon.";
 
-        try {
-          const rows = await fetchTable("cafes", hub);
-          if (!rows.length) {
-            container.textContent = "No cafés added yet.";
-            return;
+          const meta = document.createElement("div");
+          meta.className = "card-meta";
+
+          const badge = document.createElement("span");
+          badge.className = "badge";
+          badge.textContent = row.tag || row.type || type;
+          meta.appendChild(badge);
+
+          if (row.maps_url) {
+            const mapLink = document.createElement("a");
+            mapLink.className = "map-link";
+            mapLink.href = row.maps_url;
+            mapLink.target = "_blank";
+            mapLink.rel = "noopener noreferrer";
+            mapLink.textContent = "Open in Maps";
+            meta.appendChild(mapLink);
+          } else if (row.location) {
+            meta.appendChild(document.createTextNode(" " + row.location));
           }
-          container.innerHTML = "";
-          rows.forEach((row) => {
-            const div = document.createElement("div");
-            div.className = "card";
-            const name = escapeHtml(row.name || "Cafe");
-            const area = escapeHtml(row.area || hub || "");
-            const addr = escapeHtml(row.address || "");
-            const tags = row.tags || row.notes || "";
-            const mapsUrl = row.maps_url || row.map_url || row.gmap_url || "";
 
-            div.innerHTML = `
-              <div class="card-title">${name}</div>
-              <div class="card-line">${addr}</div>
-              <div class="card-meta">
-                ${area ? `<span class="badge">${area}</span>` : ""}
-                ${
-                  tags
-                    ? `<span>${escapeHtml(
-                        typeof tags === "string" ? tags : tags.join(", ")
-                      )}</span>`
-                    : ""
-                }
-                ${
-                  mapsUrl
-                    ? `<span> · <a class="map-link" href="${escapeHtml(
-                        mapsUrl
-                      )}" target="_blank" rel="noopener noreferrer">Open in Maps</a></span>`
-                    : ""
-                }
-              </div>
-            `;
-            container.appendChild(div);
-          });
-        } catch (err) {
-          console.error("Error loading cafes:", err);
-          container.textContent = "Could not load cafés right now.";
+          card.appendChild(title);
+          card.appendChild(line);
+          card.appendChild(meta);
+
+          targetEl.appendChild(card);
+        });
+      }
+
+      function renderJobsList(targetEl, rows) {
+        if (!rows || rows.length === 0) {
+          targetEl.textContent = "No IT jobs found for this hub right now.";
+          return;
         }
+
+        targetEl.innerHTML = "";
+
+        rows.forEach((job) => {
+          const card = document.createElement("div");
+          card.className = "card";
+
+          const title = document.createElement("div");
+          title.className = "card-title";
+          title.textContent = job.title || "Role";
+
+          const line = document.createElement("div");
+          line.className = "card-line";
+          line.textContent =
+            job.ai_summary ||
+            job.short_desc ||
+            job.description ||
+            "Job details coming soon.";
+
+          const meta = document.createElement("div");
+          meta.className = "card-meta";
+
+          if (job.company_name) {
+            const companySpan = document.createElement("span");
+            companySpan.className = "badge";
+            companySpan.textContent = job.company_name;
+            meta.appendChild(companySpan);
+          }
+
+          if (job.experience_range) {
+            const expSpan = document.createElement("span");
+            expSpan.className = "badge";
+            expSpan.textContent = job.experience_range;
+            meta.appendChild(expSpan);
+          }
+
+          if (job.apply_url) {
+            const applyLink = document.createElement("a");
+            applyLink.className = "map-link";
+            applyLink.href = job.apply_url;
+            applyLink.target = "_blank";
+            applyLink.rel = "noopener noreferrer";
+            applyLink.textContent = "Apply";
+            meta.appendChild(applyLink);
+          }
+
+          card.appendChild(title);
+          card.appendChild(line);
+          card.appendChild(meta);
+
+          targetEl.appendChild(card);
+        });
+      }
+
+      // 4) Fetch functions for each section (adjust table names if needed)
+      async function loadCafes(hub) {
+        cafesList.textContent = "Loading cafés…";
+        const { data, error } = await client
+          .from("cafes")
+          .select("*")
+          .eq("hub", hub)
+          .order("priority", { ascending: true });
+
+        if (error) {
+          console.error("Error loading cafes:", error);
+          cafesList.textContent = "Could not load cafés.";
+          return;
+        }
+        renderPlaceList(cafesList, data, "cafés");
       }
 
       async function loadGyms(hub) {
-        const container = document.getElementById("gyms-list");
-        if (!container) return;
-        container.textContent = "Loading gyms…";
+        gymsList.textContent = "Loading gyms…";
+        const { data, error } = await client
+          .from("gyms")
+          .select("*")
+          .eq("hub", hub)
+          .order("priority", { ascending: true });
 
-        try {
-          const rows = await fetchTable("gyms", hub);
-          if (!rows.length) {
-            container.textContent = "No gyms added yet.";
-            return;
-          }
-          container.innerHTML = "";
-          rows.forEach((row) => {
-            const div = document.createElement("div");
-            div.className = "card";
-            const name = escapeHtml(row.name || "Gym");
-            const addr = escapeHtml(row.address || "");
-            const area = escapeHtml(row.area || hub || "");
-            const mapsUrl = row.maps_url || row.map_url || "";
-
-            div.innerHTML = `
-              <div class="card-title">${name}</div>
-              <div class="card-line">${addr}</div>
-              <div class="card-meta">
-                ${area ? `<span class="badge">${area}</span>` : ""}
-                ${
-                  mapsUrl
-                    ? `<a class="map-link" href="${escapeHtml(
-                        mapsUrl
-                      )}" target="_blank" rel="noopener noreferrer">Open in Maps</a>`
-                    : ""
-                }
-              </div>
-            `;
-            container.appendChild(div);
-          });
-        } catch (err) {
-          console.error("Error loading gyms:", err);
-          container.textContent = "Could not load gyms right now.";
+        if (error) {
+          console.error("Error loading gyms:", error);
+          gymsList.textContent = "Could not load gyms.";
+          return;
         }
+        renderPlaceList(gymsList, data, "gyms");
       }
 
-      async function loadPgs(hub) {
-        const container = document.getElementById("pgs-list");
-        if (!container) return;
-        container.textContent = "Loading PGs & rentals…";
+      async function loadPGs(hub) {
+        pgsList.textContent = "Loading PGs & rentals…";
+        const { data, error } = await client
+          .from("pgs_rentals")
+          .select("*")
+          .eq("hub", hub)
+          .order("priority", { ascending: true });
 
-        try {
-          const rows = await fetchTable("pgs", hub);
-          if (!rows.length) {
-            container.textContent = "No PGs / rentals added yet.";
-            return;
-          }
-          container.innerHTML = "";
-          rows.forEach((row) => {
-            const div = document.createElement("div");
-            div.className = "card";
-            const name = escapeHtml(row.name || "PG / Rental");
-            const addr = escapeHtml(row.address || "");
-            const area = escapeHtml(row.area || hub || "");
-            const priceText = friendlyPrice(row);
-
-            div.innerHTML = `
-              <div class="card-title">${name}</div>
-              <div class="card-line">${addr}</div>
-              <div class="card-meta">
-                ${area ? `<span class="badge">${area}</span>` : ""}
-                ${priceText ? `<span>${escapeHtml(priceText)}</span>` : ""}
-              </div>
-            `;
-            container.appendChild(div);
-          });
-        } catch (err) {
-          console.error("Error loading PGs:", err);
-          container.textContent = "Could not load PGs / rentals right now.";
+        if (error) {
+          console.error("Error loading pgs:", error);
+          pgsList.textContent = "Could not load PGs & rentals.";
+          return;
         }
+        renderPlaceList(pgsList, data, "PGs & rentals");
       }
 
       async function loadCompanies(hub) {
-        const container = document.getElementById("companies-list");
-        if (!container) return;
-        container.textContent = "Loading companies…";
+        companiesList.textContent = "Loading companies…";
+        const { data, error } = await client
+          .from("companies")
+          .select("*")
+          .eq("hub", hub)
+          .order("priority", { ascending: true });
 
-        try {
-          const rows = await fetchTable("companies", hub);
-          if (!rows.length) {
-            container.textContent = "No companies added yet.";
-            return;
-          }
-          container.innerHTML = "";
-          rows.forEach((row) => {
-            const div = document.createElement("div");
-            div.className = "card";
-            const name = escapeHtml(row.name || "Company");
-            const area = escapeHtml(row.area || hub || "");
-            const location = escapeHtml(row.location || "");
-            const stack = escapeHtml(row.stack || row.domain || "");
-
-            div.innerHTML = `
-              <div class="card-title">${name}</div>
-              <div class="card-line">${location}</div>
-              <div class="card-meta">
-                ${area ? `<span class="badge">${area}</span>` : ""}
-                ${stack ? `<span>${stack}</span>` : ""}
-              </div>
-            `;
-            container.appendChild(div);
-          });
-        } catch (err) {
-          console.error("Error loading companies:", err);
-          container.textContent = "Could not load companies right now.";
+        if (error) {
+          console.error("Error loading companies:", error);
+          companiesList.textContent = "Could not load companies.";
+          return;
         }
+        renderPlaceList(companiesList, data, "companies");
       }
 
       async function loadJobs(hub) {
-        const container = document.getElementById("jobs-list");
-        if (!container) return;
-        container.textContent = "Loading IT jobs…";
+        jobsList.textContent = "Loading IT jobs…";
+        const { data, error } = await client
+          .from("jobs")
+          .select("*")
+          .eq("hub", hub)
+          .order("priority", { ascending: true });
 
-        try {
-          const rows = await fetchTable("jobs", hub, { noHubFilter: true }); // jobs may not be tied to hub
-          if (!rows.length) {
-            container.textContent = "No job listings added yet.";
-            return;
-          }
-          container.innerHTML = "";
-          rows.forEach((row) => {
-            const div = document.createElement("div");
-            div.className = "card";
-            const title = escapeHtml(row.title || "IT Role");
-            const company = escapeHtml(row.company || "");
-            const exp = escapeHtml(row.experience || "");
-            const area = escapeHtml(row.location || hub || "");
-            const stack = escapeHtml(row.stack || row.skills || "");
-
-            div.innerHTML = `
-              <div class="card-title">${title}</div>
-              <div class="card-line">
-                ${company ? company + " · " : ""}${area}
-              </div>
-              <div class="card-meta">
-                ${exp ? `<span class="badge">${exp}</span>` : ""}
-                ${stack ? `<span>${stack}</span>` : ""}
-              </div>
-            `;
-            container.appendChild(div);
-          });
-        } catch (err) {
-          console.error("Error loading jobs:", err);
-          container.textContent = "Could not load jobs right now.";
+        if (error) {
+          console.error("Error loading jobs:", error);
+          jobsList.textContent = "Could not load jobs.";
+          return;
         }
+        renderJobsList(jobsList, data);
       }
 
-      async function loadExperiences() {
-        const container = document.getElementById("experiences-list");
-        if (!container) return;
-        container.textContent = "Loading experiences…";
+      async function loadExperiences(hub) {
+        if (!expListContainer) return;
 
-        try {
-          const { data, error } = await client
-            .from("experiences")
-            .select("*")
-            .order("id", { ascending: false })
-            .limit(20);
+        expListContainer.textContent = "Loading experiences…";
 
-          if (error) {
-            console.error("Error loading experiences:", error);
-            container.textContent = "Could not load experiences right now.";
-            return;
-          }
+        const { data, error } = await client
+          .from("experiences")
+          .select("*")
+          .eq("hub", hub)
+          .order("created_at", { ascending: false })
+          .limit(20);
 
-          const rows = data || [];
-          if (!rows.length) {
-            container.textContent = "No experiences added yet.";
-            return;
-          }
-
-          container.innerHTML = "";
-          rows.forEach((exp) => {
-            const div = document.createElement("div");
-            div.className = "card experience-card";
-            const name = escapeHtml(exp.name || "Anonymous");
-            const cat = escapeHtml(exp.category || "");
-            const story = escapeHtml(exp.story || "");
-            const date = exp.created_at
-              ? new Date(exp.created_at).toLocaleDateString()
-              : "";
-
-            div.innerHTML = `
-              <div class="experience-header">
-                <strong>${name}</strong>
-                ${cat ? `<span class="experience-pill">${cat}</span>` : ""}
-              </div>
-              <p class="experience-story">${story}</p>
-              ${
-                date
-                  ? `<div class="experience-meta">Shared on ${date}</div>`
-                  : ""
-              }
-            `;
-            container.appendChild(div);
-          });
-        } catch (err) {
-          console.error("Unexpected error loading experiences:", err);
-          container.textContent = "Could not load experiences right now.";
+        if (error) {
+          console.error("Error loading experiences:", error);
+          expListContainer.textContent = "Could not load experiences.";
+          return;
         }
-      }
 
-      // ---------- Form submission for experiences ----------
-      const experienceForm = document.getElementById("experience-form");
-      if (experienceForm) {
-        experienceForm.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const nameInput = document.getElementById("exp-name");
-          const categoryInput = document.getElementById("exp-category");
-          const storyInput = document.getElementById("exp-story");
-          const submitBtn = experienceForm.querySelector(
-            "button[type='submit']"
-          );
+        if (!data || data.length === 0) {
+          expListContainer.textContent =
+            "No experiences for this hub yet. Be the first to share one!";
+          return;
+        }
 
-          const story = storyInput.value.trim();
-          if (!story) {
-            alert("Please write a short experience before submitting.");
-            return;
-          }
+        expListContainer.innerHTML = "";
 
-          submitBtn.disabled = true;
-          submitBtn.textContent = "Submitting…";
+        data.forEach((exp) => {
+          const card = document.createElement("div");
+          card.className = "card experience-card";
 
-          try {
-            const { error } = await client.from("experiences").insert([
-              {
-                name: nameInput.value.trim() || null,
-                category: categoryInput.value || null,
-                story,
-              },
-            ]);
+          const header = document.createElement("div");
+          header.className = "experience-header";
 
-            if (error) {
-              console.error("Error saving experience:", error);
-              alert(
-                "Could not save your experience right now. Please try again later."
-              );
-            } else {
-              alert("Thank you for sharing your TechLife experience!");
-              experienceForm.reset();
-              await loadExperiences();
-            }
-          } catch (err) {
-            console.error("Unexpected error saving experience:", err);
-            alert(
-              "Could not save your experience right now. Please try again later."
-            );
-          } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Submit Experience";
-          }
+          const left = document.createElement("div");
+          const pill = document.createElement("span");
+          pill.className = "experience-pill";
+          pill.textContent = exp.category || "Experience";
+          left.appendChild(pill);
+
+          const right = document.createElement("div");
+          right.textContent = exp.name ? `by ${exp.name}` : "Anonymous";
+
+          header.appendChild(left);
+          header.appendChild(right);
+
+          const story = document.createElement("div");
+          story.className = "experience-story";
+          story.textContent = exp.story || "";
+
+          const meta = document.createElement("div");
+          meta.className = "experience-meta";
+          meta.textContent = exp.hub || hub;
+
+          card.appendChild(header);
+          card.appendChild(story);
+          card.appendChild(meta);
+
+          expListContainer.appendChild(card);
         });
       }
 
-      // ---------- Orchestration ----------
-      async function loadAllForHub(hub) {
+      // 5) Hub change handler
+      async function refreshAllForHub(hub) {
         await Promise.all([
           loadCafes(hub),
           loadGyms(hub),
-          loadPgs(hub),
+          loadPGs(hub),
           loadCompanies(hub),
           loadJobs(hub),
+          loadExperiences(hub),
         ]);
-        await loadExperiences(); // independent of hub
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const hubSelect = document.getElementById("hub-select");
-        let currentHub = hubSelect ? hubSelect.value : "Electronic City";
+      hubSelect.addEventListener("change", (e) => {
+        const hub = e.target.value;
+        refreshAllForHub(hub);
+      });
 
-        loadAllForHub(currentHub);
+      // 6) Experiences form submit
+      if (expForm) {
+        expForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
 
-        if (hubSelect) {
-          hubSelect.addEventListener("change", () => {
-            currentHub = hubSelect.value;
-            loadAllForHub(currentHub);
+          const name = expName.value.trim() || null;
+          const category = expCategory.value;
+          const hub = hubSelect.value;
+          const story = expStory.value.trim();
+
+          if (!story) {
+            alert("Please share at least a short story.");
+            return;
+          }
+
+          const btn = expForm.querySelector("button[type='submit']");
+          const oldText = btn.textContent;
+          btn.disabled = true;
+          btn.textContent = "Saving…";
+
+          const { error } = await client.from("experiences").insert({
+            name,
+            category,
+            hub,
+            story,
+            ai_summary: null,
+            sentiment: null,
           });
-        }
+
+          btn.disabled = false;
+          btn.textContent = oldText;
+
+          if (error) {
+            console.error("Error saving experience:", error);
+            alert("Something went wrong while saving. Please try again.");
+            return;
+          }
+
+          expName.value = "";
+          expStory.value = "";
+          alert("Thanks for sharing your experience!");
+
+          // reload list
+          loadExperiences(hub);
+        });
+      }
+
+      // 7) Initial load (default hub)
+      document.addEventListener("DOMContentLoaded", () => {
+        const initialHub = hubSelect.value;
+        refreshAllForHub(initialHub);
       });
     </script>
   </body>
