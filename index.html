@@ -763,7 +763,9 @@
                   placeholder="Share what happened, where, and how it felt as an IT employee in Bangalore..."
                 ></textarea>
               </div>
-              <button type="submit" class="btn-primary">Submit experience</button>
+              <button type="submit" class="btn-primary">
+                Submit experience
+              </button>
             </form>
 
             <div id="experiences-list" class="list">
@@ -821,21 +823,24 @@
     </footer>
 
     <script>
-      // Set year in footer
-      document.getElementById("year").textContent =
-        new Date().getFullYear();
+      document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 
     <!-- Supabase + dynamic loading script -->
     <script>
-      // 1) Supabase client (PUT YOUR REAL VALUES HERE)
-      const SUPABASE_URL = "https://tpysvvpswkepuyzfyxcb.supabase.co";
+      // 1) Supabase client
+      // 🔐 VERY IMPORTANT:
+      // Replace ONLY the two strings below with your real values from
+      // Supabase → Settings → API
+      const SUPABASE_URL = "https://tpysvvpswkepuyzfyxcb.supabase.co"; // like https://xxxx.supabase.co
       const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweXN2dnBzd2tlcHV5emZ5eGNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3NTE5MTIsImV4cCI6MjA4MDMyNzkxMn0.EzyDrXdsQnDGXL4ixPOeX5Xg7C35ELYkHPatypOsHU4";
 
       const client = window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_ANON_KEY
       );
+
+      console.log("Supabase URL in page:", SUPABASE_URL);
 
       // 2) DOM elements
       const hubSelect = document.getElementById("hub-select");
@@ -963,7 +968,7 @@
         });
       }
 
-      // 4) Fetch functions for each section (adjust table names if needed)
+      // 4) Fetch functions for each section
       async function loadCafes(hub) {
         cafesList.textContent = "Loading cafés…";
         const { data, error } = await client
@@ -1164,12 +1169,11 @@
           expStory.value = "";
           alert("Thanks for sharing your experience!");
 
-          // reload list
           loadExperiences(hub);
         });
       }
 
-      // 7) Initial load (default hub)
+      // 7) Initial load
       document.addEventListener("DOMContentLoaded", () => {
         const initialHub = hubSelect.value;
         refreshAllForHub(initialHub);
