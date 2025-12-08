@@ -511,6 +511,55 @@
         margin-top: 3px;
       }
 
+      /* Admin Panel */
+      .admin-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .admin-badge {
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.06);
+        border: 1px dashed rgba(15, 23, 42, 0.3);
+        color: #111827;
+      }
+
+      .admin-select {
+        padding: 6px 8px;
+        font-size: 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.9);
+        background: #ffffff;
+      }
+
+      .admin-list-empty {
+        font-size: 12px;
+        color: #6b7280;
+      }
+
+      .admin-tag {
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        margin-right: 4px;
+      }
+
+      .admin-tag-status-active {
+        background: #bbf7d0;
+        color: #166534;
+      }
+
+      .admin-tag-status-closed {
+        background: #fecaca;
+        color: #991b1b;
+      }
+
       footer {
         max-width: 1120px;
         margin: 30px auto 10px auto;
@@ -568,6 +617,7 @@
           <a href="#jobs">IT Jobs</a>
           <a href="#experiences">Experiences</a>
           <a href="#about">About</a>
+          <a href="#admin">Admin</a>
         </nav>
       </div>
     </header>
@@ -806,6 +856,41 @@
             </div>
           </div>
         </section>
+
+        <!-- ADMIN PANEL (read-only overview) -->
+        <section id="admin" class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="emoji">🛠️</span>
+              <h2>Admin – Hub Resources Overview</h2>
+            </div>
+            <span class="live-pill">Owner View</span>
+          </div>
+          <p class="section-subtitle">
+            Internal overview for you (KB) to see how many cafés, gyms,
+            rentals, companies and jobs exist per hub, along with AI-control
+            fields like <code>status</code>, <code>source</code> and
+            <code>last_verified_at</code>.
+          </p>
+
+          <div class="admin-bar">
+            <span class="admin-badge">
+              Current hub: <span id="admin-hub-label">Electronic City</span>
+            </span>
+            <select id="admin-type-select" class="admin-select">
+              <option value="cafes">Cafés</option>
+              <option value="gyms">Gyms</option>
+              <option value="pgs_rentals">PGs & Rentals</option>
+              <option value="companies">Companies</option>
+              <option value="jobs">Jobs</option>
+              <option value="experiences">Experiences</option>
+            </select>
+          </div>
+
+          <div id="admin-list" class="list admin-list-empty">
+            Loading admin data…
+          </div>
+        </section>
       </div>
     </main>
 
@@ -829,9 +914,7 @@
     <!-- Supabase + dynamic loading script -->
     <script>
       // 1) Supabase client
-      // 🔐 VERY IMPORTANT:
-      // Replace ONLY the two strings below with your real values from
-      // Supabase → Settings → API
+      // Replace ONLY these two strings with real values
       const SUPABASE_URL = "https://tpysvvpswkepuyzfyxcb.supabase.co"; // like https://xxxx.supabase.co
       const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweXN2dnBzd2tlcHV5emZ5eGNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3NTE5MTIsImV4cCI6MjA4MDMyNzkxMn0.EzyDrXdsQnDGXL4ixPOeX5Xg7C35ELYkHPatypOsHU4";
 
@@ -839,8 +922,6 @@
         SUPABASE_URL,
         SUPABASE_ANON_KEY
       );
-
-      console.log("Supabase URL in page:", SUPABASE_URL);
 
       // 2) DOM elements
       const hubSelect = document.getElementById("hub-select");
@@ -855,6 +936,10 @@
       const expCategory = document.getElementById("exp-category");
       const expStory = document.getElementById("exp-story");
       const expListContainer = document.getElementById("experiences-list");
+
+      const adminHubLabel = document.getElementById("admin-hub-label");
+      const adminTypeSelect = document.getElementById("admin-type-select");
+      const adminList = document.getElementById("admin-list");
 
       // 3) Helpers to render cards
       function renderPlaceList(targetEl, rows, type) {
@@ -965,6 +1050,71 @@
           card.appendChild(meta);
 
           targetEl.appendChild(card);
+        });
+      }
+
+      // Admin list renderer (read-only)
+      function renderAdminList(rows, typeLabel, hub) {
+        if (!rows || rows.length === 0) {
+          adminList.classList.add("admin-list-empty");
+          adminList.textContent = `No ${typeLabel} in ${hub} yet.`;
+          return;
+        }
+
+        adminList.classList.remove("admin-list-empty");
+        adminList.innerHTML = "";
+
+        rows.forEach((row) => {
+          const card = document.createElement("div");
+          card.className = "card";
+
+          const title = document.createElement("div");
+          title.className = "card-title";
+          title.textContent = row.name || row.title || "Unnamed";
+
+          const line = document.createElement("div");
+          line.className = "card-line";
+          line.textContent =
+            row.ai_summary ||
+            row.description ||
+            row.short_desc ||
+            row.story ||
+            "No description yet.";
+
+          const meta = document.createElement("div");
+          meta.className = "card-meta";
+
+          // Status tag
+          if (row.status) {
+            const st = document.createElement("span");
+            st.className = "admin-tag admin-tag-status-" + row.status;
+            st.textContent = `status: ${row.status}`;
+            meta.appendChild(st);
+          }
+
+          // Source tag
+          if (row.source) {
+            const src = document.createElement("span");
+            src.className = "admin-tag";
+            src.textContent = `source: ${row.source}`;
+            meta.appendChild(src);
+          }
+
+          // Last verified / reviewed
+          if (row.last_verified_at || row.last_reviewed_at) {
+            const dt = new Date(row.last_verified_at || row.last_reviewed_at);
+            const dtSpan = document.createElement("span");
+            dtSpan.className = "admin-tag";
+            dtSpan.textContent =
+              "checked: " + dt.toLocaleDateString("en-IN", { dateStyle: "medium" });
+            meta.appendChild(dtSpan);
+          }
+
+          card.appendChild(title);
+          card.appendChild(line);
+          card.appendChild(meta);
+
+          adminList.appendChild(card);
         });
       }
 
@@ -1110,8 +1260,38 @@
         });
       }
 
+      // Admin loader
+      async function loadAdminForHub(hub) {
+        if (!adminList) return;
+
+        const table = adminTypeSelect.value;
+        adminList.textContent = "Loading admin data…";
+
+        let typeLabel = table;
+        if (table === "cafes") typeLabel = "cafés";
+        if (table === "pgs_rentals") typeLabel = "PGs & rentals";
+
+        let query = client.from(table).select("*");
+
+        // experiences are also keyed by hub now
+        query = query.eq("hub", hub);
+
+        const { data, error } = await query.order("created_at", {
+          ascending: false,
+        });
+
+        if (error) {
+          console.error("Error loading admin data:", error);
+          adminList.textContent = "Could not load admin data.";
+          return;
+        }
+
+        renderAdminList(data, typeLabel, hub);
+      }
+
       // 5) Hub change handler
       async function refreshAllForHub(hub) {
+        adminHubLabel.textContent = hub;
         await Promise.all([
           loadCafes(hub),
           loadGyms(hub),
@@ -1119,6 +1299,7 @@
           loadCompanies(hub),
           loadJobs(hub),
           loadExperiences(hub),
+          loadAdminForHub(hub),
         ]);
       }
 
@@ -1126,6 +1307,13 @@
         const hub = e.target.value;
         refreshAllForHub(hub);
       });
+
+      if (adminTypeSelect) {
+        adminTypeSelect.addEventListener("change", () => {
+          const hub = hubSelect.value;
+          loadAdminForHub(hub);
+        });
+      }
 
       // 6) Experiences form submit
       if (expForm) {
@@ -1170,6 +1358,7 @@
           alert("Thanks for sharing your experience!");
 
           loadExperiences(hub);
+          loadAdminForHub(hub);
         });
       }
 
