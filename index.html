@@ -1360,49 +1360,55 @@
       // ----- EXPERIENCES FORM -----
 
       const expForm = document.getElementById("experience-form");
-      const expStatus = document.getElementById("exp-status");
+const expStatus = document.getElementById("exp-status");
 
-      if (expForm) {
-        expForm.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          expStatus.textContent = "";
-          const btn = document.getElementById("exp-submit");
-          btn.disabled = true;
+if (expForm) {
+  expForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    expStatus.textContent = "";
+    const btn = document.getElementById("exp-submit");
+    btn.disabled = true;
 
-          const name = document.getElementById("exp-name").value.trim();
-          const category = document.getElementById("exp-category").value;
-          const story = document.getElementById("exp-story").value.trim();
-          const hub = getCurrentHub();
+    const name = document.getElementById("exp-name").value.trim();
+    const category = document.getElementById("exp-category").value;
+    const story = document.getElementById("exp-story").value.trim();
+    const hub = getCurrentHub();
 
-          if (!story) {
-            expStatus.textContent = "Please write a short story.";
-            btn.disabled = false;
-            return;
-          }
+    if (!story) {
+      expStatus.textContent = "Please write a short story.";
+      btn.disabled = false;
+      return;
+    }
 
-          const { error } = await supabaseClient.from("experiences").insert([
-            {
-              name: name || null,
-              category,
-              story,
-              hub,
-              status: "pending",
-              source: "user",
-            },
-          ]);
+    const { data, error } = await supabaseClient
+      .from("experiences")
+      .insert([
+        {
+          name: name || null,
+          category,
+          story,
+          hub,
+          status: "pending",
+          source: "user",
+        },
+      ])
+      .select();
 
-          if (error) {
-            expStatus.textContent = "Could not submit. Please try again.";
-          } else {
-            expStatus.textContent =
-              "Thank you! Your experience was submitted for review.";
-            document.getElementById("exp-story").value = "";
-          }
+    console.log("Experience insert result:", { data, error });
 
-          btn.disabled = false;
-          loadExperiences(hub);
-        });
-      }
+    if (error) {
+      expStatus.textContent =
+        "Error: " + (error.message || "Could not submit. Please try again.");
+    } else {
+      expStatus.textContent =
+        "Thank you! Your experience was submitted for review.";
+      document.getElementById("exp-story").value = "";
+    }
+
+    btn.disabled = false;
+    loadExperiences(hub);
+  });
+}
 
       // Initial load
       refreshAll();
