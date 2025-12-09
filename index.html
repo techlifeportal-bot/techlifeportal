@@ -1198,105 +1198,45 @@
       }
 
       async function loadWeekendSpots(hub) {
-        setLoading("weekend-list", "Loading weekend spots…");
+  setLoading("weekend-list", "Loading weekend spots…");
 
-        const { data, error } = await supabaseClient
-          .from("weekend_spots")
-          .select("*")
-          .eq("hub", hub)
-          .eq("status", "active")
-          .order("priority", { ascending: true });
+  const { data, error } = await supabaseClient
+    .from("weekend_spots")
+    .select("*"); // 👈 NO FILTERS FOR NOW
 
-        const list = document.getElementById("weekend-list");
-        list.innerHTML = "";
+  const list = document.getElementById("weekend-list");
+  list.innerHTML = "";
 
-        if (error) {
-          list.textContent = "Couldn’t load weekend spots.";
-          return;
-        }
+  console.log("Weekend spots data:", data, "error:", error);
 
-        if (!data || !data.length) {
-          list.textContent = "No weekend spots added yet for this hub.";
-          return;
-        }
+  if (error) {
+    list.textContent = "Couldn’t load weekend spots.";
+    return;
+  }
 
-        data.forEach((spot) => {
-          const summary = spot.ai_summary || spot.description || "";
-          const meta =
-            (spot.category ? spot.category + " • " : "") +
-            (spot.location || hub);
+  if (!data || !data.length) {
+    list.textContent = "No weekend spots added yet (even without filters).";
+    return;
+  }
 
-          const card = createCard({
-            title: spot.name,
-            summary,
-            tag: spot.tag,
-            meta,
-            mapsUrl: spot.maps_url,
-          });
+  data.forEach((spot) => {
+    const summary = spot.ai_summary || spot.description || "";
+    const meta =
+      (spot.category ? spot.category + " • " : "") +
+      (spot.location || spot.hub || hub);
 
-          list.appendChild(card);
-        });
-      }
+    const card = createCard({
+      title: spot.name,
+      summary,
+      tag: spot.tag,
+      meta,
+      mapsUrl: spot.maps_url,
+    });
 
-      async function loadExperiences(hub) {
-        const list = document.getElementById("experiences-list");
-        list.textContent = "Loading experiences…";
+    list.appendChild(card);
+  });
+}
 
-        const { data, error } = await supabaseClient
-          .from("experiences")
-          .select("*")
-          .eq("hub", hub)
-          .order("created_at", { ascending: false })
-          .limit(20);
-
-        list.innerHTML = "";
-
-        if (error) {
-          list.textContent = "Couldn’t load experiences.";
-          return;
-        }
-
-        if (!data || !data.length) {
-          list.textContent = "No experiences shared yet for this hub.";
-          return;
-        }
-
-        data.forEach((exp) => {
-          const card = document.createElement("div");
-          card.className = "card experience-card";
-
-          const header = document.createElement("div");
-          header.className = "experience-header";
-
-          const left = document.createElement("div");
-          left.textContent = exp.category || "Experience";
-
-          const right = document.createElement("div");
-          right.className = "experience-pill";
-          right.textContent = exp.hub || hub;
-
-          header.appendChild(left);
-          header.appendChild(right);
-
-          const story = document.createElement("div");
-          story.className = "experience-story";
-          story.textContent = exp.story || "";
-
-          const meta = document.createElement("div");
-          meta.className = "experience-meta";
-          const name = exp.name || "Anonymous";
-          const date = exp.created_at
-            ? new Date(exp.created_at).toLocaleDateString()
-            : "";
-          meta.textContent = name + (date ? " • " + date : "");
-
-          card.appendChild(header);
-          card.appendChild(story);
-          card.appendChild(meta);
-
-          list.appendChild(card);
-        });
-      }
 
       // ----- REFRESH ALL -----
 
