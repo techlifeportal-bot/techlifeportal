@@ -1381,18 +1381,17 @@ if (expForm) {
     }
 
     const { data, error } = await supabaseClient
-      .from("experiences")
-      .insert([
-        {
-          name: name || null,
-          category,
-          story,
-          hub,
-          status: "pending",
-          source: "user",
-        },
-      ])
-      .select();
+  .from("experiences")
+  .insert([
+    {
+      name: name || null,
+      category,
+      story,
+      hub,
+    },
+  ])
+  .select();
+
 
     console.log("Experience insert result:", { data, error });
 
