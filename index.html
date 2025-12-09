@@ -1278,7 +1278,7 @@
 
       // ----- REFRESH ALL -----
 
-      async function refreshAll() {
+            async function refreshAll() {
         const hub = getCurrentHub();
         loadCafes(hub);
         loadGyms(hub);
@@ -1287,7 +1287,9 @@
         loadJobs(hub);
         loadWeekendSpots(hub);
         loadExperiences(hub);
+        loadAdminPanel();   // 👈 add this line
       }
+
 
       hubSelect.addEventListener("change", () => {
         refreshAll();
