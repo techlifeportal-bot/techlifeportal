@@ -376,6 +376,35 @@
         margin-right: 4px;
       }
 
+      /* Admin status pills */
+      .status-pill {
+        display: inline-block;
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 999px;
+        margin: 0 2px;
+      }
+
+      .status-active {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .status-inactive {
+        background: #fee2e2;
+        color: #b91c1c;
+      }
+
+      .status-pending {
+        background: #fef9c3;
+        color: #92400e;
+      }
+
+      .status-unknown {
+        background: #e5e7eb;
+        color: #374151;
+      }
+
       .map-link {
         font-size: 11px;
         color: #2563eb;
@@ -831,8 +860,8 @@
             </div>
           </div>
           <p class="section-subtitle">
-            Built as a side project by an IT employee for IT employees – to make
-            Bangalore tech life easier using AI + Supabase + Vercel.
+            Built by <strong>KB</strong> (founder) as a side project for IT employees –
+            to make Bangalore tech life easier using AI + Supabase + Vercel.
           </p>
           <p class="section-subtitle">
             In future, AI will automatically keep cafés, gyms, PGs, rentals,
@@ -845,7 +874,8 @@
 
     <footer>
       <p>
-        Made with ❤️ in Bangalore • TechLifePortal (beta). This is not an
+        Made with ❤️ in Bangalore • TechLifePortal (beta) •
+        <strong>Founded by KB</strong>. This is not an
         official listing platform for any company. Data is curated manually +
         with AI. Always verify details before making decisions.
       </p>
@@ -1267,10 +1297,22 @@
           const div = document.createElement("div");
           div.className = "card";
 
+          const rawStatus = row.status || "unknown";
+          const status = rawStatus.toLowerCase();
+
+          let statusClass = "status-unknown";
+          if (status === "active") statusClass = "status-active";
+          else if (status === "inactive") statusClass = "status-inactive";
+          else if (status === "pending") statusClass = "status-pending";
+
           div.innerHTML = `
             <div class="card-title">${row.name}</div>
             <div class="card-line">
-              Status: ${row.status || "unknown"} • Source: ${row.source || "manual"}
+              Status:
+              <span class="status-pill ${statusClass}">
+                ${rawStatus}
+              </span>
+              • Source: ${row.source || "manual"}
             </div>
             <div class="card-meta">
               Last Verified: ${
