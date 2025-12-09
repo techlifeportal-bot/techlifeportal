@@ -5,36 +5,26 @@
     <title>TechLifePortal – AI Lifestyle & Jobs Guide for Bangalore IT Employees</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Google Search Console verification -->
-    <meta
-      name="google-site-verification"
-      content="4X5Mn7zU_yq2dFr8IggXVUM4eiBqNl2AN8-TPOLf6gg"
-    />
-
     <!-- Basic SEO -->
     <meta
       name="description"
-      content="TechLifePortal is your AI-assisted lifestyle & jobs guide for Bangalore IT employees. Discover cafés, gyms, PGs, rentals, companies and curated IT jobs around tech hubs like Electronic City, Bellandur, Whitefield and Manyata."
+      content="TechLifePortal is your AI-assisted lifestyle & jobs guide for Bangalore IT employees. Discover cafés, gyms, PGs, rentals, companies, weekend spots and curated IT jobs around tech hubs like Electronic City, Bellandur, Whitefield and Manyata."
     />
     <meta
       name="keywords"
-      content="KB, TechLifePortal, Bangalore IT, cafes, PGs, rentals, IT jobs, companies"
+      content="TechLifePortal, Bangalore IT, cafes, gyms, PGs, rentals, weekend spots, IT jobs, IT companies"
     />
     <meta name="robots" content="index,follow" />
 
-    <!-- Open Graph (Social preview) -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="TechLifePortal – Bangalore IT Lifestyle & Jobs (Beta)"
-    />
+    <meta property="og:title" content="TechLifePortal – Bangalore IT Lifestyle & Jobs (Beta)" />
     <meta
       property="og:description"
-      content="AI-assisted lifestyle & career companion for IT employees in Bangalore. Cafés, gyms, PGs, rentals, IT companies and curated IT jobs – built with AI + Supabase + Vercel."
+      content="AI-assisted lifestyle & career companion for IT employees in Bangalore. Cafés, gyms, PGs, rentals, companies, weekend spots and curated IT jobs – built with AI + Supabase + Vercel."
     />
     <meta property="og:url" content="https://techlifeportal.vercel.app/" />
 
-    <!-- Simple styling (no external CSS) -->
     <style>
       * {
         box-sizing: border-box;
@@ -45,12 +35,7 @@
       body {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
           sans-serif;
-        background: radial-gradient(
-          circle at top,
-          #e6f2ff 0,
-          #f3f6fb 40%,
-          #f7f8fc 100%
-        );
+        background: radial-gradient(circle at top, #e6f2ff 0, #f3f6fb 40%, #f7f8fc 100%);
         color: #111827;
         line-height: 1.5;
       }
@@ -135,6 +120,8 @@
         margin: 18px auto 40px auto;
         padding: 0 20px 40px 20px;
       }
+
+      /* HERO */
 
       .hero {
         display: grid;
@@ -230,11 +217,7 @@
       .hero-right {
         border-radius: 20px;
         padding: 16px 18px;
-        background: radial-gradient(
-          circle at top,
-          rgba(15, 23, 42, 0.9),
-          #020617
-        );
+        background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617);
         border: 1px solid rgba(148, 163, 184, 0.65);
         box-shadow: 0 18px 34px rgba(15, 23, 42, 0.85);
       }
@@ -299,6 +282,8 @@
       .hero-tag strong {
         color: #c4b5fd;
       }
+
+      /* SECTIONS */
 
       .sections-grid {
         display: flex;
@@ -401,6 +386,7 @@
       }
 
       /* Experiences */
+
       .experience-layout {
         display: grid;
         grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.8fr);
@@ -511,55 +497,6 @@
         margin-top: 3px;
       }
 
-      /* Admin Panel */
-      .admin-bar {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        align-items: center;
-        margin-bottom: 8px;
-      }
-
-      .admin-badge {
-        font-size: 11px;
-        padding: 3px 8px;
-        border-radius: 999px;
-        background: rgba(15, 23, 42, 0.06);
-        border: 1px dashed rgba(15, 23, 42, 0.3);
-        color: #111827;
-      }
-
-      .admin-select {
-        padding: 6px 8px;
-        font-size: 12px;
-        border-radius: 999px;
-        border: 1px solid rgba(148, 163, 184, 0.9);
-        background: #ffffff;
-      }
-
-      .admin-list-empty {
-        font-size: 12px;
-        color: #6b7280;
-      }
-
-      .admin-tag {
-        font-size: 11px;
-        padding: 2px 6px;
-        border-radius: 999px;
-        background: #e5e7eb;
-        margin-right: 4px;
-      }
-
-      .admin-tag-status-active {
-        background: #bbf7d0;
-        color: #166534;
-      }
-
-      .admin-tag-status-closed {
-        background: #fecaca;
-        color: #991b1b;
-      }
-
       footer {
         max-width: 1120px;
         margin: 30px auto 10px auto;
@@ -593,7 +530,7 @@
       }
     </style>
 
-    <!-- Supabase JS (UMD) -->
+    <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   </head>
 
@@ -615,9 +552,10 @@
           <a href="#pgs">PGs / Rentals</a>
           <a href="#companies">Companies</a>
           <a href="#jobs">IT Jobs</a>
+          <a href="#weekend">Weekend Spots</a>
           <a href="#experiences">Experiences</a>
-          <a href="#about">About</a>
           <a href="#admin">Admin</a>
+          <a href="#about">About</a>
         </nav>
       </div>
     </header>
@@ -632,17 +570,18 @@
           </div>
           <p>
             Your AI-assisted lifestyle & career companion for IT employees in
-            Bangalore. Discover cafés, gyms, PGs, rentals, nearby companies and
-            curated IT jobs around major tech hubs.
+            Bangalore. Discover cafés, gyms, PGs, rentals, nearby companies,
+            weekend spots and curated IT jobs around major tech hubs.
           </p>
           <p class="hero-areas">
             Tech hubs: <strong>Electronic City</strong>,
-            <strong>Bellandur</strong>, <strong>Whitefield</strong>,
+            <strong>Bellandur</strong>,
+            <strong>Whitefield</strong>,
             <strong>Manyata Tech Park</strong>.
           </p>
           <div class="hero-built">
-            <span>Built with AI + Supabase + Vercel</span>
-            <span class="founder-tag">Founder: <b>KB</b></span>
+            <span>BUILT WITH AI + SUPABASE + VERCEL</span>
+            <span class="founder-tag">FOUNDER: <b>KB</b></span>
           </div>
           <div class="hero-pills-row">
             <div class="badge-pill">🤖 <span>AI-assisted curation</span></div>
@@ -650,8 +589,7 @@
               💼 <span>IT jobs 0–5 yrs experience</span>
             </div>
             <div class="badge-pill">
-              🏙️
-              <span>Tech hubs: EC, Bellandur, Whitefield, Manyata</span>
+              🏙️ <span>Tech hubs: EC, Bellandur, Whitefield, Manyata</span>
             </div>
           </div>
         </div>
@@ -668,8 +606,8 @@
             </select>
           </div>
           <p class="hero-note">
-            All sections below (cafés, gyms, PGs & rentals, companies, jobs)
-            will automatically use the hub you choose.
+            All sections below (cafés, gyms, PGs & rentals, companies,
+            weekend spots, jobs) use the hub you choose here.
           </p>
           <div class="hero-tags">
             <div class="hero-tag">
@@ -683,6 +621,9 @@
             </div>
             <div class="hero-tag">
               <strong>🏢 Companies</strong> near the hub
+            </div>
+            <div class="hero-tag">
+              <strong>🌴 Weekend spots</strong> to chill
             </div>
             <div class="hero-tag">
               <strong>💼 IT Jobs</strong> 0–5 yrs (curated)
@@ -770,21 +711,20 @@
         </section>
 
         <!-- WEEKEND SPOTS -->
-<section id="weekend" class="section-card">
-  <div class="section-header">
-    <div class="section-title">
-      <span class="emoji">🌴</span>
-      <h2>Weekend Spots for IT Folks</h2>
-    </div>
-    <span class="live-pill">Live</span>
-  </div>
-  <p class="section-subtitle">
-    Short rides, malls, treks and hangout places Bangalore IT employees
-    usually visit on weekends around each tech hub.
-  </p>
-  <div id="weekend-list" class="list">Loading weekend spots…</div>
-</section>
-
+        <section id="weekend" class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="emoji">🌴</span>
+              <h2>Weekend Spots for IT Folks</h2>
+            </div>
+            <span class="live-pill">Live</span>
+          </div>
+          <p class="section-subtitle">
+            Short rides, malls, treks and hangout places Bangalore IT employees
+            usually visit on weekends around each tech hub.
+          </p>
+          <div id="weekend-list" class="list">Loading weekend spots…</div>
+        </section>
 
         <!-- Experiences -->
         <section id="experiences" class="section-card">
@@ -827,17 +767,58 @@
                 <label for="exp-story">Your story</label>
                 <textarea
                   id="exp-story"
-                  placeholder="Share what happened, where, and how it felt as an IT employee in Bangalore..."
+                  placeholder="Share something that might help another IT employee…"
                 ></textarea>
               </div>
-              <button type="submit" class="btn-primary">
+              <button id="exp-submit" class="btn-primary" type="submit">
                 Submit experience
               </button>
+              <div
+                id="exp-status"
+                style="margin-top: 6px; font-size: 11px; color: #4b5563"
+              ></div>
             </form>
 
             <div id="experiences-list" class="list">
               Loading experiences…
             </div>
+          </div>
+        </section>
+
+        <!-- Admin overview -->
+        <section id="admin" class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="emoji">🛠️</span>
+              <h2>Admin – Hub Resources Overview</h2>
+            </div>
+            <span class="live-pill">Owner view</span>
+          </div>
+          <p class="section-subtitle">
+            Internal overview for you (KB) to see resources per hub – with status, source and last_verified_at.
+          </p>
+
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;">
+            <div
+              id="admin-current-hub"
+              style="font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #d1d5db;background:#f9fafb;"
+            >
+              Current hub: Electronic City
+            </div>
+            <select
+              id="admin-type-select"
+              style="font-size:13px;padding:6px 10px;border-radius:999px;border:1px solid #000;background:#f9fafb;"
+            >
+              <option value="cafes">Cafés</option>
+              <option value="gyms">Gyms</option>
+              <option value="rentals">PGs / Rentals</option>
+              <option value="companies">Companies</option>
+              <option value="jobs">Jobs</option>
+            </select>
+          </div>
+
+          <div id="admin-resource-box" class="list">
+            Loading admin data…
           </div>
         </section>
 
@@ -850,90 +831,30 @@
             </div>
           </div>
           <p class="section-subtitle">
-            TechLifePortal is built for Bangalore IT employees – starting with
-            Electronic City, Bellandur, Whitefield and Manyata, and expanding
-            to more hubs and cities soon.
+            Built as a side project by an IT employee for IT employees – to make
+            Bangalore tech life easier using AI + Supabase + Vercel.
           </p>
-          <div class="list">
-            <div class="card">
-              <div class="card-title">Mission</div>
-              <div class="card-line">
-                Help every IT employee quickly find where to work, live, gym,
-                eat, and grow their career around their tech hub – powered by
-                AI, not endless Google searching.
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-title">Built by</div>
-              <div class="card-line">
-                <strong>KB</strong> as a side project, using AI, Supabase and
-                Vercel. In the future, AI will auto-update listings, jobs and
-                experiences; your role is just to explore and share.
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ADMIN PANEL (read-only overview) -->
-        <section id="admin" class="section-card">
-          <div class="section-header">
-            <div class="section-title">
-              <span class="emoji">🛠️</span>
-              <h2>Admin – Hub Resources Overview</h2>
-            </div>
-            <span class="live-pill">Owner View</span>
-          </div>
           <p class="section-subtitle">
-            Internal overview for you (KB) to see how many cafés, gyms,
-            rentals, companies and jobs exist per hub, along with AI-control
-            fields like <code>status</code>, <code>source</code> and
-            <code>last_verified_at</code>.
+            In future, AI will automatically keep cafés, gyms, PGs, rentals,
+            companies, weekend spots and jobs fresh. Your role: discover,
+            explore and share experiences.
           </p>
-
-          <div class="admin-bar">
-            <span class="admin-badge">
-              Current hub: <span id="admin-hub-label">Electronic City</span>
-            </span>
-            <select id="admin-type-select" class="admin-select">
-              <option value="cafes">Cafés</option>
-              <option value="gyms">Gyms</option>
-              <option value="pgs_rentals">PGs & Rentals</option>
-              <option value="companies">Companies</option>
-              <option value="jobs">Jobs</option>
-              <option value="experiences">Experiences</option>
-            </select>
-          </div>
-
-          <div id="admin-list" class="list admin-list-empty">
-            Loading admin data…
-          </div>
         </section>
       </div>
     </main>
 
     <footer>
       <p>
-        © <span id="year"></span> TechLifePortal. Built with AI, Supabase &
-        Vercel for Bangalore IT employees.
-      </p>
-      <p>
-        Feedback / collaborations:
-        <a href="mailto:techlifeportal.in@gmail.com"
-          >techlifeportal.in@gmail.com</a
-        >
+        Made with ❤️ in Bangalore • TechLifePortal (beta). This is not an
+        official listing platform for any company. Data is curated manually +
+        with AI. Always verify details before making decisions.
       </p>
     </footer>
 
+    <!-- MAIN APP SCRIPT -->
     <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
-
-    <!-- Supabase + dynamic loading script -->
-       <!-- MAIN APP SCRIPT -->
-    <script>
-      // TODO: put your real anon key from Supabase here:
       const supabaseUrl = "https://tpysvvpswkepuyzfyxcb.supabase.co";
-      const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweXN2dnBzd2tlcHV5emZ5eGNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3NTE5MTIsImV4cCI6MjA4MDMyNzkxMn0.EzyDrXdsQnDGXL4ixPOeX5Xg7C35ELYkHPatypOsHU4";
+      const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweXN2dnBzd2tlcHV5emZ5eGNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3NTE5MTIsImV4cCI6MjA4MDMyNzkxMn0.EzyDrXdsQnDGXL4ixPOeX5Xg7C35ELYkHPatypOsHU4"; // <-- put your real anon key here
 
       const supabaseClient = window.supabase.createClient(
         supabaseUrl,
@@ -984,7 +905,7 @@
           link.target = "_blank";
           link.rel = "noopener noreferrer";
           link.className = "map-link";
-          link.textContent = "View on Maps";
+          link.textContent = "View";
           metaEl.appendChild(document.createTextNode(" • "));
           metaEl.appendChild(link);
         }
@@ -1198,87 +1119,175 @@
       }
 
       async function loadWeekendSpots(hub) {
-  setLoading("weekend-list", "Loading weekend spots…");
+        setLoading("weekend-list", "Loading weekend spots…");
 
-  const { data, error } = await supabaseClient
-    .from("weekend_spots")
-    .select("*"); // 👈 NO FILTERS FOR NOW
+        const { data, error } = await supabaseClient
+          .from("weekend_spots")
+          .select("*")
+          .eq("hub", hub)
+          .eq("status", "active")
+          .order("priority", { ascending: true });
 
-  const list = document.getElementById("weekend-list");
-  list.innerHTML = "";
+        const list = document.getElementById("weekend-list");
+        list.innerHTML = "";
 
-  console.log("Weekend spots data:", data, "error:", error);
+        if (error) {
+          list.textContent = "Couldn’t load weekend spots.";
+          return;
+        }
 
-  if (error) {
-    list.textContent = "Couldn’t load weekend spots.";
-    return;
-  }
+        if (!data || !data.length) {
+          list.textContent = "No weekend spots added yet for this hub.";
+          return;
+        }
 
-  if (!data || !data.length) {
-    list.textContent = "No weekend spots added yet (even without filters).";
-    return;
-  }
+        data.forEach((spot) => {
+          const summary = spot.ai_summary || spot.description || "";
+          const meta =
+            (spot.category ? spot.category + " • " : "") +
+            (spot.location || hub);
 
-  data.forEach((spot) => {
-    const summary = spot.ai_summary || spot.description || "";
-    const meta =
-      (spot.category ? spot.category + " • " : "") +
-      (spot.location || spot.hub || hub);
+          const card = createCard({
+            title: spot.name,
+            summary,
+            tag: spot.tag,
+            meta,
+            mapsUrl: spot.maps_url,
+          });
 
-    const card = createCard({
-      title: spot.name,
-      summary,
-      tag: spot.tag,
-      meta,
-      mapsUrl: spot.maps_url,
-    });
+          list.appendChild(card);
+        });
+      }
 
-    list.appendChild(card);
-  });
-}
+      async function loadExperiences(hub) {
+        const list = document.getElementById("experiences-list");
+        if (!list) return;
 
-      async function loadAdminPanel() {
-  const adminBox = document.getElementById("admin-resource-box");
-  adminBox.innerHTML = "Loading admin data…";
+        list.textContent = "Loading experiences…";
 
-  const { data, error } = await supabaseClient
-    .from("hub_resources")
-    .select("*")
-    .order("updated_at", { ascending: false })
-    .limit(10);
+        const { data, error } = await supabaseClient
+          .from("experiences")
+          .select("*")
+          .eq("hub", hub)
+          .order("created_at", { ascending: false })
+          .limit(20);
 
-  console.log("Admin panel data:", data, error);
+        list.innerHTML = "";
 
-  if (error) {
-    adminBox.innerHTML = "Failed to load admin data.";
-    return;
-  }
+        if (error) {
+          list.textContent = "Couldn’t load experiences.";
+          return;
+        }
 
-  if (!data || data.length === 0) {
-    adminBox.innerHTML = "No hub resource updates found yet.";
-    return;
-  }
+        if (!data || !data.length) {
+          list.textContent = "No experiences shared yet for this hub.";
+          return;
+        }
 
-  adminBox.innerHTML = "";
+        data.forEach((exp) => {
+          const card = document.createElement("div");
+          card.className = "card experience-card";
 
-  data.forEach((row) => {
-    const div = document.createElement("div");
-    div.className = "card";
+          const header = document.createElement("div");
+          header.className = "experience-header";
 
-    div.innerHTML = `
-      <div class="card-title">${row.resource_type || "Unknown"}</div>
-      <div class="card-line">${row.change_summary || "No summary"}</div>
-      <div class="card-meta">${row.hub} • ${new Date(row.updated_at).toLocaleString()}</div>
-    `;
+          const left = document.createElement("div");
+          left.textContent = exp.category || "Experience";
 
-    adminBox.appendChild(div);
-  });
-}
+          const right = document.createElement("div");
+          right.className = "experience-pill";
+          right.textContent = exp.hub || hub;
 
+          header.appendChild(left);
+          header.appendChild(right);
+
+          const story = document.createElement("div");
+          story.className = "experience-story";
+          story.textContent = exp.story || "";
+
+          const meta = document.createElement("div");
+          meta.className = "experience-meta";
+          const name = exp.name || "Anonymous";
+          const date = exp.created_at
+            ? new Date(exp.created_at).toLocaleDateString()
+            : "";
+          meta.textContent = name + (date ? " • " + date : "");
+
+          card.appendChild(header);
+          card.appendChild(story);
+          card.appendChild(meta);
+
+          list.appendChild(card);
+        });
+      }
+
+      // Admin overview
+      async function loadAdminOverview() {
+        const box = document.getElementById("admin-resource-box");
+        if (!box) return;
+
+        box.innerHTML = "Loading admin data…";
+
+        const hub = getCurrentHub();
+        const type =
+          document.getElementById("admin-type-select")?.value || "cafes";
+
+        const tableMap = {
+          cafes: "cafes",
+          gyms: "gyms",
+          rentals: "pgs_rentals",
+          companies: "companies",
+          jobs: "jobs",
+        };
+
+        const table = tableMap[type];
+
+        const { data, error } = await supabaseClient
+          .from(table)
+          .select("id, name, status, source, last_verified_at, hub")
+          .eq("hub", hub)
+          .order("last_verified_at", { ascending: false });
+
+        document.getElementById(
+          "admin-current-hub"
+        ).textContent = `Current hub: ${hub}`;
+
+        if (error) {
+          box.innerHTML = "Failed to load admin data.";
+          return;
+        }
+
+        if (!data || !data.length) {
+          box.innerHTML = "No records found for this hub.";
+          return;
+        }
+
+        box.innerHTML = "";
+        data.forEach((row) => {
+          const div = document.createElement("div");
+          div.className = "card";
+
+          div.innerHTML = `
+            <div class="card-title">${row.name}</div>
+            <div class="card-line">
+              Status: ${row.status || "unknown"} • Source: ${row.source || "manual"}
+            </div>
+            <div class="card-meta">
+              Last Verified: ${
+                row.last_verified_at
+                  ? new Date(row.last_verified_at).toLocaleString()
+                  : "N/A"
+              }
+            </div>
+          `;
+
+          box.appendChild(div);
+        });
+      }
 
       // ----- REFRESH ALL -----
 
-            async function refreshAll() {
+      async function refreshAll() {
         const hub = getCurrentHub();
         loadCafes(hub);
         loadGyms(hub);
@@ -1287,13 +1296,17 @@
         loadJobs(hub);
         loadWeekendSpots(hub);
         loadExperiences(hub);
-        loadAdminPanel();   // 👈 add this line
+        loadAdminOverview();
       }
-
 
       hubSelect.addEventListener("change", () => {
         refreshAll();
       });
+
+      // Admin dropdown change
+      document
+        .getElementById("admin-type-select")
+        ?.addEventListener("change", loadAdminOverview);
 
       // ----- EXPERIENCES FORM -----
 
@@ -1345,6 +1358,5 @@
       // Initial load
       refreshAll();
     </script>
-
   </body>
 </html>
