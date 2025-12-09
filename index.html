@@ -929,360 +929,337 @@
     </script>
 
     <!-- Supabase + dynamic loading script -->
+       <!-- MAIN APP SCRIPT -->
     <script>
-      // 1) Supabase client
-      // Replace ONLY these two strings with real values
-      const SUPABASE_URL = "https://tpysvvpswkepuyzfyxcb.supabase.co"; // like https://xxxx.supabase.co
-      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweXN2dnBzd2tlcHV5emZ5eGNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3NTE5MTIsImV4cCI6MjA4MDMyNzkxMn0.EzyDrXdsQnDGXL4ixPOeX5Xg7C35ELYkHPatypOsHU4";
+      // TODO: put your real anon key from Supabase here:
+      const supabaseUrl = "https://tpysvvpswkepuyzfyxcb.supabase.co";
+      const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweXN2dnBzd2tlcHV5emZ5eGNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3NTE5MTIsImV4cCI6MjA4MDMyNzkxMn0.EzyDrXdsQnDGXL4ixPOeX5Xg7C35ELYkHPatypOsHU4";
 
-      const client = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
+      const supabaseClient = window.supabase.createClient(
+        supabaseUrl,
+        supabaseAnonKey
       );
 
-      // 2) DOM elements
       const hubSelect = document.getElementById("hub-select");
-      const cafesList = document.getElementById("cafes-list");
-      const gymsList = document.getElementById("gyms-list");
-      const pgsList = document.getElementById("pgs-list");
-      const companiesList = document.getElementById("companies-list");
-      const jobsList = document.getElementById("jobs-list");
 
-      const expForm = document.getElementById("experience-form");
-      const expName = document.getElementById("exp-name");
-      const expCategory = document.getElementById("exp-category");
-      const expStory = document.getElementById("exp-story");
-      const expListContainer = document.getElementById("experiences-list");
-
-      const adminHubLabel = document.getElementById("admin-hub-label");
-      const adminTypeSelect = document.getElementById("admin-type-select");
-      const adminList = document.getElementById("admin-list");
-
-      // 3) Helpers to render cards
-      function renderPlaceList(targetEl, rows, type) {
-        if (!rows || rows.length === 0) {
-          targetEl.textContent = `No ${type} found for this hub (yet).`;
-          return;
-        }
-
-        targetEl.innerHTML = "";
-
-        rows.forEach((row) => {
-          const card = document.createElement("div");
-          card.className = "card";
-
-          const title = document.createElement("div");
-          title.className = "card-title";
-          title.textContent = row.name || "Unnamed";
-
-          const line = document.createElement("div");
-          line.className = "card-line";
-          line.textContent =
-            row.ai_summary ||
-            row.description ||
-            row.short_desc ||
-            "Details coming soon.";
-
-          const meta = document.createElement("div");
-          meta.className = "card-meta";
-
-          const badge = document.createElement("span");
-          badge.className = "badge";
-          badge.textContent = row.tag || row.type || type;
-          meta.appendChild(badge);
-
-          if (row.maps_url) {
-            const mapLink = document.createElement("a");
-            mapLink.className = "map-link";
-            mapLink.href = row.maps_url;
-            mapLink.target = "_blank";
-            mapLink.rel = "noopener noreferrer";
-            mapLink.textContent = "Open in Maps";
-            meta.appendChild(mapLink);
-          } else if (row.location) {
-            meta.appendChild(document.createTextNode(" " + row.location));
-          }
-
-          card.appendChild(title);
-          card.appendChild(line);
-          card.appendChild(meta);
-
-          targetEl.appendChild(card);
-        });
+      function getCurrentHub() {
+        return hubSelect.value;
       }
 
-      function renderJobsList(targetEl, rows) {
-        if (!rows || rows.length === 0) {
-          targetEl.textContent = "No IT jobs found for this hub right now.";
-          return;
-        }
+      function createCard({ title, summary, tag, meta, mapsUrl }) {
+        const card = document.createElement("div");
+        card.className = "card";
 
-        targetEl.innerHTML = "";
+        const titleEl = document.createElement("div");
+        titleEl.className = "card-title";
+        titleEl.textContent = title;
+        card.appendChild(titleEl);
 
-        rows.forEach((job) => {
-          const card = document.createElement("div");
-          card.className = "card";
-
-          const title = document.createElement("div");
-          title.className = "card-title";
-          title.textContent = job.title || "Role";
-
+        if (summary) {
           const line = document.createElement("div");
           line.className = "card-line";
-          line.textContent =
-            job.ai_summary ||
-            job.short_desc ||
-            job.description ||
-            "Job details coming soon.";
-
-          const meta = document.createElement("div");
-          meta.className = "card-meta";
-
-          if (job.company_name) {
-            const companySpan = document.createElement("span");
-            companySpan.className = "badge";
-            companySpan.textContent = job.company_name;
-            meta.appendChild(companySpan);
-          }
-
-          if (job.experience_range) {
-            const expSpan = document.createElement("span");
-            expSpan.className = "badge";
-            expSpan.textContent = job.experience_range;
-            meta.appendChild(expSpan);
-          }
-
-          if (job.apply_url) {
-            const applyLink = document.createElement("a");
-            applyLink.className = "map-link";
-            applyLink.href = job.apply_url;
-            applyLink.target = "_blank";
-            applyLink.rel = "noopener noreferrer";
-            applyLink.textContent = "Apply";
-            meta.appendChild(applyLink);
-          }
-
-          card.appendChild(title);
+          line.textContent = summary;
           card.appendChild(line);
-          card.appendChild(meta);
-
-          targetEl.appendChild(card);
-        });
-      }
-
-      // Admin list renderer (read-only)
-      function renderAdminList(rows, typeLabel, hub) {
-        if (!rows || rows.length === 0) {
-          adminList.classList.add("admin-list-empty");
-          adminList.textContent = `No ${typeLabel} in ${hub} yet.`;
-          return;
         }
 
-        adminList.classList.remove("admin-list-empty");
-        adminList.innerHTML = "";
+        const metaEl = document.createElement("div");
+        metaEl.className = "card-meta";
 
-        rows.forEach((row) => {
-          const card = document.createElement("div");
-          card.className = "card";
+        if (tag) {
+          const tagSpan = document.createElement("span");
+          tagSpan.className = "badge";
+          tagSpan.textContent = tag;
+          metaEl.appendChild(tagSpan);
+        }
 
-          const title = document.createElement("div");
-          title.className = "card-title";
-          title.textContent = row.name || row.title || "Unnamed";
+        if (meta) {
+          const metaSpan = document.createElement("span");
+          metaSpan.textContent = meta + " ";
+          metaEl.appendChild(metaSpan);
+        }
 
-          const line = document.createElement("div");
-          line.className = "card-line";
-          line.textContent =
-            row.ai_summary ||
-            row.description ||
-            row.short_desc ||
-            row.story ||
-            "No description yet.";
+        if (mapsUrl) {
+          const link = document.createElement("a");
+          link.href = mapsUrl;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.className = "map-link";
+          link.textContent = "View on Maps";
+          metaEl.appendChild(document.createTextNode(" • "));
+          metaEl.appendChild(link);
+        }
 
-          const meta = document.createElement("div");
-          meta.className = "card-meta";
-
-          // Status tag
-          if (row.status) {
-            const st = document.createElement("span");
-            st.className = "admin-tag admin-tag-status-" + row.status;
-            st.textContent = `status: ${row.status}`;
-            meta.appendChild(st);
-          }
-
-          // Source tag
-          if (row.source) {
-            const src = document.createElement("span");
-            src.className = "admin-tag";
-            src.textContent = `source: ${row.source}`;
-            meta.appendChild(src);
-          }
-
-          // Last verified / reviewed
-          if (row.last_verified_at || row.last_reviewed_at) {
-            const dt = new Date(row.last_verified_at || row.last_reviewed_at);
-            const dtSpan = document.createElement("span");
-            dtSpan.className = "admin-tag";
-            dtSpan.textContent =
-              "checked: " + dt.toLocaleDateString("en-IN", { dateStyle: "medium" });
-            meta.appendChild(dtSpan);
-          }
-
-          card.appendChild(title);
-          card.appendChild(line);
-          card.appendChild(meta);
-
-          adminList.appendChild(card);
-        });
+        card.appendChild(metaEl);
+        return card;
       }
 
-      // 4) Fetch functions for each section
+      function setLoading(id, text) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+      }
+
+      // ----- LOADERS -----
+
       async function loadCafes(hub) {
-        cafesList.textContent = "Loading cafés…";
-        const { data, error } = await client
+        setLoading("cafes-list", "Loading cafés…");
+
+        const { data, error } = await supabaseClient
           .from("cafes")
           .select("*")
           .eq("hub", hub)
+          .eq("status", "active")
           .order("priority", { ascending: true });
 
+        const list = document.getElementById("cafes-list");
+        list.innerHTML = "";
+
         if (error) {
-          console.error("Error loading cafes:", error);
-          cafesList.textContent = "Could not load cafés.";
+          list.textContent = "Couldn’t load cafés.";
           return;
         }
-        renderPlaceList(cafesList, data, "cafés");
+
+        if (!data || !data.length) {
+          list.textContent = "No cafés added yet for this hub.";
+          return;
+        }
+
+        data.forEach((cafe) => {
+          const summary = cafe.ai_summary || cafe.description || "";
+          const meta = cafe.location || hub;
+
+          const card = createCard({
+            title: cafe.name,
+            summary,
+            tag: cafe.tag,
+            meta,
+            mapsUrl: cafe.maps_url,
+          });
+
+          list.appendChild(card);
+        });
       }
 
       async function loadGyms(hub) {
-        gymsList.textContent = "Loading gyms…";
-        const { data, error } = await client
+        setLoading("gyms-list", "Loading gyms…");
+
+        const { data, error } = await supabaseClient
           .from("gyms")
           .select("*")
           .eq("hub", hub)
+          .eq("status", "active")
           .order("priority", { ascending: true });
 
+        const list = document.getElementById("gyms-list");
+        list.innerHTML = "";
+
         if (error) {
-          console.error("Error loading gyms:", error);
-          gymsList.textContent = "Could not load gyms.";
+          list.textContent = "Couldn’t load gyms.";
           return;
         }
-        renderPlaceList(gymsList, data, "gyms");
+
+        if (!data || !data.length) {
+          list.textContent = "No gyms added yet for this hub.";
+          return;
+        }
+
+        data.forEach((gym) => {
+          const summary = gym.ai_summary || gym.description || "";
+          const meta = gym.location || hub;
+
+          const card = createCard({
+            title: gym.name,
+            summary,
+            tag: gym.tag,
+            meta,
+            mapsUrl: gym.maps_url,
+          });
+
+          list.appendChild(card);
+        });
       }
 
       async function loadPGs(hub) {
-        pgsList.textContent = "Loading PGs & rentals…";
-        const { data, error } = await client
+        setLoading("pgs-list", "Loading PGs & rentals…");
+
+        const { data, error } = await supabaseClient
           .from("pgs_rentals")
           .select("*")
           .eq("hub", hub)
+          .eq("status", "active")
           .order("priority", { ascending: true });
 
+        const list = document.getElementById("pgs-list");
+        list.innerHTML = "";
+
         if (error) {
-          console.error("Error loading pgs:", error);
-          pgsList.textContent = "Could not load PGs & rentals.";
+          list.textContent = "Couldn’t load PGs & rentals.";
           return;
         }
-        renderPlaceList(pgsList, data, "PGs & rentals");
+
+        if (!data || !data.length) {
+          list.textContent = "No PGs or rentals added yet for this hub.";
+          return;
+        }
+
+        data.forEach((pg) => {
+          const summary = pg.ai_summary || pg.description || "";
+          const meta = pg.location || hub;
+
+          const card = createCard({
+            title: pg.name,
+            summary,
+            tag: pg.tag,
+            meta,
+            mapsUrl: pg.maps_url,
+          });
+
+          list.appendChild(card);
+        });
       }
 
       async function loadCompanies(hub) {
-        companiesList.textContent = "Loading companies…";
-        const { data, error } = await client
+        setLoading("companies-list", "Loading companies…");
+
+        const { data, error } = await supabaseClient
           .from("companies")
           .select("*")
           .eq("hub", hub)
+          .eq("status", "active")
           .order("priority", { ascending: true });
 
+        const list = document.getElementById("companies-list");
+        list.innerHTML = "";
+
         if (error) {
-          console.error("Error loading companies:", error);
-          companiesList.textContent = "Could not load companies.";
+          list.textContent = "Couldn’t load companies.";
           return;
         }
-        renderPlaceList(companiesList, data, "companies");
+
+        if (!data || !data.length) {
+          list.textContent = "No companies added yet for this hub.";
+          return;
+        }
+
+        data.forEach((company) => {
+          const summary = company.ai_summary || company.description || "";
+          const meta = company.location || hub;
+
+          const card = createCard({
+            title: company.name,
+            summary,
+            tag: company.tag,
+            meta,
+            mapsUrl: company.maps_url,
+          });
+
+          list.appendChild(card);
+        });
       }
 
       async function loadJobs(hub) {
-        jobsList.textContent = "Loading IT jobs…";
-        const { data, error } = await client
+        setLoading("jobs-list", "Loading IT jobs…");
+
+        const { data, error } = await supabaseClient
           .from("jobs")
           .select("*")
           .eq("hub", hub)
+          .eq("status", "open")
           .order("priority", { ascending: true });
 
+        const list = document.getElementById("jobs-list");
+        list.innerHTML = "";
+
         if (error) {
-          console.error("Error loading jobs:", error);
-          jobsList.textContent = "Could not load jobs.";
+          list.textContent = "Couldn’t load jobs.";
           return;
         }
-        renderJobsList(jobsList, data);
+
+        if (!data || !data.length) {
+          list.textContent = "No jobs listed yet for this hub.";
+          return;
+        }
+
+        data.forEach((job) => {
+          const summary = job.ai_summary || job.description || "";
+          const meta =
+            (job.company ? job.company + " • " : "") +
+            (job.experience || "0–5 yrs");
+
+          const card = createCard({
+            title: job.role,
+            summary,
+            tag: job.tag,
+            meta,
+            mapsUrl: job.apply_url,
+          });
+
+          list.appendChild(card);
+        });
       }
 
-async function loadWeekendSpots(hub) {
-  setLoading("weekend-list", "Loading weekend spots…");
+      async function loadWeekendSpots(hub) {
+        setLoading("weekend-list", "Loading weekend spots…");
 
-  const { data, error } = await supabase
-    .from("weekend_spots")
-    .select("*")
-    .eq("hub", hub)
-    .eq("status", "active")
-    .order("priority", { ascending: true });
+        const { data, error } = await supabaseClient
+          .from("weekend_spots")
+          .select("*")
+          .eq("hub", hub)
+          .eq("status", "active")
+          .order("priority", { ascending: true });
 
-  const list = document.getElementById("weekend-list");
-  list.innerHTML = "";
+        const list = document.getElementById("weekend-list");
+        list.innerHTML = "";
 
-  if (error) {
-    list.textContent = "Couldn’t load weekend spots.";
-    return;
-  }
+        if (error) {
+          list.textContent = "Couldn’t load weekend spots.";
+          return;
+        }
 
-  if (!data || !data.length) {
-    list.textContent = "No weekend spots added yet for this hub.";
-    return;
-  }
+        if (!data || !data.length) {
+          list.textContent = "No weekend spots added yet for this hub.";
+          return;
+        }
 
-  data.forEach((spot) => {
-    const summary = spot.ai_summary || spot.description || "";
-    const meta =
-      (spot.category ? spot.category + " • " : "") +
-      (spot.location || hub);
+        data.forEach((spot) => {
+          const summary = spot.ai_summary || spot.description || "";
+          const meta =
+            (spot.category ? spot.category + " • " : "") +
+            (spot.location || hub);
 
-    const card = createCard({
-      title: spot.name,
-      summary,
-      tag: spot.tag,
-      meta,
-      mapsUrl: spot.maps_url,
-    });
+          const card = createCard({
+            title: spot.name,
+            summary,
+            tag: spot.tag,
+            meta,
+            mapsUrl: spot.maps_url,
+          });
 
-    list.appendChild(card);
-  });
-}
-
+          list.appendChild(card);
+        });
+      }
 
       async function loadExperiences(hub) {
-        if (!expListContainer) return;
+        const list = document.getElementById("experiences-list");
+        list.textContent = "Loading experiences…";
 
-        expListContainer.textContent = "Loading experiences…";
-
-        const { data, error } = await client
+        const { data, error } = await supabaseClient
           .from("experiences")
           .select("*")
           .eq("hub", hub)
           .order("created_at", { ascending: false })
           .limit(20);
 
+        list.innerHTML = "";
+
         if (error) {
-          console.error("Error loading experiences:", error);
-          expListContainer.textContent = "Could not load experiences.";
+          list.textContent = "Couldn’t load experiences.";
           return;
         }
 
-        if (!data || data.length === 0) {
-          expListContainer.textContent =
-            "No experiences for this hub yet. Be the first to share one!";
+        if (!data || !data.length) {
+          list.textContent = "No experiences shared yet for this hub.";
           return;
         }
-
-        expListContainer.innerHTML = "";
 
         data.forEach((exp) => {
           const card = document.createElement("div");
@@ -1292,13 +1269,11 @@ async function loadWeekendSpots(hub) {
           header.className = "experience-header";
 
           const left = document.createElement("div");
-          const pill = document.createElement("span");
-          pill.className = "experience-pill";
-          pill.textContent = exp.category || "Experience";
-          left.appendChild(pill);
+          left.textContent = exp.category || "Experience";
 
           const right = document.createElement("div");
-          right.textContent = exp.name ? `by ${exp.name}` : "Anonymous";
+          right.className = "experience-pill";
+          right.textContent = exp.hub || hub;
 
           header.appendChild(left);
           header.appendChild(right);
@@ -1309,126 +1284,84 @@ async function loadWeekendSpots(hub) {
 
           const meta = document.createElement("div");
           meta.className = "experience-meta";
-          meta.textContent = exp.hub || hub;
+          const name = exp.name || "Anonymous";
+          const date = exp.created_at
+            ? new Date(exp.created_at).toLocaleDateString()
+            : "";
+          meta.textContent = name + (date ? " • " + date : "");
 
           card.appendChild(header);
           card.appendChild(story);
           card.appendChild(meta);
 
-          expListContainer.appendChild(card);
+          list.appendChild(card);
         });
       }
 
-      // Admin loader
-      async function loadAdminForHub(hub) {
-        if (!adminList) return;
+      // ----- REFRESH ALL -----
 
-        const table = adminTypeSelect.value;
-        adminList.textContent = "Loading admin data…";
-
-        let typeLabel = table;
-        if (table === "cafes") typeLabel = "cafés";
-        if (table === "pgs_rentals") typeLabel = "PGs & rentals";
-
-        let query = client.from(table).select("*");
-
-        // experiences are also keyed by hub now
-        query = query.eq("hub", hub);
-
-        const { data, error } = await query.order("created_at", {
-          ascending: false,
-        });
-
-        if (error) {
-          console.error("Error loading admin data:", error);
-          adminList.textContent = "Could not load admin data.";
-          return;
-        }
-
-        renderAdminList(data, typeLabel, hub);
+      async function refreshAll() {
+        const hub = getCurrentHub();
+        loadCafes(hub);
+        loadGyms(hub);
+        loadPGs(hub);
+        loadCompanies(hub);
+        loadJobs(hub);
+        loadWeekendSpots(hub);
+        loadExperiences(hub);
       }
 
-      // 5) Hub change handler
-      async function refreshAllForHub(hub) {
-        adminHubLabel.textContent = hub;
-        await Promise.all([
-          loadCafes(hub),
-          loadGyms(hub),
-          loadPGs(hub),
-          loadCompanies(hub),
-          loadJobs(hub),
-          loadExperiences(hub),
-          loadAdminForHub(hub),
-          loadWeekendSpots(hub);
-         ]);
-        }
-
-      hubSelect.addEventListener("change", (e) => {
-        const hub = e.target.value;
-        refreshAllForHub(hub);
+      hubSelect.addEventListener("change", () => {
+        refreshAll();
       });
 
-      if (adminTypeSelect) {
-        adminTypeSelect.addEventListener("change", () => {
-          const hub = hubSelect.value;
-          loadAdminForHub(hub);
-        });
-      }
+      // ----- EXPERIENCES FORM -----
 
-      // 6) Experiences form submit
+      const expForm = document.getElementById("experience-form");
+      const expStatus = document.getElementById("exp-status");
+
       if (expForm) {
         expForm.addEventListener("submit", async (e) => {
           e.preventDefault();
+          expStatus.textContent = "";
+          const btn = document.getElementById("exp-submit");
+          btn.disabled = true;
 
-          const name = expName.value.trim() || null;
-          const category = expCategory.value;
-          const hub = hubSelect.value;
-          const story = expStory.value.trim();
+          const name = document.getElementById("exp-name").value.trim();
+          const category = document.getElementById("exp-category").value;
+          const story = document.getElementById("exp-story").value.trim();
+          const hub = getCurrentHub();
 
           if (!story) {
-            alert("Please share at least a short story.");
+            expStatus.textContent = "Please write a short story.";
+            btn.disabled = false;
             return;
           }
 
-          const btn = expForm.querySelector("button[type='submit']");
-          const oldText = btn.textContent;
-          btn.disabled = true;
-          btn.textContent = "Saving…";
-
-          const { error } = await client.from("experiences").insert({
-            name,
-            category,
-            hub,
-            story,
-            ai_summary: null,
-            sentiment: null,
-          });
-
-          btn.disabled = false;
-          btn.textContent = oldText;
+          const { error } = await supabaseClient.from("experiences").insert([
+            {
+              name: name || null,
+              category,
+              story,
+              hub,
+              status: "pending",
+              source: "user",
+            },
+          ]);
 
           if (error) {
-            console.error("Error saving experience:", error);
-            alert("Something went wrong while saving. Please try again.");
-            return;
+            expStatus.textContent = "Could not submit. Please try again.";
+          } else {
+            expStatus.textContent =
+              "Thank you! Your experience was submitted for review.";
+            document.getElementById("exp-story").value = "";
           }
 
-          expName.value = "";
-          expStory.value = "";
-          alert("Thanks for sharing your experience!");
-
+          btn.disabled = false;
           loadExperiences(hub);
-          loadAdminForHub(hub);
         });
       }
 
-      // 7) Initial load
-      document.addEventListener("DOMContentLoaded", () => {
-        const initialHub = hubSelect.value;
-        refreshAllForHub(initialHub);
-      });
+      // Initial load
+      refreshAll();
     </script>
-  </body>
-</html>
-Added Weekend Spots section
-
