@@ -769,6 +769,23 @@
           <div id="jobs-list" class="list">Loading IT jobs…</div>
         </section>
 
+        <!-- WEEKEND SPOTS -->
+<section id="weekend" class="section-card">
+  <div class="section-header">
+    <div class="section-title">
+      <span class="emoji">🌴</span>
+      <h2>Weekend Spots for IT Folks</h2>
+    </div>
+    <span class="live-pill">Live</span>
+  </div>
+  <p class="section-subtitle">
+    Short rides, malls, treks and hangout places Bangalore IT employees
+    usually visit on weekends around each tech hub.
+  </p>
+  <div id="weekend-list" class="list">Loading weekend spots…</div>
+</section>
+
+
         <!-- Experiences -->
         <section id="experiences" class="section-card">
           <div class="section-header">
@@ -1199,6 +1216,48 @@
         renderJobsList(jobsList, data);
       }
 
+async function loadWeekendSpots(hub) {
+  setLoading("weekend-list", "Loading weekend spots…");
+
+  const { data, error } = await supabase
+    .from("weekend_spots")
+    .select("*")
+    .eq("hub", hub)
+    .eq("status", "active")
+    .order("priority", { ascending: true });
+
+  const list = document.getElementById("weekend-list");
+  list.innerHTML = "";
+
+  if (error) {
+    list.textContent = "Couldn’t load weekend spots.";
+    return;
+  }
+
+  if (!data || !data.length) {
+    list.textContent = "No weekend spots added yet for this hub.";
+    return;
+  }
+
+  data.forEach((spot) => {
+    const summary = spot.ai_summary || spot.description || "";
+    const meta =
+      (spot.category ? spot.category + " • " : "") +
+      (spot.location || hub);
+
+    const card = createCard({
+      title: spot.name,
+      summary,
+      tag: spot.tag,
+      meta,
+      mapsUrl: spot.maps_url,
+    });
+
+    list.appendChild(card);
+  });
+}
+
+
       async function loadExperiences(hub) {
         if (!expListContainer) return;
 
@@ -1300,8 +1359,9 @@
           loadJobs(hub),
           loadExperiences(hub),
           loadAdminForHub(hub),
-        ]);
-      }
+          loadWeekendSpots(hub);
+         ]);
+        }
 
       hubSelect.addEventListener("change", (e) => {
         const hub = e.target.value;
