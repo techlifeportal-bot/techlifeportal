@@ -1237,6 +1237,44 @@
   });
 }
 
+      async function loadAdminPanel() {
+  const adminBox = document.getElementById("admin-resource-box");
+  adminBox.innerHTML = "Loading admin data…";
+
+  const { data, error } = await supabaseClient
+    .from("hub_resources")
+    .select("*")
+    .order("updated_at", { ascending: false })
+    .limit(10);
+
+  console.log("Admin panel data:", data, error);
+
+  if (error) {
+    adminBox.innerHTML = "Failed to load admin data.";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    adminBox.innerHTML = "No hub resource updates found yet.";
+    return;
+  }
+
+  adminBox.innerHTML = "";
+
+  data.forEach((row) => {
+    const div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <div class="card-title">${row.resource_type || "Unknown"}</div>
+      <div class="card-line">${row.change_summary || "No summary"}</div>
+      <div class="card-meta">${row.hub} • ${new Date(row.updated_at).toLocaleString()}</div>
+    `;
+
+    adminBox.appendChild(div);
+  });
+}
+
 
       // ----- REFRESH ALL -----
 
