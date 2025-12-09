@@ -18,7 +18,10 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="TechLifePortal – Bangalore IT Lifestyle & Jobs (Beta)" />
+    <meta
+      property="og:title"
+      content="TechLifePortal – Bangalore IT Lifestyle & Jobs (Beta)"
+    />
     <meta
       property="og:description"
       content="AI-assisted lifestyle & career companion for IT employees in Bangalore. Cafés, gyms, PGs, rentals, companies, weekend spots and curated IT jobs – built with AI + Supabase + Vercel."
@@ -353,6 +356,7 @@
       .card-title {
         font-weight: 600;
         margin-bottom: 2px;
+        font-size: 14px;
       }
 
       .card-line {
@@ -374,6 +378,12 @@
         background: #e0f2fe;
         color: #0369a1;
         margin-right: 4px;
+      }
+
+      /* Weekend title – slightly bigger & bold */
+      .weekend-title {
+        font-size: 15px;
+        font-weight: 700;
       }
 
       /* Admin status pills */
@@ -824,19 +834,34 @@
             <span class="live-pill">Owner view</span>
           </div>
           <p class="section-subtitle">
-            Internal overview for you (KB) to see resources per hub – with status, source and last_verified_at.
+            Internal overview for you (KB) to see resources per hub – with
+            status, source and last_verified_at.
           </p>
 
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;">
+          <div
+            style="display: flex; gap: 12px; align-items: center; margin-bottom: 10px"
+          >
             <div
               id="admin-current-hub"
-              style="font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #d1d5db;background:#f9fafb;"
+              style="
+                font-size: 12px;
+                padding: 6px 10px;
+                border-radius: 999px;
+                border: 1px solid #d1d5db;
+                background: #f9fafb;
+              "
             >
               Current hub: Electronic City
             </div>
             <select
               id="admin-type-select"
-              style="font-size:13px;padding:6px 10px;border-radius:999px;border:1px solid #000;background:#f9fafb;"
+              style="
+                font-size: 13px;
+                padding: 6px 10px;
+                border-radius: 999px;
+                border: 1px solid #000;
+                background: #f9fafb;
+              "
             >
               <option value="cafes">Cafés</option>
               <option value="gyms">Gyms</option>
@@ -860,8 +885,9 @@
             </div>
           </div>
           <p class="section-subtitle">
-            Built by <strong>KB</strong> (founder) as a side project for IT employees –
-            to make Bangalore tech life easier using AI + Supabase + Vercel.
+            Built by <strong>KB</strong> (founder) as a side project for IT
+            employees – to make Bangalore tech life easier using AI + Supabase +
+            Vercel.
           </p>
           <p class="section-subtitle">
             In future, AI will automatically keep cafés, gyms, PGs, rentals,
@@ -875,16 +901,16 @@
     <footer>
       <p>
         Made with ❤️ in Bangalore • TechLifePortal (beta) •
-        <strong>Founded by KB</strong>. This is not an
-        official listing platform for any company. Data is curated manually +
-        with AI. Always verify details before making decisions.
+        <strong>Founded by KB</strong>. This is not an official listing platform
+        for any company. Data is curated manually + with AI. Always verify
+        details before making decisions.
       </p>
     </footer>
 
     <!-- MAIN APP SCRIPT -->
     <script>
       const supabaseUrl = "https://tpysvvpswkepuyzfyxcb.supabase.co";
-      const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweXN2dnBzd2tlcHV5emZ5eGNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3NTE5MTIsImV4cCI6MjA4MDMyNzkxMn0.EzyDrXdsQnDGXL4ixPOeX5Xg7C35ELYkHPatypOsHU4"; // <-- put your real anon key here
+      const supabaseAnonKey = "PASTE_YOUR_ANON_KEY_HERE"; // <-- replace with your real anon key
 
       const supabaseClient = window.supabase.createClient(
         supabaseUrl,
@@ -1148,53 +1174,82 @@
         });
       }
 
+      // WEEKEND SPOTS – custom card with bigger bold title
       async function loadWeekendSpots(hub) {
-  setLoading("weekend-list", "Loading weekend spots…");
+        setLoading("weekend-list", "Loading weekend spots…");
 
-  const { data, error } = await supabaseClient
-    .from("weekend_spots")
-    .select("*")
-    // NOTE: no .eq("hub", hub) filter for now
-    .order("hub", { ascending: true })
-    .order("priority", { ascending: true });
+        const { data, error } = await supabaseClient
+          .from("weekend_spots")
+          .select("*")
+          // no hub filter for now: show all weekend spots
+          .order("hub", { ascending: true })
+          .order("priority", { ascending: true });
 
-  const list = document.getElementById("weekend-list");
-  list.innerHTML = "";
+        const list = document.getElementById("weekend-list");
+        list.innerHTML = "";
 
-  console.log("Weekend spots data:", data, error);
+        console.log("Weekend spots data:", data, error);
 
-  if (error) {
-    list.textContent = "Couldn’t load weekend spots.";
-    return;
-  }
+        if (error) {
+          list.textContent = "Couldn’t load weekend spots.";
+          return;
+        }
 
-  if (!data || !data.length) {
-    list.textContent = "No weekend spots added yet.";
-    return;
-  }
+        if (!data || !data.length) {
+          list.textContent = "No weekend spots added yet.";
+          return;
+        }
 
-  data.forEach((spot) => {
-    const summary = spot.ai_summary || spot.description || "";
-    const metaParts = [];
+        data.forEach((spot) => {
+          const summary = spot.ai_summary || spot.description || "";
+          const metaParts = [];
+          if (spot.hub) metaParts.push(spot.hub);
+          if (spot.category) metaParts.push(spot.category);
+          if (spot.location) metaParts.push(spot.location);
+          const meta = metaParts.join(" • ");
 
-    if (spot.hub) metaParts.push(spot.hub);
-    if (spot.category) metaParts.push(spot.category);
-    if (spot.location) metaParts.push(spot.location);
+          const card = document.createElement("div");
+          card.className = "card";
 
-    const meta = metaParts.join(" • ");
+          const titleEl = document.createElement("div");
+          titleEl.className = "card-title weekend-title";
+          titleEl.textContent = spot.name;
+          card.appendChild(titleEl);
 
-    const card = createCard({
-      title: spot.name,
-      summary,
-      tag: spot.tag,
-      meta,
-      mapsUrl: spot.maps_url,
-    });
+          if (summary) {
+            const descEl = document.createElement("div");
+            descEl.className = "card-line";
+            descEl.textContent = summary;
+            card.appendChild(descEl);
+          }
 
-    list.appendChild(card);
-  });
-}
+          if (meta || spot.maps_url) {
+            const metaEl = document.createElement("div");
+            metaEl.className = "card-meta";
 
+            if (meta) {
+              const metaSpan = document.createElement("span");
+              metaSpan.textContent = meta + " ";
+              metaEl.appendChild(metaSpan);
+            }
+
+            if (spot.maps_url) {
+              const link = document.createElement("a");
+              link.href = spot.maps_url;
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+              link.className = "map-link";
+              link.textContent = "View";
+              if (meta) metaEl.appendChild(document.createTextNode(" • "));
+              metaEl.appendChild(link);
+            }
+
+            card.appendChild(metaEl);
+          }
+
+          list.appendChild(card);
+        });
+      }
 
       async function loadExperiences(hub) {
         const list = document.getElementById("experiences-list");
@@ -1360,54 +1415,54 @@
       // ----- EXPERIENCES FORM -----
 
       const expForm = document.getElementById("experience-form");
-const expStatus = document.getElementById("exp-status");
+      const expStatus = document.getElementById("exp-status");
 
-if (expForm) {
-  expForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    expStatus.textContent = "";
-    const btn = document.getElementById("exp-submit");
-    btn.disabled = true;
+      if (expForm) {
+        expForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          expStatus.textContent = "";
+          const btn = document.getElementById("exp-submit");
+          btn.disabled = true;
 
-    const name = document.getElementById("exp-name").value.trim();
-    const category = document.getElementById("exp-category").value;
-    const story = document.getElementById("exp-story").value.trim();
-    const hub = getCurrentHub();
+          const name = document.getElementById("exp-name").value.trim();
+          const category = document.getElementById("exp-category").value;
+          const story = document.getElementById("exp-story").value.trim();
+          const hub = getCurrentHub();
 
-    if (!story) {
-      expStatus.textContent = "Please write a short story.";
-      btn.disabled = false;
-      return;
-    }
+          if (!story) {
+            expStatus.textContent = "Please write a short story.";
+            btn.disabled = false;
+            return;
+          }
 
-    const { data, error } = await supabaseClient
-  .from("experiences")
-  .insert([
-    {
-      name: name || null,
-      category,
-      story,
-      hub,
-    },
-  ])
-  .select();
+          const { data, error } = await supabaseClient
+            .from("experiences")
+            .insert([
+              {
+                name: name || null,
+                category,
+                story,
+                hub,
+              },
+            ])
+            .select();
 
+          console.log("Experience insert result:", { data, error });
 
-    console.log("Experience insert result:", { data, error });
+          if (error) {
+            expStatus.textContent =
+              "Error: " +
+              (error.message || "Could not submit. Please try again.");
+          } else {
+            expStatus.textContent =
+              "Thank you! Your experience was submitted for review.";
+            document.getElementById("exp-story").value = "";
+          }
 
-    if (error) {
-      expStatus.textContent =
-        "Error: " + (error.message || "Could not submit. Please try again.");
-    } else {
-      expStatus.textContent =
-        "Thank you! Your experience was submitted for review.";
-      document.getElementById("exp-story").value = "";
-    }
-
-    btn.disabled = false;
-    loadExperiences(hub);
-  });
-}
+          btn.disabled = false;
+          loadExperiences(hub);
+        });
+      }
 
       // Initial load
       refreshAll();
