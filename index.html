@@ -1154,7 +1154,8 @@
   const { data, error } = await supabaseClient
     .from("weekend_spots")
     .select("*")
-    .eq("hub", hub)                     // ✅ only filter by hub
+    // NOTE: no .eq("hub", hub) filter for now
+    .order("hub", { ascending: true })
     .order("priority", { ascending: true });
 
   const list = document.getElementById("weekend-list");
@@ -1168,15 +1169,19 @@
   }
 
   if (!data || !data.length) {
-    list.textContent = "No weekend spots added yet for this hub.";
+    list.textContent = "No weekend spots added yet.";
     return;
   }
 
   data.forEach((spot) => {
     const summary = spot.ai_summary || spot.description || "";
-    const meta =
-      (spot.category ? spot.category + " • " : "") +
-      (spot.location || hub);
+    const metaParts = [];
+
+    if (spot.hub) metaParts.push(spot.hub);
+    if (spot.category) metaParts.push(spot.category);
+    if (spot.location) metaParts.push(spot.location);
+
+    const meta = metaParts.join(" • ");
 
     const card = createCard({
       title: spot.name,
