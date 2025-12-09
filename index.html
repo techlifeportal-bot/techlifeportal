@@ -1149,45 +1149,47 @@
       }
 
       async function loadWeekendSpots(hub) {
-        setLoading("weekend-list", "Loading weekend spots…");
+  setLoading("weekend-list", "Loading weekend spots…");
 
-        const { data, error } = await supabaseClient
-          .from("weekend_spots")
-          .select("*")
-          .eq("hub", hub)
-          .eq("status", "active")
-          .order("priority", { ascending: true });
+  const { data, error } = await supabaseClient
+    .from("weekend_spots")
+    .select("*")
+    .eq("hub", hub)                     // ✅ only filter by hub
+    .order("priority", { ascending: true });
 
-        const list = document.getElementById("weekend-list");
-        list.innerHTML = "";
+  const list = document.getElementById("weekend-list");
+  list.innerHTML = "";
 
-        if (error) {
-          list.textContent = "Couldn’t load weekend spots.";
-          return;
-        }
+  console.log("Weekend spots data:", data, error);
 
-        if (!data || !data.length) {
-          list.textContent = "No weekend spots added yet for this hub.";
-          return;
-        }
+  if (error) {
+    list.textContent = "Couldn’t load weekend spots.";
+    return;
+  }
 
-        data.forEach((spot) => {
-          const summary = spot.ai_summary || spot.description || "";
-          const meta =
-            (spot.category ? spot.category + " • " : "") +
-            (spot.location || hub);
+  if (!data || !data.length) {
+    list.textContent = "No weekend spots added yet for this hub.";
+    return;
+  }
 
-          const card = createCard({
-            title: spot.name,
-            summary,
-            tag: spot.tag,
-            meta,
-            mapsUrl: spot.maps_url,
-          });
+  data.forEach((spot) => {
+    const summary = spot.ai_summary || spot.description || "";
+    const meta =
+      (spot.category ? spot.category + " • " : "") +
+      (spot.location || hub);
 
-          list.appendChild(card);
-        });
-      }
+    const card = createCard({
+      title: spot.name,
+      summary,
+      tag: spot.tag,
+      meta,
+      mapsUrl: spot.maps_url,
+    });
+
+    list.appendChild(card);
+  });
+}
+
 
       async function loadExperiences(hub) {
         const list = document.getElementById("experiences-list");
