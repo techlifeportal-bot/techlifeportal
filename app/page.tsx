@@ -7,17 +7,21 @@ const supabase = createClient(
 
 export default async function HomePage() {
   const { data: weekendSpots, error } = await supabase
-    .from("weekend_spots")
-    .select("*")
+  .from("weekend_spots")
+  .select('id, "Name", description, hub');
     .order("created_at", { ascending: false });
 
-  if (error) {
-    return (
-      <main className="p-8">
-        <p className="text-red-600">Error loading weekend spots</p>
-      </main>
-    );
-  }
+ if (error) {
+  return (
+    <main className="p-8">
+      <p className="text-red-600 font-bold">Supabase Error</p>
+      <pre className="mt-4 text-sm text-red-500">
+        {JSON.stringify(error, null, 2)}
+      </pre>
+    </main>
+  );
+}
+
 
   return (
     <main className="p-8">
