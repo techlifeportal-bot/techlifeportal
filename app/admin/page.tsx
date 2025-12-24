@@ -1,192 +1,120 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
-type DraftSpot = {
-  id: string;
-  name: string;
-  description: string;
-  ai_summary: string;
-  hub: string;
-  category: string;
-};
-
-const mockDrafts: DraftSpot[] = [
-  {
-    id: 'draft-1',
-    name: 'Whitefield Tech Park Food Street',
-    description:
-      'Popular evening food street near tech parks in Whitefield.',
-    ai_summary:
-      'A lively food street near Whitefield IT hubs with diverse food options.',
-    hub: 'Whitefield',
-    category: 'Food / Hangout'
-  }
-];
+)
 
 export default function AdminPage() {
-  const [drafts, setDrafts] = useState(mockDrafts);
-  const [activeDraft, setActiveDraft] = useState<DraftSpot | null>(null);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [session, setSession] = useState<any>(null)
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState<string | null>(null)
 
-  async function confirmApprove() {
-    if (!activeDraft) return;
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session)
+    })
 
-    setLoading(true);
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session)
+      }
+    )
 
-    const { error } = await supabase.from('approved_spots').insert({
-      name: activeDraft.name,
-      description: activeDraft.description,
-      ai_summary: activeDraft.ai_summary,
-      hub: activeDraft.hub,
-      category: activeDraft.category,
-      source: 'ai',
-      status: 'approved'
-    });
+    return () => {
+      listener.subscription.unsubscribe()
+    }
+  }, [])
 
-    setLoading(false);
+  async function sendMagicLink() {
+    setLoading(true)
+    setMessage(null)
+
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/admin`,
+      },
+    })
 
     if (error) {
-      alert('Insert failed. Check RLS / policy.');
-      console.error(error);
-      return;
+      setMessage(error.message)
+    } else {
+      setMessage('Magic link sent. Check your email.')
     }
 
-    // Remove from draft list
-    setDrafts((prev) =>
-      prev.filter((d) => d.id !== activeDraft.id)
-    );
-
-    setActiveDraft(null);
-    setShowConfirm(false);
-
-    alert('Approved and saved to approved_spots');
+    setLoading(false)
   }
 
-  return (
-    <main className="min-h-screen bg-gray-100 px-6 py-10">
-      <h1 className="text-3xl font-bold mb-8">
-        🤖 Admin — AI Draft Approval
-      </h1>
+  async function signOut() {
+    await supabase.auth.signOut()
+    window.location.reload()
+  }
 
-      {drafts.map((draft) => (
-        <div
-          key={draft.id}
-          className="bg-white border rounded-lg p-4 mb-4"
-        >
-          <p className="font-semibold">{draft.name}</p>
-          <p className="text-sm text-gray-600">
-            📍 {draft.hub} · 🏷️ {draft.category}
-          </p>
+  // -----------------------------
+  // NOT LOGGED IN → LOGIN SCREEN
+  // -----------------------------
+  if (!session) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-6 rounded border w-full max-w-sm">
+          <h1 className="text-xl font-semibold mb-4">
+            Admin Login
+          </h1>
+
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="border px-3 py-2 w-full mb-3"
+          />
 
           <button
-            onClick={() => setActiveDraft(draft)}
-            className="mt-3 text-blue-600 text-sm"
+            onClick={sendMagicLink}
+            disabled={loading || !email}
+            className="bg-black text-white px-4 py-2 w-full"
           >
-            ✏️ Edit & Approve
+            {loading ? 'Sending…' : 'Send Magic Link'}
           </button>
+
+          {message && (
+            <p className="text-sm mt-3 text-gray-600">{message}</p>
+          )}
         </div>
-      ))}
+      </main>
+    )
+  }
 
-      {/* Edit Modal */}
-      {activeDraft && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-          <div className="bg-white rounded-xl p-6 w-full max-w-xl">
-            <h2 className="text-xl font-bold mb-4">Edit Draft</h2>
+  // -----------------------------
+  // LOGGED IN → ADMIN PANEL
+  // -----------------------------
+  return (
+    <main className="min-h-screen bg-gray-50 p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-semibold">
+          Admin — AI Draft Approval
+        </h1>
 
-            {['name', 'hub', 'category'].map((field) => (
-              <input
-                key={field}
-                className="w-full border rounded p-2 mb-3"
-                value={(activeDraft as any)[field]}
-                onChange={(e) =>
-                  setActiveDraft({
-                    ...activeDraft,
-                    [field]: e.target.value
-                  })
-                }
-              />
-            ))}
+        <button
+          onClick={signOut}
+          className="text-sm text-red-600 underline"
+        >
+          Sign out
+        </button>
+      </div>
 
-            <textarea
-              className="w-full border rounded p-2 mb-3"
-              rows={3}
-              value={activeDraft.description}
-              onChange={(e) =>
-                setActiveDraft({
-                  ...activeDraft,
-                  description: e.target.value
-                })
-              }
-            />
+      <div className="bg-white p-4 rounded border">
+        <p className="text-sm text-gray-600">
+          You are authenticated. Admin tools will load here.
+        </p>
 
-            <textarea
-              className="w-full border rounded p-2 mb-4"
-              rows={3}
-              value={activeDraft.ai_summary}
-              onChange={(e) =>
-                setActiveDraft({
-                  ...activeDraft,
-                  ai_summary: e.target.value
-                })
-              }
-            />
-
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setActiveDraft(null)}
-                className="text-gray-600"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => setShowConfirm(true)}
-                className="bg-blue-600 text-white px-4 py-2 rounded"
-              >
-                Approve
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Confirm Modal */}
-      {showConfirm && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full">
-            <h2 className="text-lg font-bold mb-3">
-              Confirm Approval
-            </h2>
-            <p className="text-sm text-gray-600 mb-4">
-              This will save the draft to <b>approved_spots</b>.
-              It will NOT be public.
-            </p>
-
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="text-gray-600"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmApprove}
-                disabled={loading}
-                className="bg-green-600 text-white px-4 py-2 rounded"
-              >
-                {loading ? 'Saving…' : 'Confirm'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+        {/* Future admin UI goes here */}
+      </div>
     </main>
-  );
+  )
 }
