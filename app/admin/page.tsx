@@ -8,112 +8,156 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
+type Draft = {
+  id: string
+  name: string
+  description: string
+  hub: string
+  category: string
+}
+
 export default function AdminPage() {
-  const [session, setSession] = useState<any>(null)
-  const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState<string | null>(null)
+  const [drafts, setDrafts] = useState<Draft[]>([])
+  const [loading, setLoading] = useState(true)
+  const [approvingId, setApprovingId] = useState<string | null>(null)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session)
-    })
+    async function loadDrafts() {
+      const { data } = await supabase
+        .from('ai_suggested_spots')
+        .select('id, name, description, hub, category')
+        .order('created_at', { ascending: false })
 
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session)
-      }
-    )
-
-    return () => {
-      listener.subscription.unsubscribe()
+      setDrafts(data || [])
+      setLoading(false)
     }
+
+    loadDrafts()
   }, [])
 
-  async function sendMagicLink() {
-    setLoading(true)
-    setMessage(null)
-
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/admin`,
-      },
-    })
-
-    if (error) {
-      setMessage(error.message)
-    } else {
-      setMessage('Magic link sent. Check your email.')
-    }
-
-    setLoading(false)
-  }
-
-  async function signOut() {
-    await supabase.auth.signOut()
-    window.location.reload()
-  }
-
-  // -----------------------------
-  // NOT LOGGED IN → LOGIN SCREEN
-  // -----------------------------
-  if (!session) {
-    return (
-      <main className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="bg-white p-6 rounded border w-full max-w-sm">
-          <h1 className="text-xl font-semibold mb-4">
-            Admin Login
-          </h1>
-
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border px-3 py-2 w-full mb-3"
-          />
-
-          <button
-            onClick={sendMagicLink}
-            disabled={loading || !email}
-            className="bg-black text-white px-4 py-2 w-full"
-          >
-            {loading ? 'Sending…' : 'Send Magic Link'}
-          </button>
-
-          {message && (
-            <p className="text-sm mt-3 text-gray-600">{message}</p>
-          )}
-        </div>
-      </main>
+  function updateDraft(
+    id: string,
+    field: keyof Draft,
+    value: string
+  ) {
+    setDrafts((prev) =>
+      prev.map((d) =>
+        d.id === id ? { ...d, [field]: value } : d
+      )
     )
   }
 
-  // -----------------------------
-  // LOGGED IN → ADMIN PANEL
-  // -----------------------------
+  async function approveDraft(draft: Draft) {
+    setApprovingId(draft.id)
+
+    const { error: insertError } = await supabase
+      .from('approved_spots')
+      .insert({
+        name: draft.name,
+        description: draft.description,
+        hub: draft.hub,
+        category: draft.category,
+        source: 'ai'
+      })
+
+    if (insertError) {
+      alert('Approval failed')
+      console.error(insertError)
+      setApprovingId(null)
+      return
+    }
+
+    await supabase
+      .from('ai_suggested_spots')
+      .delete()
+      .eq('id', draft.id)
+
+    setDrafts((prev) =>
+      prev.filter((d) => d.id !== draft.id)
+    )
+
+    setApprovingId(null)
+  }
+
   return (
     <main className="min-h-screen bg-gray-50 p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold">
-          Admin — AI Draft Approval
-        </h1>
-
-        <button
-          onClick={signOut}
-          className="text-sm text-red-600 underline"
-        >
-          Sign out
-        </button>
+      {/* DEV MODE BANNER */}
+      <div className="mb-4 text-xs text-yellow-700 bg-yellow-100 p-2 rounded">
+        DEV MODE — AI suggestions, approval and publish are manual and safe
       </div>
 
-      <div className="bg-white p-4 rounded border">
-        <p className="text-sm text-gray-600">
-          You are authenticated. Admin tools will load here.
-        </p>
+      <h1 className="text-2xl font-semibold mb-6">
+        Admin — Review AI Drafts
+      </h1>
 
-        {/* Future admin UI goes here */}
+      {loading && <p>Loading drafts…</p>}
+
+      {!loading && drafts.length === 0 && (
+        <p className="text-gray-500">
+          No AI drafts pending review.
+        </p>
+      )}
+
+      <div className="space-y-6">
+        {drafts.map((draft) => (
+          <div
+            key={draft.id}
+            className="bg-white border rounded p-4 space-y-3"
+          >
+            <input
+              className="w-full border px-3 py-2 font-semibold"
+              value={draft.name}
+              onChange={(e) =>
+                updateDraft(draft.id, 'name', e.target.value)
+              }
+            />
+
+            <textarea
+              className="w-full border px-3 py-2 text-sm"
+              rows={4}
+              value={draft.description}
+              onChange={(e) =>
+                updateDraft(
+                  draft.id,
+                  'description',
+                  e.target.value
+                )
+              }
+            />
+
+            <div className="flex gap-3">
+              <input
+                className="flex-1 border px-3 py-2 text-sm"
+                value={draft.hub}
+                onChange={(e) =>
+                  updateDraft(draft.id, 'hub', e.target.value)
+                }
+              />
+
+              <input
+                className="flex-1 border px-3 py-2 text-sm"
+                value={draft.category}
+                onChange={(e) =>
+                  updateDraft(
+                    draft.id,
+                    'category',
+                    e.target.value
+                  )
+                }
+              />
+            </div>
+
+            <button
+              onClick={() => approveDraft(draft)}
+              disabled={approvingId === draft.id}
+              className="bg-black text-white px-4 py-1 text-sm"
+            >
+              {approvingId === draft.id
+                ? 'Approving…'
+                : 'Approve'}
+            </button>
+          </div>
+        ))}
       </div>
     </main>
   )
