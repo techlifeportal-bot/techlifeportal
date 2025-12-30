@@ -21,25 +21,25 @@ export default async function WeekendSpotsPage() {
         professionals.
       </p>
 
-      {/* Scoped styles — affects ONLY this page */}
+      {/* Scoped premium hover – affects ONLY this page */}
       <style>{`
-        .weekend-card {
-          border-radius: 14px;
-          padding: 20px;
+        .premium-card {
           background: rgba(255, 255, 255, 0.04);
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          border-radius: 16px;
+          padding: 22px;
+          transition: transform 0.22s ease, box-shadow 0.22s ease;
         }
 
-        .weekend-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        .premium-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
         }
 
-        .weekend-card h3 {
-          margin-bottom: 6px;
+        .premium-card h3 {
+          margin-bottom: 8px;
         }
 
-        .weekend-card a {
+        .premium-card a {
           display: inline-block;
           margin-top: 10px;
           font-weight: 500;
@@ -49,7 +49,7 @@ export default async function WeekendSpotsPage() {
       <section className="card-grid">
         {spots && spots.length > 0 ? (
           spots.map((spot) => (
-            <div key={spot.id} className="weekend-card">
+            <div key={spot.id} className="premium-card">
               <h3>{spot.location}</h3>
 
               {spot.maps_url && (
