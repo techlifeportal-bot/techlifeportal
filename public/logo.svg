@@ -1,0 +1,30 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Background -->
+  <circle cx="32" cy="32" r="30" fill="#2563EB"/>
+
+  <!-- Circular flow -->
+  <path
+    d="M18 32C18 24.268 24.268 18 32 18
+       C39.732 18 46 24.268 46 32
+       C46 39.732 39.732 46 32 46"
+    stroke="white"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+  <!-- Connection nodes -->
+  <circle cx="18" cy="32" r="3" fill="white"/>
+  <circle cx="32" cy="18" r="3" fill="white"/>
+  <circle cx="46" cy="32" r="3" fill="white"/>
+  <circle cx="32" cy="46" r="3" fill="white"/>
+
+  <!-- Subtle geometric T (custom path, not text) -->
+  <!-- Horizontal bar -->
+  <rect x="26" y="26" width="12" height="2.5" rx="1.2" fill="white"/>
+
+  <!-- Vertical stem -->
+  <rect x="30.25" y="26" width="3.5" height="12" rx="1.5" fill="white"/>
+
+</svg>
