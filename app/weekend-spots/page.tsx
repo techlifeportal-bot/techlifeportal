@@ -5,11 +5,12 @@ export const dynamic = "force-dynamic";
 export default async function WeekendSpotsPage() {
   const { data: spots, error } = await supabase
     .from("weekend_spots")
-    .select("id, name, location, description, maps_url, priority, status")
+    .select("id, location, maps_url, priority, status")
     .eq("status", "active")
     .order("priority", { ascending: false });
 
   if (error) {
+    console.error(error);
     return <p className="error-text">Failed to load weekend spots.</p>;
   }
 
@@ -17,22 +18,14 @@ export default async function WeekendSpotsPage() {
     <main className="list-page">
       <h1 className="page-title">🌴 Weekend Spots</h1>
       <p className="page-subtitle">
-        Curated weekend places loved by Bangalore IT professionals.
+        Handpicked weekend getaways and hangout places for Bangalore IT professionals.
       </p>
 
       <section className="card-grid">
         {spots && spots.length > 0 ? (
           spots.map((spot) => (
             <div key={spot.id} className="card">
-              <h3>{spot.name}</h3>
-
-              {spot.location && (
-                <p className="meta">📍 {spot.location}</p>
-              )}
-
-              {spot.description && (
-                <p className="description">{spot.description}</p>
-              )}
+              <h3>{spot.location}</h3>
 
               {spot.maps_url ? (
                 <a
@@ -43,7 +36,7 @@ export default async function WeekendSpotsPage() {
                 >
                   📍 Open in Google Maps →
                 </a>
-              ) : spot.location ? (
+              ) : (
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                     spot.location
@@ -54,7 +47,7 @@ export default async function WeekendSpotsPage() {
                 >
                   📍 Search on Google Maps →
                 </a>
-              ) : null}
+              )}
             </div>
           ))
         ) : (
