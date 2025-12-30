@@ -8,9 +8,23 @@ const inter = Inter({
 
 export default function HomePage() {
   return (
-    <main className={inter.className}>
+    <main
+      className={inter.className}
+      style={{
+        background:
+          "radial-gradient(1200px 600px at top, rgba(59,130,246,0.12), transparent 60%)",
+        minHeight: "100vh",
+      }}
+    >
       {/* HERO */}
-      <section style={{ maxWidth: "900px", margin: "0 auto", paddingTop: "3rem" }}>
+      <section
+        style={{
+          maxWidth: "900px",
+          margin: "0 auto",
+          paddingTop: "3.5rem",
+          paddingBottom: "2rem",
+        }}
+      >
         <h1 style={{ marginBottom: "0.8rem" }}>TechLifePortal</h1>
         <p style={{ fontSize: "1.05rem", lineHeight: "1.7" }}>
           A lifestyle platform built for <strong>IT professionals</strong>.
@@ -71,7 +85,13 @@ export default function HomePage() {
       </section>
 
       {/* ABOUT */}
-      <section style={{ maxWidth: "900px", margin: "0 auto" }}>
+      <section
+        style={{
+          maxWidth: "900px",
+          margin: "0 auto",
+          paddingTop: "3rem",
+        }}
+      >
         <h2>About TechLifePortal</h2>
         <p>
           TechLifePortal is built with a simple belief:{" "}
@@ -88,7 +108,7 @@ export default function HomePage() {
       </section>
 
       {/* FOOTER */}
-      <footer>
+      <footer style={{ marginTop: "4rem" }}>
         Built for Bangalore IT professionals · TechLifePortal (Beta)
       </footer>
     </main>
