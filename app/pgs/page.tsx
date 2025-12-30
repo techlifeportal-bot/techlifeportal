@@ -92,6 +92,17 @@ export default function PGsPage() {
             {pg.description && (
               <p className="hub-address">{pg.description}</p>
             )}
+
+            {pg.maps_url && (
+              <a
+                href={pg.maps_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="map-link"
+              >
+                📍 View on Google Maps
+              </a>
+            )}
           </div>
         ))}
       </section>
