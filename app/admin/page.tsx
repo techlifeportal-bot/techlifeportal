@@ -16,44 +16,53 @@ type Draft = {
   category: string;
 };
 
+const AI_TYPES = [
+  { label: "Weekend Spots", value: "weekend_spots" },
+  { label: "Cafes", value: "cafes" },
+  { label: "Gyms", value: "gyms" },
+  { label: "Companies", value: "companies" },
+  { label: "Jobs", value: "jobs" },
+];
+
 export default function AdminPage() {
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [selectedType, setSelectedType] = useState("");
 
   useEffect(() => {
     fetchDrafts();
   }, []);
 
   const fetchDrafts = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("ai_suggested_spots")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error("Failed to load drafts", error);
-    } else {
-      setDrafts(data || []);
-    }
-
+    setDrafts(data || []);
     setLoading(false);
   };
 
   const generateAISuggestions = async () => {
+    if (!selectedType) {
+      alert("Select suggestion type first");
+      return;
+    }
+
     setGenerating(true);
 
     try {
-      const res = await fetch("/api/ai/generate-spots", {
+      const res = await fetch("/api/ai/generate-suggestions", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: selectedType }),
       });
 
-      if (!res.ok) {
-        throw new Error("AI generation failed");
-      }
+      if (!res.ok) throw new Error();
 
       await fetchDrafts();
-    } catch (err) {
+    } catch {
       alert("Failed to generate AI suggestions");
     }
 
@@ -61,19 +70,12 @@ export default function AdminPage() {
   };
 
   const approveDraft = async (draft: Draft) => {
-    const { error: insertError } = await supabase
-      .from("approved_spots")
-      .insert({
-        name: draft.name,
-        description: draft.description,
-        location: draft.location,
-        category: draft.category,
-      });
-
-    if (insertError) {
-      alert("Failed to approve draft");
-      return;
-    }
+    // Insert into correct table based on category
+    await supabase.from(draft.category).insert({
+      name: draft.name,
+      description: draft.description,
+      location: draft.location,
+    });
 
     await supabase
       .from("ai_suggested_spots")
@@ -88,49 +90,45 @@ export default function AdminPage() {
       <header className="admin-header">
         <h1>Admin — AI Draft Review</h1>
         <p>
-          Automation status: <strong>MANUAL ONLY</strong> (admin-triggered)
+          Automation status: <strong>MANUAL ONLY</strong>
         </p>
 
-        <button
-          className="generate-btn"
-          onClick={generateAISuggestions}
-          disabled={generating}
-        >
-          {generating ? "Generating…" : "Generate AI Suggestions"}
-        </button>
+        {/* AI CONTROL */}
+        <div className="admin-ai-control">
+          <select
+            value={selectedType}
+            onChange={(e) => setSelectedType(e.target.value)}
+          >
+            <option value="">Select AI suggestion type</option>
+            {AI_TYPES.map((t) => (
+              <option key={t.value} value={t.value}>
+                {t.label}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={generateAISuggestions}
+            disabled={generating}
+          >
+            {generating ? "Generating…" : "Generate AI Suggestions"}
+          </button>
+        </div>
       </header>
 
-      {loading && <p>Loading AI drafts...</p>}
-
-      {!loading && drafts.length === 0 && (
-        <p>No AI drafts pending review.</p>
-      )}
+      {loading && <p>Loading drafts...</p>}
 
       <section className="admin-grid">
         {drafts.map((draft) => (
           <div key={draft.id} className="admin-card">
-            <div className="admin-card-header">
-              <h3>AI Suggested Spot</h3>
-              <span className="admin-status">Pending</span>
-            </div>
-
-            <label>Name</label>
-            <input value={draft.name} readOnly />
-
-            <label>Description</label>
-            <textarea value={draft.description} rows={4} readOnly />
-
-            <div className="admin-row">
-              <div>
-                <label>Location</label>
-                <input value={draft.location} readOnly />
-              </div>
-
-              <div>
-                <label>Category</label>
-                <input value={draft.category} readOnly />
-              </div>
-            </div>
+            <h3>{draft.name}</h3>
+            <p>{draft.description}</p>
+            <p>
+              <strong>Location:</strong> {draft.location}
+            </p>
+            <p>
+              <strong>Category:</strong> {draft.category}
+            </p>
 
             <button
               className="approve-btn"
