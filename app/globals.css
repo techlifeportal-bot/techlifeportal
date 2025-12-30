@@ -396,3 +396,71 @@ footer {
 .hub-switcher option {
   color: #0f172a;
 }
+/* ===== PREMIUM HUB SELECTOR (PGs PAGE) ===== */
+
+.hub-switcher {
+  margin-top: 16px;
+  max-width: 360px;
+}
+
+.hub-switcher select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(30, 41, 59, 0.95),
+    rgba(15, 23, 42, 0.95)
+  );
+
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.hub-switcher select:hover {
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+.hub-switcher select:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow:
+    0 0 0 1px rgba(96, 165, 250, 0.6),
+    0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Dropdown options */
+.hub-switcher option {
+  background-color: #020617;
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+/* Placeholder option */
+.hub-switcher option[value=""] {
+  color: #94a3b8;
+}
+
+/* Custom dropdown arrow */
+.hub-switcher::after {
+  content: "⌄";
+  position: relative;
+  float: right;
+  margin-top: -34px;
+  margin-right: 14px;
+  pointer-events: none;
+  color: #94a3b8;
+}
