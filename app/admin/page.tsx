@@ -1,223 +1,120 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+);
 
 type Draft = {
-  id: string
-  name: string
-  description: string
-  hub: string
-  category: string
-}
+  id: string;
+  name: string;
+  description: string;
+  location: string;
+  category: string;
+};
 
 export default function AdminPage() {
-  const [drafts, setDrafts] = useState<Draft[]>([])
-  const [loading, setLoading] = useState(true)
-  const [generating, setGenerating] = useState(false)
-  const [message, setMessage] = useState<string | null>(null)
-  const [approvingId, setApprovingId] = useState<string | null>(null)
+  const [drafts, setDrafts] = useState<Draft[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // 📥 Load AI drafts
   useEffect(() => {
-    loadDrafts()
-  }, [])
+    fetchDrafts();
+  }, []);
 
-  async function loadDrafts() {
-    setLoading(true)
+  const fetchDrafts = async () => {
     const { data, error } = await supabase
-      .from('ai_suggested_spots')
-      .select('id, name, description, hub, category')
-      .order('created_at', { ascending: false })
+      .from("ai_suggested_spots")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-    if (!error) {
-      setDrafts(data || [])
+    if (error) {
+      console.error("Failed to load drafts", error);
+    } else {
+      setDrafts(data || []);
     }
 
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
-  // 🤖 Manual AI trigger
-  async function generateAI() {
-    setGenerating(true)
-    setMessage(null)
-
-    try {
-      const res = await fetch('/api/ai/suggest', {
-        method: 'POST',
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data.error || 'AI generation failed')
-      }
-
-      setMessage('AI suggestions generated successfully')
-      await loadDrafts()
-    } catch (err: any) {
-      setMessage(err.message)
-    } finally {
-      setGenerating(false)
-    }
-  }
-
-  // ✏️ Edit draft locally
-  function updateDraft(
-    id: string,
-    field: keyof Draft,
-    value: string
-  ) {
-    setDrafts((prev) =>
-      prev.map((d) =>
-        d.id === id ? { ...d, [field]: value } : d
-      )
-    )
-  }
-
-  // ✅ Approve draft
-  async function approveDraft(draft: Draft) {
-    setApprovingId(draft.id)
-
-    const { error } = await supabase
-      .from('approved_spots')
+  const approveDraft = async (draft: Draft) => {
+    // 1. Insert into approved spots
+    const { error: insertError } = await supabase
+      .from("approved_spots")
       .insert({
         name: draft.name,
         description: draft.description,
-        hub: draft.hub,
+        location: draft.location,
         category: draft.category,
-        source: 'ai',
-      })
+      });
 
-    if (error) {
-      alert('Approval failed')
-      console.error(error)
-      setApprovingId(null)
-      return
+    if (insertError) {
+      alert("Failed to approve draft");
+      return;
     }
 
+    // 2. Remove from AI suggestions
     await supabase
-      .from('ai_suggested_spots')
+      .from("ai_suggested_spots")
       .delete()
-      .eq('id', draft.id)
+      .eq("id", draft.id);
 
-    setDrafts((prev) =>
-      prev.filter((d) => d.id !== draft.id)
-    )
-
-    setApprovingId(null)
-  }
-
-  // ⏳ Loading screen
-  if (loading) {
-    return (
-      <main className="min-h-screen flex items-center justify-center">
-        Loading admin dashboard…
-      </main>
-    )
-  }
+    // 3. Refresh list
+    fetchDrafts();
+  };
 
   return (
-    <main className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-2xl font-semibold mb-2">
-        Admin — AI Draft Review
-      </h1>
-
-      {/* 🟢 Automation status */}
-      <div className="mb-4 text-xs text-green-700 bg-green-100 p-2 rounded">
-        Automation status: MANUAL ONLY (admin-triggered)
-      </div>
-
-      {/* 🤖 Generate AI */}
-      <div className="mb-6">
-        <button
-          onClick={generateAI}
-          disabled={generating}
-          className="bg-black text-white px-4 py-2 rounded disabled:opacity-50"
-        >
-          {generating ? 'Generating…' : 'Generate AI Suggestions'}
-        </button>
-
-        {message && (
-          <p className="mt-2 text-sm text-gray-700">
-            {message}
-          </p>
-        )}
-      </div>
-
-      {/* 📄 Draft list */}
-      {drafts.length === 0 && (
-        <p className="text-gray-500">
-          No AI drafts available.
+    <main className="admin-page">
+      <header className="admin-header">
+        <h1>Admin — AI Draft Review</h1>
+        <p>
+          Automation status: <strong>MANUAL ONLY</strong> (admin-triggered)
         </p>
+      </header>
+
+      {loading && <p>Loading AI drafts...</p>}
+
+      {!loading && drafts.length === 0 && (
+        <p>No AI drafts pending review.</p>
       )}
 
-      <div className="space-y-6">
+      <section className="admin-grid">
         {drafts.map((draft) => (
-          <div
-            key={draft.id}
-            className="bg-white border rounded p-4 space-y-3"
-          >
-            <input
-              className="w-full border px-3 py-2 font-semibold"
-              value={draft.name}
-              onChange={(e) =>
-                updateDraft(draft.id, 'name', e.target.value)
-              }
-            />
+          <div key={draft.id} className="admin-card">
+            <div className="admin-card-header">
+              <h3>AI Suggested Spot</h3>
+              <span className="admin-status">Pending</span>
+            </div>
 
-            <textarea
-              className="w-full border px-3 py-2 text-sm"
-              rows={4}
-              value={draft.description}
-              onChange={(e) =>
-                updateDraft(
-                  draft.id,
-                  'description',
-                  e.target.value
-                )
-              }
-            />
+            <label>Name</label>
+            <input value={draft.name} readOnly />
 
-            <div className="flex gap-3">
-              <input
-                className="flex-1 border px-3 py-2 text-sm"
-                value={draft.hub}
-                onChange={(e) =>
-                  updateDraft(draft.id, 'hub', e.target.value)
-                }
-              />
+            <label>Description</label>
+            <textarea value={draft.description} rows={4} readOnly />
 
-              <input
-                className="flex-1 border px-3 py-2 text-sm"
-                value={draft.category}
-                onChange={(e) =>
-                  updateDraft(
-                    draft.id,
-                    'category',
-                    e.target.value
-                  )
-                }
-              />
+            <div className="admin-row">
+              <div>
+                <label>Location</label>
+                <input value={draft.location} readOnly />
+              </div>
+
+              <div>
+                <label>Category</label>
+                <input value={draft.category} readOnly />
+              </div>
             </div>
 
             <button
+              className="approve-btn"
               onClick={() => approveDraft(draft)}
-              disabled={approvingId === draft.id}
-              className="bg-green-600 text-white px-4 py-1 text-sm rounded"
             >
-              {approvingId === draft.id
-                ? 'Approving…'
-                : 'Approve'}
+              Approve
             </button>
           </div>
         ))}
-      </div>
+      </section>
     </main>
-  )
+  );
 }
