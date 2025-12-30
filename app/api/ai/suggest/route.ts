@@ -2,8 +2,16 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { createClient } from "@supabase/supabase-js";
 
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error("OPENAI_API_KEY is missing");
+}
+
+if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  throw new Error("SUPABASE_SERVICE_ROLE_KEY is missing");
+}
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const supabase = createClient(
@@ -13,7 +21,8 @@ const supabase = createClient(
 
 export async function POST(req: Request) {
   try {
-    const { type } = await req.json();
+    const body = await req.json();
+    const type = body?.type;
 
     if (!type) {
       return NextResponse.json(
@@ -43,39 +52,70 @@ export async function POST(req: Request) {
       );
     }
 
+    // 🔒 STRICT JSON enforcement
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
+      temperature: 0.4,
       messages: [
         {
           role: "system",
           content:
-            "Return STRICT JSON array. Each item must have name, description, location.",
+            "You MUST return ONLY valid JSON. No text, no markdown, no explanations.",
         },
         {
           role: "user",
-          content: prompt,
+          content: `
+Return a JSON array of exactly 3 items.
+Each item must have:
+- name (string)
+- description (string)
+- location (string)
+
+${prompt}
+`,
         },
       ],
-      temperature: 0.6,
     });
 
-    const content = completion.choices[0].message.content;
-    if (!content) throw new Error("Empty AI response");
+    const raw = completion.choices[0].message.content;
 
-    const items = JSON.parse(content);
+    if (!raw) {
+      throw new Error("Empty AI response");
+    }
+
+    let items;
+    try {
+      items = JSON.parse(raw);
+    } catch (err) {
+      console.error("JSON parse failed:", raw);
+      return NextResponse.json(
+        { error: "AI returned invalid JSON" },
+        { status: 500 }
+      );
+    }
 
     for (const item of items) {
-      await supabase.from("ai_suggested_spots").insert({
-        name: item.name,
-        description: item.description,
-        location: item.location,
-        category: type,
-      });
+      const { error } = await supabase
+        .from("ai_suggested_spots")
+        .insert({
+          name: item.name,
+          description: item.description,
+          location: item.location,
+          category: type,
+        });
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        return NextResponse.json(
+          { error: "Database insert failed" },
+          { status: 500 }
+        );
+      }
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("AI suggest error:", error);
+    console.error("AI suggest API error:", error);
     return NextResponse.json(
       { error: "AI generation failed" },
       { status: 500 }
