@@ -1,12 +1,18 @@
 import Link from "next/link";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
 
 export default function HomePage() {
   return (
-    <main>
+    <main className={inter.className}>
       {/* HERO */}
-      <section>
-        <h1>TechLifePortal</h1>
-        <p>
+      <section style={{ maxWidth: "900px", margin: "0 auto", paddingTop: "3rem" }}>
+        <h1 style={{ marginBottom: "0.8rem" }}>TechLifePortal</h1>
+        <p style={{ fontSize: "1.05rem", lineHeight: "1.7" }}>
           A lifestyle platform built for <strong>IT professionals</strong>.
           Helping you navigate work-life essentials around Bangalore — calmly,
           practically, and with trust.
@@ -15,7 +21,6 @@ export default function HomePage() {
 
       {/* FEATURES */}
       <section className="feature-grid">
-        {/* Weekend Spots */}
         <div className="feature-card">
           <h2>🌴 Weekend Spots</h2>
           <p>
@@ -25,7 +30,6 @@ export default function HomePage() {
           <Link href="/weekend-spots">Explore weekend spots →</Link>
         </div>
 
-        {/* PGs */}
         <div className="feature-card">
           <h2>🏠 PGs & Rentals</h2>
           <p>
@@ -35,35 +39,30 @@ export default function HomePage() {
           <Link href="/pgs">View PGs & rentals →</Link>
         </div>
 
-        {/* Cafes */}
         <div className="feature-card">
           <h2>☕ Cafes</h2>
           <p>Work-friendly cafes near IT parks and tech hubs.</p>
           <span className="badge">Unlocks gradually as community grows</span>
         </div>
 
-        {/* Gyms */}
         <div className="feature-card">
           <h2>🏋️ Gyms</h2>
           <p>Fitness centers preferred by IT professionals.</p>
           <span className="badge">Unlocks gradually as community grows</span>
         </div>
 
-        {/* Companies */}
         <div className="feature-card">
           <h2>🏢 Companies</h2>
           <p>Nearby tech companies and office locations.</p>
           <span className="badge">Unlocks gradually as community grows</span>
         </div>
 
-        {/* Jobs */}
         <div className="feature-card">
           <h2>💼 IT Jobs</h2>
           <p>Curated IT job openings around Bangalore.</p>
           <span className="badge">Unlocks gradually as community grows</span>
         </div>
 
-        {/* AI Resume */}
         <div className="feature-card">
           <h2>🤖 AI Resume Builder</h2>
           <p>Create resumes tailored for IT roles and companies.</p>
@@ -72,7 +71,7 @@ export default function HomePage() {
       </section>
 
       {/* ABOUT */}
-      <section>
+      <section style={{ maxWidth: "900px", margin: "0 auto" }}>
         <h2>About TechLifePortal</h2>
         <p>
           TechLifePortal is built with a simple belief:{" "}
@@ -82,14 +81,9 @@ export default function HomePage() {
           </strong>
         </p>
         <p>
-          Instead of trying to do everything at once, we start small and useful.
-          Weekend spots and PGs solve real, everyday needs. As the community
-          grows, we gradually unlock more features like cafes, gyms, companies,
-          jobs, and AI-assisted tools.
-        </p>
-        <p>
-          Every listing is curated, reviewed, and added with intent. No spam. No
-          rush. Just value.
+          We start with real needs like weekend spots and PGs. As the community
+          grows, we gradually unlock more features — always keeping quality and
+          trust first.
         </p>
       </section>
 
