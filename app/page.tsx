@@ -25,11 +25,64 @@ export default function HomePage() {
           paddingBottom: "2rem",
         }}
       >
-        <h1 style={{ marginBottom: "0.8rem" }}>TechLifePortal</h1>
+        <h1>TechLifePortal</h1>
         <p style={{ fontSize: "1.05rem", lineHeight: "1.7" }}>
           A lifestyle platform built for <strong>IT professionals</strong>.
-          Helping you navigate work-life essentials around Bangalore — calmly,
-          practically, and with trust.
+          Discover places, stays, and work-life essentials around Bangalore —
+          based on where you work.
+        </p>
+      </section>
+
+      {/* IT HUB SELECTOR (UI ONLY) */}
+      <section
+        style={{
+          maxWidth: "900px",
+          margin: "0 auto",
+          paddingBottom: "2.5rem",
+        }}
+      >
+        <h2 style={{ marginBottom: "0.8rem" }}>Select your IT hub</h2>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "0.75rem",
+          }}
+        >
+          {[
+            "Electronic City",
+            "Whitefield",
+            "Outer Ring Road",
+            "Bellandur",
+            "HSR Layout",
+            "Manyata Tech Park",
+          ].map((hub) => (
+            <span
+              key={hub}
+              style={{
+                padding: "0.45rem 0.9rem",
+                borderRadius: "999px",
+                border: "1px solid rgba(255,255,255,0.15)",
+                fontSize: "0.85rem",
+                cursor: "default",
+                opacity: 0.85,
+              }}
+            >
+              {hub}
+            </span>
+          ))}
+        </div>
+
+        <p
+          style={{
+            marginTop: "0.6rem",
+            fontSize: "0.85rem",
+            opacity: 0.65,
+          }}
+        >
+          Currently showing content from all hubs. Personalized hub view will
+          unlock as the community grows.
         </p>
       </section>
 
@@ -85,13 +138,7 @@ export default function HomePage() {
       </section>
 
       {/* ABOUT */}
-      <section
-        style={{
-          maxWidth: "900px",
-          margin: "0 auto",
-          paddingTop: "3rem",
-        }}
-      >
+      <section style={{ maxWidth: "900px", margin: "0 auto" }}>
         <h2>About TechLifePortal</h2>
         <p>
           TechLifePortal is built with a simple belief:{" "}
@@ -101,13 +148,12 @@ export default function HomePage() {
           </strong>
         </p>
         <p>
-          We start with real needs like weekend spots and PGs. As the community
-          grows, we gradually unlock more features — always keeping quality and
-          trust first.
+          We organize everyday needs around where you work. As the community
+          grows, we’ll unlock smarter, hub-based discovery — without rushing or
+          compromising quality.
         </p>
       </section>
 
-      {/* FOOTER */}
       <footer style={{ marginTop: "4rem" }}>
         Built for Bangalore IT professionals · TechLifePortal (Beta)
       </footer>
