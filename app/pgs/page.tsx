@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 const IT_HUBS = [
-  "Electronic City",
-  "Whitefield",
-  "Outer Ring Road",
-  "Bellandur",
-  "HSR Layout",
-  "Manyata Tech Park",
+  { label: "Electronic City", value: "electronic-city" },
+  { label: "Whitefield", value: "whitefield" },
+  { label: "Outer Ring Road", value: "outer-ring-road" },
+  { label: "Bellandur", value: "bellandur" },
+  { label: "HSR Layout", value: "hsr-layout" },
+  { label: "Manyata Tech Park", value: "manyata-tech-park" },
 ];
 
 const supabase = createClient(
@@ -28,14 +28,18 @@ export default function PGsPage() {
     const fetchPGs = async () => {
       setLoading(true);
 
-      const slug = selectedHub.toLowerCase().replace(/\s+/g, "-");
-
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("pgs_rentals")
         .select("*")
-        .eq("hub", slug);
+        .eq("hub", selectedHub);
 
-      setPgs(data || []);
+      if (error) {
+        console.error(error);
+        setPgs([]);
+      } else {
+        setPgs(data || []);
+      }
+
       setLoading(false);
     };
 
@@ -62,8 +66,8 @@ export default function PGsPage() {
             </option>
 
             {IT_HUBS.map((hub) => (
-              <option key={hub} value={hub}>
-                {hub}
+              <option key={hub.value} value={hub.value}>
+                {hub.label}
               </option>
             ))}
           </select>
