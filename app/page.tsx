@@ -125,6 +125,21 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ABOUT */}
+      <section className="about-section">
+        <h2>About TechLifePortal</h2>
+        <p>
+          TechLifePortal is a Bangalore-focused lifestyle platform designed for
+          IT professionals. It helps you discover cafes, stays, weekend spots,
+          jobs, and companies around your IT hub — all in one place.
+        </p>
+        <p>
+          We’re starting small and growing gradually with the community. As more
+          users join, features unlock and hub-based personalization becomes
+          smarter.
+        </p>
+      </section>
+
       {/* FOOTER */}
       <footer>
         Built for Bangalore IT professionals · TechLifePortal (Beta)

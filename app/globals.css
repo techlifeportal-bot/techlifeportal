@@ -262,3 +262,42 @@ footer {
   line-height: 1.5;
   color: #cbd5e1;
 }
+/* Feature descriptions */
+.feature-card p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #cbd5e1;
+  margin: 6px 0 10px;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+}
+
+/* About section */
+.about-section {
+  margin: 80px auto 60px;
+  max-width: 720px;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.about-section h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.about-section p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-bottom: 10px;
+}
