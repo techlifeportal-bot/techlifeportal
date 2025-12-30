@@ -1,71 +1,67 @@
-import { supabase } from "@/lib/supabaseClient";
-import Link from "next/link";
+import { createClient } from "@/lib/supabaseClient";
 
 export const dynamic = "force-dynamic";
 
-type PG = {
-  id: number;
-  name: string;
-  area: string;
-  type: string;
-  price_range: string;
-  description: string;
-  maps_url: string;
-};
-
 export default async function PGsPage() {
+  const supabase = createClient();
+
   const { data: pgs, error } = await supabase
-    .from("pgs")
+    .from("pgs_rentals")
     .select("*")
     .order("id", { ascending: false });
 
   if (error) {
-    console.error("Error loading PGs:", error.message);
+    return (
+      <section className="list-page">
+        <h1 className="page-title">PGs & Rentals</h1>
+        <p className="error-text">Failed to load PGs. Please try again later.</p>
+      </section>
+    );
   }
 
   return (
-    <main className="list-page">
-      {/* Page Header */}
+    <section className="list-page">
       <header className="page-header">
-        <h1>🏠 PGs & Rentals</h1>
-        <p className="subtitle">
-          Comfortable PGs and rental stays near Bangalore tech hubs —
-          ideal for freshers and IT professionals.
+        <h1 className="page-title">🏠 PGs & Rentals</h1>
+        <p className="page-subtitle">
+          Affordable PGs and rental stays near Bangalore tech hubs — useful for
+          freshers and working professionals.
         </p>
       </header>
 
-      {/* Empty State */}
-      {!pgs || pgs.length === 0 ? (
-        <p className="empty-state">No PGs listed yet.</p>
-      ) : (
-        <section className="card-grid">
-          {pgs.map((pg: PG) => (
-            <article key={pg.id} className="card">
-              <h3 className="card-title">{pg.name}</h3>
+      <div className="card-grid">
+        {pgs && pgs.length > 0 ? (
+          pgs.map((pg) => (
+            <div key={pg.id} className="card">
+              <h2 className="card-title">{pg.name}</h2>
 
-              <div className="meta">
-                📍 {pg.area} • 🏠 {pg.type}
+              <p className="card-description">
+                {pg.description || "Comfortable PG stay near tech hubs."}
+              </p>
+
+              <div className="card-meta">
+                {pg.location && <span>📍 {pg.location}</span>}
+                {pg.type && <span>🏷 {pg.type}</span>}
               </div>
 
-              <p className="description">{pg.description}</p>
-
-              <div className="card-footer">
-                <span className="price">💰 {pg.price_range}</span>
-
-                {pg.maps_url && (
-                  <Link
-                    href={pg.maps_url}
-                    target="_blank"
-                    className="maps-link"
-                  >
-                    📍 View on Maps
-                  </Link>
-                )}
-              </div>
-            </article>
-          ))}
-        </section>
-      )}
-    </main>
+              {pg.maps_url && (
+                <a
+                  href={pg.maps_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="card-link"
+                >
+                  📍 View on Maps →
+                </a>
+              )}
+            </div>
+          ))
+        ) : (
+          <p className="empty-text">
+            No PGs added yet. New listings coming soon.
+          </p>
+        )}
+      </div>
+    </section>
   );
 }
