@@ -1,48 +1,45 @@
-import { createClient } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function PGsPage() {
-  const supabase = createClient();
-
   const { data: pgs, error } = await supabase
-    .from("pgs_rentals")
+    .from("pgs")
     .select("*")
-    .order("id", { ascending: false });
+    .order("created_at", { ascending: false });
 
   if (error) {
     return (
-      <section className="list-page">
-        <h1 className="page-title">PGs & Rentals</h1>
-        <p className="error-text">Failed to load PGs. Please try again later.</p>
-      </section>
+      <div className="container">
+        <h1>PGs & Rentals</h1>
+        <p>Failed to load PG listings.</p>
+      </div>
     );
   }
 
   return (
-    <section className="list-page">
-      <header className="page-header">
-        <h1 className="page-title">🏠 PGs & Rentals</h1>
-        <p className="page-subtitle">
-          Affordable PGs and rental stays near Bangalore tech hubs — useful for
-          freshers and working professionals.
+    <div className="container">
+      {/* Page header */}
+      <header className="list-header">
+        <h1>🏠 PGs & Rentals</h1>
+        <p>
+          PGs and rental stays near Bangalore tech hubs — useful for freshers
+          and working professionals.
         </p>
       </header>
 
-      <div className="card-grid">
+      {/* Cards */}
+      <section className="card-grid">
         {pgs && pgs.length > 0 ? (
           pgs.map((pg) => (
             <div key={pg.id} className="card">
-              <h2 className="card-title">{pg.name}</h2>
+              <h3>{pg.name}</h3>
 
-              <p className="card-description">
-                {pg.description || "Comfortable PG stay near tech hubs."}
+              <p className="meta">
+                📍 {pg.area} · 💰 {pg.price_range}
               </p>
 
-              <div className="card-meta">
-                {pg.location && <span>📍 {pg.location}</span>}
-                {pg.type && <span>🏷 {pg.type}</span>}
-              </div>
+              <p>{pg.description}</p>
 
               {pg.maps_url && (
                 <a
@@ -51,17 +48,15 @@ export default async function PGsPage() {
                   rel="noopener noreferrer"
                   className="card-link"
                 >
-                  📍 View on Maps →
+                  Open in Maps →
                 </a>
               )}
             </div>
           ))
         ) : (
-          <p className="empty-text">
-            No PGs added yet. New listings coming soon.
-          </p>
+          <p>No PGs added yet.</p>
         )}
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
