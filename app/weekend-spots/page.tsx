@@ -21,18 +21,23 @@ export default async function WeekendSpotsPage() {
         professionals.
       </p>
 
-      {/* Scoped premium hover – affects ONLY this page */}
+      {/* Refined premium hover – subtle & calm */}
       <style>{`
         .premium-card {
-          background: rgba(255, 255, 255, 0.04);
+          background: rgba(255, 255, 255, 0.035);
           border-radius: 16px;
           padding: 22px;
-          transition: transform 0.22s ease, box-shadow 0.22s ease;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            border-color 0.25s ease;
         }
 
         .premium-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+          transform: translateY(-3px);
+          box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
+          border-color: rgba(59, 130, 246, 0.45);
         }
 
         .premium-card h3 {
