@@ -1,76 +1,96 @@
-import { supabase } from "@/lib/supabaseClient";
+"use client";
 
-export const dynamic = "force-dynamic";
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
-export default async function PGsPage() {
-  const { data: pgs, error } = await supabase
-    .from("pgs_rentals")
-    .select("id, location, maps_url, priority, status")
-    .eq("status", "active")
-    .order("priority", { ascending: false });
+const IT_HUBS = [
+  "Electronic City",
+  "Whitefield",
+  "Outer Ring Road",
+  "Bellandur",
+  "HSR Layout",
+  "Manyata Tech Park",
+];
 
-  if (error) {
-    return <p>Failed to load PG listings.</p>;
-  }
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
+export default function PGsPage() {
+  const [selectedHub, setSelectedHub] = useState("");
+  const [pgs, setPgs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!selectedHub) return;
+
+    const fetchPGs = async () => {
+      setLoading(true);
+
+      const slug = selectedHub.toLowerCase().replace(/\s+/g, "-");
+
+      const { data } = await supabase
+        .from("pgs_rentals")
+        .select("*")
+        .eq("hub", slug);
+
+      setPgs(data || []);
+      setLoading(false);
+    };
+
+    fetchPGs();
+  }, [selectedHub]);
 
   return (
-    <main className="list-page">
-      <h1>🏠 PGs & Rentals</h1>
-      <p>
-        PGs and rental stays near Bangalore tech hubs — useful for freshers and
-        working professionals.
-      </p>
+    <main className="hub-page">
+      {/* HEADER */}
+      <section className="hub-header">
+        <h1>PGs & Rentals</h1>
+        <p>
+          Select your IT hub to view PGs & rentals near your hub.
+        </p>
 
-      {/* Same refined premium hover as Weekend Spots */}
-      <style>{`
-        .premium-card {
-          background: rgba(255, 255, 255, 0.035);
-          border-radius: 16px;
-          padding: 22px;
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          transition:
-            transform 0.25s ease,
-            box-shadow 0.25s ease,
-            border-color 0.25s ease;
-        }
+        {/* HUB SELECTOR */}
+        <div className="hub-switcher">
+          <select
+            value={selectedHub}
+            onChange={(e) => setSelectedHub(e.target.value)}
+          >
+            <option value="">Select your IT hub</option>
+            {IT_HUBS.map((hub) => (
+              <option key={hub} value={hub}>
+                {hub}
+              </option>
+            ))}
+          </select>
+        </div>
+      </section>
 
-        .premium-card:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
-          border-color: rgba(59, 130, 246, 0.45);
-        }
+      {/* STATES */}
+      {loading && <p>Loading PGs...</p>}
 
-        .premium-card h3 {
-          margin-bottom: 8px;
-        }
+      {!loading && selectedHub && pgs.length === 0 && (
+        <p className="hub-empty">
+          No PGs listed yet for this IT hub.
+        </p>
+      )}
 
-        .premium-card a {
-          display: inline-block;
-          margin-top: 10px;
-          font-weight: 500;
-        }
-      `}</style>
+      {/* PG LIST */}
+      <section className="hub-grid">
+        {pgs.map((pg) => (
+          <div key={pg.id} className="hub-card">
+            <h3>{pg.name}</h3>
 
-      <section className="card-grid">
-        {pgs && pgs.length > 0 ? (
-          pgs.map((pg) => (
-            <div key={pg.id} className="premium-card">
-              <h3>{pg.location}</h3>
+            {pg.address && (
+              <p className="hub-address">{pg.address}</p>
+            )}
 
-              {pg.maps_url && (
-                <a
-                  href={pg.maps_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  📍 Open in Google Maps →
-                </a>
-              )}
-            </div>
-          ))
-        ) : (
-          <p>No PG listings available yet.</p>
-        )}
+            {pg.rent && (
+              <p className="hub-rent">Rent: ₹{pg.rent}</p>
+            )}
+          </div>
+        ))}
       </section>
     </main>
   );
