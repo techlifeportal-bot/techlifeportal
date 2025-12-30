@@ -1,40 +1,50 @@
-"use client";
-
 import "./globals.css";
-import { useEffect, useState } from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "TechLifePortal",
+  description:
+    "A lifestyle guide built for Bangalore IT professionals. Discover weekend spots and PGs near tech hubs.",
+};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-
-  // Load saved theme
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as "dark" | "light" | null;
-    if (savedTheme) setTheme(savedTheme);
-  }, []);
-
-  // Apply theme to html
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
   return (
     <html lang="en">
       <body>
-        {/* Theme Toggle */}
-        <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="theme-toggle"
-          aria-label="Toggle theme"
+        {/* Header */}
+        <header
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            padding: "16px 24px",
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
+          }}
         >
-          {theme === "dark" ? "☀️" : "🌙"}
-        </button>
+          <img
+            src="/logo.svg"
+            alt="TechLifePortal logo"
+            width={36}
+            height={36}
+          />
 
-        {children}
+          <span
+            style={{
+              fontSize: "1.4rem",
+              fontWeight: 600,
+              letterSpacing: "0.3px",
+            }}
+          >
+            TechLifePortal
+          </span>
+        </header>
+
+        {/* Page content */}
+        <main>{children}</main>
       </body>
     </html>
   );
