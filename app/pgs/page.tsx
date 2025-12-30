@@ -1,50 +1,71 @@
-import { createClient } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-export default async function PGsPage() {
-  const supabase = createClient();
+type PG = {
+  id: number;
+  name: string;
+  area: string;
+  type: string;
+  price_range: string;
+  description: string;
+  maps_url: string;
+};
 
+export default async function PGsPage() {
   const { data: pgs, error } = await supabase
     .from("pgs")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("id", { ascending: false });
 
   if (error) {
-    return <p style={{ padding: 20 }}>Failed to load PGs</p>;
+    console.error("Error loading PGs:", error.message);
   }
 
   return (
     <main className="list-page">
-      <h1>🏠 PGs & Rentals</h1>
-      <p className="subtitle">
-        PGs and rental stays near Bangalore tech hubs for IT professionals.
-      </p>
+      {/* Page Header */}
+      <header className="page-header">
+        <h1>🏠 PGs & Rentals</h1>
+        <p className="subtitle">
+          Comfortable PGs and rental stays near Bangalore tech hubs —
+          ideal for freshers and IT professionals.
+        </p>
+      </header>
 
-      <div className="card-grid">
-        {pgs?.map((pg) => (
-          <div key={pg.id} className="card">
-            <h2>{pg.name}</h2>
+      {/* Empty State */}
+      {!pgs || pgs.length === 0 ? (
+        <p className="empty-state">No PGs listed yet.</p>
+      ) : (
+        <section className="card-grid">
+          {pgs.map((pg: PG) => (
+            <article key={pg.id} className="card">
+              <h3 className="card-title">{pg.name}</h3>
 
-            <p className="meta">
-              📍 {pg.area} · 🏠 {pg.type}
-            </p>
+              <div className="meta">
+                📍 {pg.area} • 🏠 {pg.type}
+              </div>
 
-            <p className="description">{pg.description}</p>
+              <p className="description">{pg.description}</p>
 
-            {pg.maps_link && (
-              <a
-                href={pg.maps_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="map-link"
-              >
-                📍 View on Google Maps →
-              </a>
-            )}
-          </div>
-        ))}
-      </div>
+              <div className="card-footer">
+                <span className="price">💰 {pg.price_range}</span>
+
+                {pg.maps_url && (
+                  <Link
+                    href={pg.maps_url}
+                    target="_blank"
+                    className="maps-link"
+                  >
+                    📍 View on Maps
+                  </Link>
+                )}
+              </div>
+            </article>
+          ))}
+        </section>
+      )}
     </main>
   );
 }
