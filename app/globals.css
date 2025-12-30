@@ -1,177 +1,202 @@
-/* =========================================
-   TechLifePortal – Premium Global Styles
-   Clean • Calm • IT-Professional
-========================================= */
-
-/* ---------- Font Import ---------- */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
-/* ---------- CSS Reset ---------- */
+/* ===============================
+   GLOBAL RESET & BASE
+================================ */
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
-/* ---------- Theme Variables ---------- */
-:root {
-  --bg-main: #0b1220;
-  --bg-card: #111827;
-
-  --text-primary: #e5e7eb;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
-
-  --accent-blue: #3b82f6;
-
-  --border-soft: rgba(255, 255, 255, 0.06);
-  --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.35);
-  --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
-}
-
-/* ---------- Base Body ---------- */
 body {
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-main);
-  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  background: radial-gradient(
+    circle at top,
+    #0f1c2e 0%,
+    #0b1322 40%,
+    #070d1a 100%
+  );
+  color: #e5e7eb;
   line-height: 1.6;
-  font-weight: 400;
 }
 
-/* ---------- Headings ---------- */
-h1 {
-  font-size: 2.4rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-bottom: 12px;
-}
-
-h2 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-h3 {
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-/* ---------- Paragraphs ---------- */
-p {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  margin: 0 0 12px;
-}
-
-/* ---------- Links ---------- */
+/* ===============================
+   LINKS
+================================ */
 a {
-  color: var(--accent-blue);
+  color: #4da3ff;
   text-decoration: none;
-  font-weight: 500;
 }
 
 a:hover {
   text-decoration: underline;
 }
 
-/* ---------- Page Layout ---------- */
-.page,
+/* ===============================
+   HEADINGS
+================================ */
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f9fafb;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ===============================
+   SECTIONS
+================================ */
+section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+/* ===============================
+   FEATURE GRID (HOME)
+================================ */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+/* ===============================
+   FEATURE / SPOT CARDS
+================================ */
+.feature-card,
+.spot-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.8rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Hover (premium effect) */
+.feature-card:hover,
+.spot-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
+  border-color: rgba(77, 163, 255, 0.6);
+}
+
+/* ===============================
+   CARD TEXT
+================================ */
+.feature-card p,
+.spot-card p {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+/* ===============================
+   CARD CTA LINK
+================================ */
+.feature-card a,
+.spot-card a {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4da3ff;
+}
+
+/* ===============================
+   LIST PAGES (Weekend / PGs)
+================================ */
 .list-page {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 48px 20px;
+  padding: 3rem 1.5rem;
 }
 
-.page-title {
-  margin-bottom: 6px;
+.list-title {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
 }
 
-.page-subtitle {
-  color: var(--text-secondary);
-  margin-bottom: 32px;
-  max-width: 720px;
+.list-subtitle {
+  color: #94a3b8;
+  margin-bottom: 2rem;
 }
 
-/* ---------- Grid ---------- */
+/* Grid for list cards */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.8rem;
 }
 
-/* ---------- Cards ---------- */
-.card {
-  background-color: var(--bg-card);
-  border-radius: 14px;
-  padding: 22px;
-  border: 1px solid var(--border-soft);
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-}
-
-/* ---------- Card Content ---------- */
-.card h3 {
-  margin-bottom: 6px;
-}
-
+/* ===============================
+   META TEXT (location, tags)
+================================ */
 .meta {
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+}
+
+/* ===============================
+   UPCOMING FEATURES BADGES
+================================ */
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.badge {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  background: rgba(77, 163, 255, 0.12);
   color: #93c5fd;
-  margin-bottom: 10px;
+  border: 1px solid rgba(77, 163, 255, 0.25);
 }
 
-.description {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-}
-
-/* ---------- Card Link ---------- */
-.card-link {
-  display: inline-block;
-  margin-top: 14px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--accent-blue);
-}
-
-/* ---------- States ---------- */
-.error-text {
-  color: #f87171;
-}
-
-.empty-text {
-  color: var(--text-muted);
-}
-
-/* ---------- Footer ---------- */
+/* ===============================
+   FOOTER
+================================ */
 footer {
-  margin-top: 64px;
-  padding: 24px 0;
   text-align: center;
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  padding: 3rem 1rem 2rem;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 768px) {
+/* ===============================
+   MOBILE TWEAKS
+================================ */
+@media (max-width: 640px) {
   h1 {
     font-size: 2rem;
   }
 
-  .page,
-  .list-page {
-    padding: 32px 16px;
+  section {
+    padding: 2.2rem 1.2rem;
   }
 }
