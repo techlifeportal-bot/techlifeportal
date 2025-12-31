@@ -87,7 +87,7 @@ export default function HomePage() {
           <h2>💼 IT Jobs</h2>
           <p>
             Discover IT job opportunities aligned with
-            Bangalore’s growing tech ecosystem.
+            Bangalore’s tech ecosystem.
           </p>
           <span className="badge">
             Unlocks as the community grows
@@ -124,11 +124,16 @@ export default function HomePage() {
           This platform is currently in beta and will grow
           gradually based on feedback from the IT community.
         </p>
+
+        {/* HEART LINE */}
+        <p className="made-with-love">
+          Built with ❤️ for the IT community in Bangalore.
+        </p>
       </section>
 
       {/* FOOTER */}
       <footer>
-        TechLifePortal · Built for Bangalore IT Professionals
+        © 2026 TechLifePortal. All rights reserved.
       </footer>
     </main>
   );

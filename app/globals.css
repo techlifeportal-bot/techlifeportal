@@ -600,3 +600,9 @@ footer {
   margin-bottom: 12px;
   line-height: 1.6;
 }
+.made-with-love {
+  margin-top: 20px;
+  font-size: 15px;
+  color: #e5e7eb;
+  font-style: italic;
+}
