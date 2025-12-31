@@ -571,3 +571,15 @@ footer {
   opacity: 0.6;
   cursor: not-allowed;
 }
+.tagline {
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #c7d2fe;
+}
+
+.hero-description {
+  margin-top: 12px;
+  max-width: 620px;
+  color: #e5e7eb;
+}
