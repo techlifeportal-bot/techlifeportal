@@ -739,3 +739,19 @@ body {
       transparent 70%
     ) !important;
 }
+.hero {
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -120px 0 auto 0;
+  height: 400px;
+  background: radial-gradient(
+    400px 200px at center,
+    rgba(96, 165, 250, 0.15),
+    transparent 70%
+  );
+  pointer-events: none;
+}
