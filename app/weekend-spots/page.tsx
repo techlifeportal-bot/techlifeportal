@@ -1,61 +1,71 @@
-import { supabase } from "@/lib/supabaseClient";
+"use client";
 
-export const dynamic = "force-dynamic";
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
-export default async function WeekendSpotsPage() {
-  const { data: spots, error } = await supabase
-    .from("weekend_spots")
-    .select("id, location, maps_url, priority, status")
-    .eq("status", "active")
-    .order("priority", { ascending: false });
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
-  if (error) {
-    return <p>Failed to load weekend spots.</p>;
+type WeekendSpot = {
+  id: string;
+  name: string;
+  description: string;
+  category: string | null;
+  maps_url: string | null;
+};
+
+export default function WeekendSpotsPage() {
+  const [spots, setSpots] = useState<WeekendSpot[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSpots = async () => {
+      const { data, error } = await supabase
+        .from("weekend_spots")
+        .select("*")
+        .eq("status", "active");
+
+      if (!error && data) {
+        setSpots(data);
+      }
+
+      setLoading(false);
+    };
+
+    fetchSpots();
+  }, []);
+
+  if (loading) {
+    return <p style={{ padding: "40px" }}>Loading weekend spots…</p>;
   }
 
-  return (
-    <main className="list-page">
-      <h1>🌴 Weekend Spots</h1>
-      <p>
-        Handpicked weekend getaways and hangout places for Bangalore IT
-        professionals.
-      </p>
+  // Group spots by category
+  const grouped: Record<string, WeekendSpot[]> = {};
 
-      {/* Refined premium hover – subtle & calm */}
-      <style>{`
-        .premium-card {
-          background: rgba(255, 255, 255, 0.035);
-          border-radius: 16px;
-          padding: 22px;
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          transition:
-            transform 0.25s ease,
-            box-shadow 0.25s ease,
-            border-color 0.25s ease;
-        }
+  spots.forEach((spot) => {
+    if (!spot.category) return;
 
-        .premium-card:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
-          border-color: rgba(59, 130, 246, 0.45);
-        }
+    spot.category.split(",").forEach((cat) => {
+      const key = cat.trim().toLowerCase();
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(spot);
+    });
+  });
 
-        .premium-card h3 {
-          margin-bottom: 8px;
-        }
+  const renderSection = (title: string, key: string) => {
+    if (!grouped[key] || grouped[key].length === 0) return null;
 
-        .premium-card a {
-          display: inline-block;
-          margin-top: 10px;
-          font-weight: 500;
-        }
-      `}</style>
+    return (
+      <section style={{ marginBottom: "60px" }}>
+        <h2 style={{ marginBottom: "20px" }}>{title}</h2>
 
-      <section className="card-grid">
-        {spots && spots.length > 0 ? (
-          spots.map((spot) => (
-            <div key={spot.id} className="premium-card">
-              <h3>{spot.location}</h3>
+        <div className="feature-grid">
+          {grouped[key].map((spot) => (
+            <div key={spot.id} className="feature-card">
+              <h3>{spot.name}</h3>
+              <p>{spot.description}</p>
 
               {spot.maps_url && (
                 <a
@@ -63,15 +73,28 @@ export default async function WeekendSpotsPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  📍 Open in Google Maps →
+                  View on Google Maps →
                 </a>
               )}
             </div>
-          ))
-        ) : (
-          <p>No weekend spots available yet.</p>
-        )}
+          ))}
+        </div>
       </section>
+    );
+  };
+
+  return (
+    <main style={{ maxWidth: "1100px", margin: "0 auto", padding: "80px 20px" }}>
+      <h1 style={{ marginBottom: "10px" }}>Explore Weekend Spots</h1>
+      <p style={{ marginBottom: "50px", color: "#cbd5f5" }}>
+        Discover weekend destinations around Bangalore — explore by interest,
+        not location.
+      </p>
+
+      {renderSection("🥾 Trekking", "trekking")}
+      {renderSection("🌿 Nature", "nature")}
+      {renderSection("💧 Waterfalls", "waterfalls")}
+      {renderSection("🛕 Temples", "temples")}
     </main>
   );
 }
