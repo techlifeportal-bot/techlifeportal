@@ -859,3 +859,51 @@ select.hub-select option {
   color: #60a5fa;
   text-decoration: none;
 }
+/* ===== Premium Select Dropdown (Weekend Spots) ===== */
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background: linear-gradient(180deg, #0f172a, #020617);
+  color: #e5e7eb;
+
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 10px;
+
+  padding: 10px 40px 10px 14px;
+  font-size: 15px;
+  font-weight: 500;
+
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+select:hover {
+  border-color: #3b82f6;
+}
+
+select:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* Dropdown arrow */
+select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, #93c5fd 50%),
+    linear-gradient(135deg, #93c5fd 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 3px),
+    calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+}
+
+/* Options inside dropdown */
+select option {
+  background-color: #020617;
+  color: #e5e7eb;
+}
