@@ -1,32 +1,34 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 type WeekendSpot = {
   id: number;
-  name: string;
-  description: string | null;
-  maps_url: string | null;
+  tag: string | null;
   category: string | null;
+  location: string | null;
+  maps_url: string | null;
 };
 
 export default function WeekendSpotsPage() {
-  const supabase = createClient();
-
   const [spots, setSpots] = useState<WeekendSpot[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSpots = async () => {
-      const { data, error } = await supabase
-        .from('weekend_spots')
-        .select('id, name, description, maps_url, category')
-        .order('priority', { ascending: false });
+      setLoading(true);
 
-      if (!error && data) {
-        setSpots(data);
+      const { data, error } = await supabase
+        .from("weekend_spots")
+        .select("id, tag, category, location, maps_url")
+        .order("priority", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching weekend spots:", error);
+      } else {
+        setSpots(data || []);
       }
 
       setLoading(false);
@@ -35,29 +37,21 @@ export default function WeekendSpotsPage() {
     fetchSpots();
   }, []);
 
-  const categories = [
-    'all',
-    'trekking',
-    'nature',
-    'waterfalls',
-    'heritage',
-    'temples',
-  ];
-
   const filteredSpots =
-    selectedCategory === 'all'
+    category === "all"
       ? spots
-      : spots.filter((spot) =>
-          spot.category
-            ?.toLowerCase()
-            .split(',')
-            .map((c) => c.trim())
-            .includes(selectedCategory)
+      : spots.filter(
+          (spot) =>
+            spot.category &&
+            spot.category
+              .split(",")
+              .map((c) => c.trim().toLowerCase())
+              .includes(category)
         );
 
   return (
     <main className="page-container">
-      <header className="page-header">
+      <section className="page-header">
         <h1>Explore Weekend Spots</h1>
         <p>
           Discover weekend destinations around Bangalore — explore by interest,
@@ -67,18 +61,17 @@ export default function WeekendSpotsPage() {
         <div className="filter-box">
           <label>Choose category</label>
           <select
-            className="premium-select"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
           >
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat.charAt(0).toUpperCase() + cat.slice(1)}
-              </option>
-            ))}
+            <option value="all">All</option>
+            <option value="trekking">Trekking</option>
+            <option value="nature">Nature</option>
+            <option value="waterfalls">Waterfalls</option>
+            <option value="heritage">Heritage</option>
           </select>
         </div>
-      </header>
+      </section>
 
       {loading && <p>Loading weekend spots...</p>}
 
@@ -88,19 +81,19 @@ export default function WeekendSpotsPage() {
 
       <section className="card-grid">
         {filteredSpots.map((spot) => (
-          <div key={spot.id} className="spot-card">
-            <h3 className="spot-title">{spot.name}</h3>
+          <div key={spot.id} className="card">
+            <h3>{spot.tag || "Unnamed Spot"}</h3>
 
-            <p className="spot-desc">
-              {spot.description || 'No description available.'}
-            </p>
+            {spot.location && (
+              <p className="location">{spot.location}</p>
+            )}
 
             {spot.maps_url && (
               <a
                 href={spot.maps_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="maps-link"
+                className="map-link"
               >
                 View on Google Maps →
               </a>
