@@ -16,21 +16,27 @@ type WeekendSpot = {
   maps_url: string | null;
 };
 
+const CATEGORIES = [
+  { key: "all", label: "All" },
+  { key: "trekking", label: "Trekking" },
+  { key: "nature", label: "Nature" },
+  { key: "waterfalls", label: "Waterfalls" },
+  { key: "temples", label: "Temples" },
+];
+
 export default function WeekendSpotsPage() {
   const [spots, setSpots] = useState<WeekendSpot[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     const fetchSpots = async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("weekend_spots")
         .select("*")
         .eq("status", "active");
 
-      if (!error && data) {
-        setSpots(data);
-      }
-
+      if (data) setSpots(data);
       setLoading(false);
     };
 
@@ -55,16 +61,17 @@ export default function WeekendSpotsPage() {
   });
 
   const renderSection = (title: string, key: string) => {
+    if (selectedCategory !== "all" && selectedCategory !== key) return null;
     if (!grouped[key] || grouped[key].length === 0) return null;
 
     return (
-      <section style={{ marginBottom: "60px" }}>
-        <h2 style={{ marginBottom: "20px" }}>{title}</h2>
+      <section style={{ marginBottom: "70px" }}>
+        <h2 style={{ marginBottom: "24px" }}>{title}</h2>
 
         <div className="feature-grid">
           {grouped[key].map((spot) => (
             <div key={spot.id} className="feature-card">
-              <h3>{spot.name}</h3>
+              <h3 style={{ marginBottom: "8px" }}>{spot.name}</h3>
               <p>{spot.description}</p>
 
               {spot.maps_url && (
@@ -86,10 +93,28 @@ export default function WeekendSpotsPage() {
   return (
     <main style={{ maxWidth: "1100px", margin: "0 auto", padding: "80px 20px" }}>
       <h1 style={{ marginBottom: "10px" }}>Explore Weekend Spots</h1>
-      <p style={{ marginBottom: "50px", color: "#cbd5f5" }}>
+      <p style={{ marginBottom: "30px", color: "#cbd5f5" }}>
         Discover weekend destinations around Bangalore — explore by interest,
         not location.
       </p>
+
+      {/* CATEGORY SELECTOR */}
+      <div style={{ marginBottom: "50px", maxWidth: "260px" }}>
+        <label style={{ display: "block", marginBottom: "6px" }}>
+          Choose category
+        </label>
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="hub-select"
+        >
+          {CATEGORIES.map((cat) => (
+            <option key={cat.key} value={cat.key}>
+              {cat.label}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {renderSection("🥾 Trekking", "trekking")}
       {renderSection("🌿 Nature", "nature")}
