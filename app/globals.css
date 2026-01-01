@@ -1162,3 +1162,11 @@ select option {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+/* Force lift + glow on card hover (final override) */
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(88, 166, 255, 0.9);
+  box-shadow:
+    0 0 0 1px rgba(88, 166, 255, 0.6),
+    0 12px 30px rgba(88, 166, 255, 0.25);
+}
