@@ -1127,3 +1127,20 @@ select option {
 .card {
   animation: fadeUp 0.5s ease forwards;
 }
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04),
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.04)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 16px;
+  height: 220px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
