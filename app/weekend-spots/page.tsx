@@ -41,15 +41,14 @@ export default function WeekendSpotsPage() {
   const filteredSpots =
     selectedCategory === "all"
       ? spots
-      : spots.filter(
-          (spot) =>
-            spot.category &&
-            spot.category
-              .toLowerCase()
-              .split(",")
-              .map((c) => c.trim())
-              .includes(selectedCategory)
-        );
+      : spots.filter((spot) => {
+          if (!spot.category) return false;
+          return spot.category
+            .toLowerCase()
+            .split(",")
+            .map((c) => c.trim())
+            .includes(selectedCategory);
+        });
 
   return (
     <main className="page-container">
@@ -63,7 +62,7 @@ export default function WeekendSpotsPage() {
 
         {/* CATEGORY SELECT */}
         <div className="filter-box">
-          <label>Choose category</label>
+          <label>Select category</label>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
@@ -73,11 +72,12 @@ export default function WeekendSpotsPage() {
             <option value="nature">Nature</option>
             <option value="waterfalls">Waterfalls</option>
             <option value="heritage">Heritage</option>
+            <option value="resorts">Resorts</option>
           </select>
         </div>
       </header>
 
-      {/* SKELETON LOADING */}
+      {/* SKELETON LOADER */}
       {loading && (
         <section className="card-grid">
           {Array.from({ length: 6 }).map((_, i) => (
@@ -96,7 +96,6 @@ export default function WeekendSpotsPage() {
         <section className="card-grid">
           {filteredSpots.map((spot) => (
             <div key={spot.id} className="card">
-              {/* IMAGE */}
               {spot.image_url && (
                 <img
                   src={spot.image_url}
@@ -106,15 +105,12 @@ export default function WeekendSpotsPage() {
                 />
               )}
 
-              {/* TITLE */}
               <h3>{spot.tag || "Unnamed Spot"}</h3>
 
-              {/* LOCATION */}
               {spot.location && (
                 <p className="location">{spot.location}</p>
               )}
 
-              {/* MAP LINK */}
               {spot.maps_url && (
                 <a
                   href={spot.maps_url}
