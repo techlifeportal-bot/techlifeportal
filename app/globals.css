@@ -1050,3 +1050,16 @@ select option {
   box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6),
               0 0 24px rgba(56, 189, 248, 0.25);
 }
+/* ===== Weekend Spot Card Glow Effect ===== */
+
+.card {
+  border: 1px solid transparent;
+  transition: border 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.card:hover {
+  border-color: rgba(88, 166, 255, 0.9);
+  box-shadow: 0 0 0 1px rgba(88, 166, 255, 0.6),
+              0 8px 30px rgba(88, 166, 255, 0.25);
+  transform: translateY(-2px);
+}
