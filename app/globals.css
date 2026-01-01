@@ -907,3 +907,11 @@ select option {
   background-color: #020617;
   color: #e5e7eb;
 }
+/* Weekend spot card image */
+.spot-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}

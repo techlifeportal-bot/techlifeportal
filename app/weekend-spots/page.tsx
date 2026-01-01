@@ -9,21 +9,20 @@ type WeekendSpot = {
   category: string | null;
   location: string | null;
   maps_url: string | null;
+  image_url: string | null;
 };
 
 export default function WeekendSpotsPage() {
   const [spots, setSpots] = useState<WeekendSpot[]>([]);
-  const [category, setCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSpots = async () => {
-      setLoading(true);
-
       const { data, error } = await supabase
         .from("weekend_spots")
-        .select("id, tag, category, location, maps_url")
-        .order("priority", { ascending: false });
+        .select("id, tag, category, location, maps_url, image_url")
+        .order("id", { ascending: true });
 
       if (error) {
         console.error("Error fetching weekend spots:", error);
@@ -38,31 +37,33 @@ export default function WeekendSpotsPage() {
   }, []);
 
   const filteredSpots =
-    category === "all"
+    selectedCategory === "all"
       ? spots
       : spots.filter(
           (spot) =>
             spot.category &&
             spot.category
+              .toLowerCase()
               .split(",")
-              .map((c) => c.trim().toLowerCase())
-              .includes(category)
+              .map((c) => c.trim())
+              .includes(selectedCategory)
         );
 
   return (
     <main className="page-container">
-      <section className="page-header">
+      <header className="page-header">
         <h1>Explore Weekend Spots</h1>
         <p>
           Discover weekend destinations around Bangalore — explore by interest,
           not location.
         </p>
 
+        {/* CATEGORY SELECT */}
         <div className="filter-box">
           <label>Choose category</label>
           <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="all">All</option>
             <option value="trekking">Trekking</option>
@@ -71,7 +72,7 @@ export default function WeekendSpotsPage() {
             <option value="heritage">Heritage</option>
           </select>
         </div>
-      </section>
+      </header>
 
       {loading && <p>Loading weekend spots...</p>}
 
@@ -82,12 +83,25 @@ export default function WeekendSpotsPage() {
       <section className="card-grid">
         {filteredSpots.map((spot) => (
           <div key={spot.id} className="card">
+            {/* IMAGE */}
+            {spot.image_url && (
+              <img
+                src={spot.image_url}
+                alt={spot.tag || "Weekend spot"}
+                className="spot-image"
+                loading="lazy"
+              />
+            )}
+
+            {/* TITLE */}
             <h3>{spot.tag || "Unnamed Spot"}</h3>
 
+            {/* LOCATION */}
             {spot.location && (
               <p className="location">{spot.location}</p>
             )}
 
+            {/* MAP LINK */}
             {spot.maps_url && (
               <a
                 href={spot.maps_url}
