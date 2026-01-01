@@ -1,11 +1,12 @@
 import "./globals.css";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "TechLifePortal",
+export const metadata = {
+  title: "TechLifePortal – Built for Bangalore IT Professionals",
   description:
-    "A lifestyle guide built for Bangalore IT professionals. Discover weekend spots and PGs near tech hubs.",
+    "TechLifePortal helps Bangalore IT professionals discover weekend spots, PGs, rentals, and lifestyle essentials around their workplace.",
 };
+
 
 export default function RootLayout({
   children,
