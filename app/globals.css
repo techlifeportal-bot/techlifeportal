@@ -1077,3 +1077,53 @@ select option {
               0 8px 30px rgba(88, 166, 255, 0.25);
   transform: translateY(-2px);
 }
+/* ===== Premium card hover (homepage + shared) ===== */
+.card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  transition: 
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border: 1px solid rgba(120, 180, 255, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(120, 180, 255, 0.35),
+    0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+/* ===== CTA arrow micro interaction ===== */
+.card a,
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.card a:hover,
+.cta-link:hover {
+  transform: translateX(4px);
+  color: #8ab4ff;
+}
+
+/* ===== Soft entrance animation ===== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeUp 0.5s ease forwards;
+}
