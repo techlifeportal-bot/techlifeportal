@@ -5,7 +5,13 @@ export const metadata = {
   title: "TechLifePortal – Built for Bangalore IT Professionals",
   description:
     "TechLifePortal helps Bangalore IT professionals discover weekend spots, PGs, rentals, and lifestyle essentials around their workplace.",
+
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/logo.png",
+  },
 };
+
 
 
 export default function RootLayout({
