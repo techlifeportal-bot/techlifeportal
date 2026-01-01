@@ -1025,3 +1025,17 @@ select option {
 .weekend-card a:hover {
   text-decoration: underline;
 }
+/* existing styles above */
+/* --------------------- */
+
+/* Weekend spot cards hover effect */
+.weekend-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border 0.25s ease, box-shadow 0.25s ease;
+}
+
+.weekend-card:hover {
+  border: 1px solid rgba(120, 180, 255, 0.8);
+  box-shadow: 0 0 0 1px rgba(120, 180, 255, 0.4),
+              0 0 24px rgba(120, 180, 255, 0.15);
+}
