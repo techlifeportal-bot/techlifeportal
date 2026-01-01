@@ -963,3 +963,65 @@ select option {
 .map-link:hover {
   text-decoration: underline;
 }
+/* ===== Weekend Spots Cards ===== */
+
+.weekend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.weekend-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  backdrop-filter: blur(10px);
+}
+
+.weekend-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+.weekend-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.weekend-card-content {
+  padding: 16px 18px 18px;
+}
+
+.weekend-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #ffffff;
+}
+
+.weekend-card p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 10px;
+}
+
+.weekend-card a {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4da3ff;
+  text-decoration: none;
+}
+
+.weekend-card a:hover {
+  text-decoration: underline;
+}
