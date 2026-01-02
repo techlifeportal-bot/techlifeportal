@@ -15,7 +15,7 @@ export default function ContactPage() {
 
         <p className="font-medium">
           <a
-            href="mailto:techlifeportal@gmail.com"
+            href="mailto:contacttechlifeportal@gmail.com"
             className="text-black hover:underline"
           >
             techlifeportal@gmail.com
