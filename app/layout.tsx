@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Footer from "@/app/components/Footer";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "TechLifePortal – Built for Bangalore IT Professionals",
@@ -53,6 +54,9 @@ export default function RootLayout({
 
         {/* Footer */}
         <Footer />
+
+        {/* Vercel Analytics */}
+        <Analytics />
       </body>
     </html>
   );
