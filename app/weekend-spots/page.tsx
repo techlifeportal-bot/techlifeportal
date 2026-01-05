@@ -58,9 +58,11 @@ export default function WeekendSpotsPage() {
       {/* HEADER */}
       <header className="page-header">
         <h1>Explore Weekend Spots</h1>
+
+        {/* UPDATED descriptive line */}
         <p>
-          Plan your weekend better — see travel time from Bangalore before you
-          go.
+          Explore famous temples, nature spots, and short weekend getaways in and
+          around Bangalore.
         </p>
 
         {/* CATEGORY SELECT */}
