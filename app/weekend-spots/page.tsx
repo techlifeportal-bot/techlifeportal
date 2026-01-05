@@ -59,7 +59,6 @@ export default function WeekendSpotsPage() {
       <header className="page-header">
         <h1>Explore Weekend Spots</h1>
 
-        {/* UPDATED descriptive line */}
         <p>
           Explore famous temples, nature spots, and short weekend getaways in and
           around Bangalore.
@@ -73,6 +72,7 @@ export default function WeekendSpotsPage() {
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="all">All</option>
+            <option value="temple">Temples</option>
             <option value="trekking">Trekking</option>
             <option value="nature">Nature</option>
             <option value="waterfalls">Waterfalls</option>
