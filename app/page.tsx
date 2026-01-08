@@ -107,29 +107,35 @@ export default function HomePage() {
       </section>
 
       {/* ABOUT SECTION */}
-      <section className="about">
-        <h2>About TechLifePortal</h2>
-        <p>
-          TechLifePortal is a Bangalore-focused platform built
-          exclusively for IT professionals. The goal is simple —
-          to make everyday IT life easier by bringing trusted,
-          relevant information into one place.
-        </p>
-        <p>
-          Instead of generic listings, TechLifePortal focuses on
-          real needs around IT hubs — where to stay, where to go
-          on weekends, and how to balance work with life.
-        </p>
-        <p>
-          This platform is currently in beta and will grow
-          gradually based on feedback from the IT community.
-        </p>
+     <section className="about-section">
+  <h2>About TechLifePortal</h2>
 
-        {/* HEART LINE */}
-        <p className="made-with-love">
-          Built with ❤️ for the IT community in Bangalore.
-        </p>
-      </section>
+  <p>
+    TechLifePortal is a Bangalore-focused platform built exclusively for IT
+    professionals. The goal is simple — to make everyday IT life easier by
+    bringing trusted, relevant information into one place.
+  </p>
+
+  <p>
+    Instead of generic listings, TechLifePortal focuses on real needs around IT
+    hubs — where to stay, where to go on weekends, and how to balance work with
+    life.
+  </p>
+
+  <p>
+    TechLifePortal is designed for moments when you haven’t planned much —
+    helping you quickly discover nearby places without overthinking.
+  </p>
+
+  <p>
+    This platform is currently in beta and will grow gradually based on feedback
+    from the IT community.
+  </p>
+
+  <p className="about-footer">
+    Built with ❤️ for the IT community in Bangalore.
+  </p>
+</section>
 
       {/* FOOTER */}
       <footer>
